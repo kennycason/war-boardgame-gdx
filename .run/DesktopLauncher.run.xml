@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="DesktopLauncher" type="Application" factoryName="Application" nameIsGenerated="true">
+    <option name="MAIN_CLASS_NAME" value="come.kennycason.war.DesktopLauncher" />
+    <module name="war-game.desktop.main" />
+    <option name="VM_PARAMETERS" value="-XstartOnFirstThread" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="come.kennycason.war.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
