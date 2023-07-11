@@ -13,7 +13,12 @@ class Bomber(
     override val x: Int,
     override val y: Int
 ) : Piece {
-    private val horizontalVerticalMoveGenerator = HorizontalVerticalMoveGenerator(maxDistance = 4, canAttack = true, ignoreHeight = true)
+    private val horizontalVerticalMoveGenerator = HorizontalVerticalMoveGenerator(
+        maxDistance = 4,
+        canAttack = true,
+        ignoreHeight = true,
+        canGoThroughOwnPiece = true
+    )
 
     override val type = PieceType.BOMBER
 

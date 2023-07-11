@@ -8,7 +8,8 @@ import kotlin.math.abs
 class HorizontalVerticalMoveGenerator(
     private val maxDistance: Int,
     private val startI: Int = 1,
-    private val canGoThroughPieces: Boolean = false,
+    private val canGoThroughOwnPiece: Boolean = false,
+    private val canGoThroughEnemyPiece: Boolean = false,
     private val canAttack: Boolean = true,
     private val requiredAttack: Boolean = false,
     private val ignoreHeight: Boolean = false
@@ -39,10 +40,14 @@ class HorizontalVerticalMoveGenerator(
                 }
             }
             else {
-                if (canAttack && state[x - i][y].piece!!.color != piece.color) {
+                val isEnemyPiece = canAttack && state[x - i][y].piece!!.color != piece.color
+                if (isEnemyPiece) {
                     moves.add(Move(x - i, y, TileHighlight.ATTACK))
+                    if (!canGoThroughEnemyPiece) break
+                } else {
+                    if (!canGoThroughOwnPiece) break
                 }
-                if (!canGoThroughPieces) break
+
             }
             i++
         }
@@ -64,10 +69,13 @@ class HorizontalVerticalMoveGenerator(
                 }
             }
             else {
-                if (canAttack && state[x + i][y].piece!!.color != piece.color) {
+                val isEnemyPiece = canAttack && state[x + i][y].piece!!.color != piece.color
+                if (isEnemyPiece) {
                     moves.add(Move(x + i, y, TileHighlight.ATTACK))
+                    if (!canGoThroughEnemyPiece) break
+                } else {
+                    if (!canGoThroughOwnPiece) break
                 }
-                if (!canGoThroughPieces) break
             }
             i++
         }
@@ -90,10 +98,13 @@ class HorizontalVerticalMoveGenerator(
                 }
             }
             else {
-                if (canAttack && state[x][y - i].piece!!.color != piece.color) {
+                val isEnemyPiece = canAttack && state[x][y - i].piece!!.color != piece.color
+                if (isEnemyPiece) {
                     moves.add(Move(x, y - i, TileHighlight.ATTACK))
+                    if (!canGoThroughEnemyPiece) break
+                } else {
+                    if (!canGoThroughOwnPiece) break
                 }
-                if (!canGoThroughPieces) break
             }
             i++
         }
@@ -115,10 +126,13 @@ class HorizontalVerticalMoveGenerator(
                 }
             }
             else {
-                if (canAttack && state[x][y + i].piece!!.color != piece.color) {
+                val isEnemyPiece = canAttack && state[x][y + i].piece!!.color != piece.color
+                if (isEnemyPiece) {
                     moves.add(Move(x, y + i, TileHighlight.ATTACK))
+                    if (!canGoThroughEnemyPiece) break
+                } else {
+                    if (!canGoThroughOwnPiece) break
                 }
-                if (!canGoThroughPieces) break
             }
             i++
         }

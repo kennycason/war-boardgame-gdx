@@ -13,9 +13,21 @@ class Missile(
     override val x: Int,
     override val y: Int
 ) : Piece {
-    private val attackMoveGenerator = DiagonalMoveGenerator(maxDistance = 5, startI = 2, canGoThroughPieces = true, requiredAttack = true, ignoreHeight = true)
-    private val horizontalVerticalMoveGenerator = HorizontalVerticalMoveGenerator(maxDistance = 1, canAttack = false)
-    private val diagonalAttackMoveGenerator = DiagonalMoveGenerator(maxDistance = 1, canAttack = false)
+    private val attackMoveGenerator = DiagonalMoveGenerator(
+        maxDistance = 5,
+        startI = 2,
+        canGoThroughPieces = true,
+        requiredAttack = true,
+        ignoreHeight = true
+    )
+    private val horizontalVerticalMoveGenerator = HorizontalVerticalMoveGenerator(
+        maxDistance = 1,
+        canAttack = false
+    )
+    private val diagonalMoveGenerator = DiagonalMoveGenerator(
+        maxDistance = 1,
+        canAttack = false
+    )
 
     override val type = PieceType.MISSILE
 
@@ -69,7 +81,7 @@ class Missile(
         val moves = mutableListOf<Move>()
         moves.addAll(attackMoveGenerator.generatePossibleMoves(this, board))
         moves.addAll(horizontalVerticalMoveGenerator.generatePossibleMoves(this, board))
-        moves.addAll(diagonalAttackMoveGenerator.generatePossibleMoves(this, board))
+        moves.addAll(diagonalMoveGenerator.generatePossibleMoves(this, board))
         return moves
     }
 

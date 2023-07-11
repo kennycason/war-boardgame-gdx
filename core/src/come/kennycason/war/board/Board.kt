@@ -28,7 +28,16 @@ class Board(
 //        RandomTerrainGenerator().apply(this)
         DefaultTerrainV2Generator().apply(this)
 
-        for (i in 1 until 10) {
+        for (i in 1 until 15) {
+            val wx = Dice.d(width) - 1
+            val wy = Dice.d(width) - 1
+            val bx = Dice.d(width) - 1
+            val by = Dice.d(width) - 1
+            state[wx][wy].piece = Infantry(Color.BLACK, wx, wy)
+            state[bx][by].piece = Infantry(Color.WHITE, bx, by)
+        }
+
+        for (i in 1 until 8) {
             val wx = Dice.d(width) - 1
             val wy = Dice.d(width) - 1
             val bx = Dice.d(width) - 1
@@ -36,7 +45,7 @@ class Board(
             state[wx][wy].piece = Missile(Color.BLACK, wx, wy)
             state[bx][by].piece = Missile(Color.WHITE, bx, by)
         }
-        for (i in 1 until 10) {
+        for (i in 1 until 8) {
             val wx = Dice.d(width) - 1
             val wy = Dice.d(width) - 1
             val bx = Dice.d(width) - 1
@@ -44,21 +53,13 @@ class Board(
             state[wx][wy].piece = Bomber(Color.BLACK, wx, wy)
             state[bx][by].piece = Bomber(Color.WHITE, bx, by)
         }
-        for (i in 1 until 10) {
+        for (i in 1 until 8) {
             val wx = Dice.d(width) - 1
             val wy = Dice.d(width) - 1
             val bx = Dice.d(width) - 1
             val by = Dice.d(width) - 1
             state[wx][wy].piece = Tank(Color.BLACK, wx, wy)
             state[bx][by].piece = Tank(Color.WHITE, bx, by)
-        }
-        for (i in 1 until 10) {
-            val wx = Dice.d(width) - 1
-            val wy = Dice.d(width) - 1
-            val bx = Dice.d(width) - 1
-            val by = Dice.d(width) - 1
-            state[wx][wy].piece = Infantry(Color.BLACK, wx, wy)
-            state[bx][by].piece = Infantry(Color.WHITE, bx, by)
         }
     }
 

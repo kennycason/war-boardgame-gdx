@@ -10,7 +10,7 @@ class DiagonalMoveGenerator(
     private val startI: Int = 1,
     private val canGoThroughPieces: Boolean = false,
     private val canAttack: Boolean = true,
-    private val requiredAttack: Boolean = true,
+    private val requiredAttack: Boolean = false,
     private val ignoreHeight: Boolean = false
 ) {
 
@@ -18,7 +18,7 @@ class DiagonalMoveGenerator(
         val moves = mutableListOf<Move>()
         moveLeftUp(piece, board, moves)
         moveRightUp(piece, board, moves)
-        moveRightUp(piece, board, moves)
+        moveLeftDown(piece, board, moves)
         moveRightDown(piece, board, moves)
         return moves
     }
