@@ -6,7 +6,7 @@ import come.kennycason.war.Constants
 import come.kennycason.war.DrawUtils
 import come.kennycason.war.GameState
 import come.kennycason.war.board.Board
-import come.kennycason.war.board.Move
+import come.kennycason.war.move.Move
 
 class Missile(
     override val color: Color,

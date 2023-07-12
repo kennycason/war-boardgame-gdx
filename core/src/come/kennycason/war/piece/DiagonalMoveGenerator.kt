@@ -1,8 +1,8 @@
 package come.kennycason.war.piece
 
 import come.kennycason.war.board.Board
-import come.kennycason.war.board.Move
-import come.kennycason.war.board.TileHighlight
+import come.kennycason.war.move.Move
+import come.kennycason.war.move.MoveType
 import kotlin.math.abs
 
 class DiagonalMoveGenerator(
@@ -35,12 +35,12 @@ class DiagonalMoveGenerator(
 
             if (state[x - i][y + i].piece == null) {
                 if (!requiredAttack) {
-                    moves.add(Move(x - i, y + i, TileHighlight.MOVE))
+                    moves.add(Move(x, y, x - i, y + i, MoveType.MOVE))
                 }
             }
             else {
                 if (canAttack && state[x - i][y + i].piece!!.color != piece.color) {
-                    moves.add(Move(x - i, y + i, TileHighlight.ATTACK))
+                    moves.add(Move(x, y, x - i, y + i, MoveType.ATTACK))
                 }
                 if (!canGoThroughPieces) break
             }
@@ -60,12 +60,12 @@ class DiagonalMoveGenerator(
 
             if (state[x + i][y + i].piece == null) {
                 if (!requiredAttack) {
-                    moves.add(Move(x + i, y + i, TileHighlight.MOVE))
+                    moves.add(Move(x, y, x + i, y + i, MoveType.MOVE))
                 }
             }
             else {
                 if (canAttack && state[x + i][y + i].piece!!.color != piece.color) {
-                    moves.add(Move(x + i, y + i, TileHighlight.ATTACK))
+                    moves.add(Move(x, y, x + i, y + i, MoveType.ATTACK))
                 }
                 if (!canGoThroughPieces) break
             }
@@ -85,12 +85,12 @@ class DiagonalMoveGenerator(
 
             if (state[x - i][y - i].piece == null) {
                 if (!requiredAttack) {
-                    moves.add(Move(x - i, y - i, TileHighlight.MOVE))
+                    moves.add(Move(x, y, x - i, y - i, MoveType.MOVE))
                 }
             }
             else {
                 if (canAttack && state[x - i][y - i].piece!!.color != piece.color) {
-                    moves.add(Move(x - i, y - i, TileHighlight.ATTACK))
+                    moves.add(Move(x, y, x - i, y - i, MoveType.ATTACK))
                 }
                 if (!canGoThroughPieces) break
             }
@@ -110,12 +110,12 @@ class DiagonalMoveGenerator(
 
             if (state[x + i][y - i].piece == null) {
                 if (!requiredAttack) {
-                    moves.add(Move(x + i, y - i, TileHighlight.MOVE))
+                    moves.add(Move(x, y, x + i, y - i, MoveType.MOVE))
                 }
             }
             else {
                 if (canAttack && state[x + i][y - i].piece!!.color != piece.color) {
-                    moves.add(Move(x + i, y - i, TileHighlight.ATTACK))
+                    moves.add(Move(x, y, x + i, y - i, MoveType.ATTACK))
                 }
                 if (!canGoThroughPieces) break
             }

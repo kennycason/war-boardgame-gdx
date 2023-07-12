@@ -9,6 +9,8 @@ import come.kennycason.war.Dice
 import come.kennycason.war.DrawUtils
 import come.kennycason.war.GameState
 import come.kennycason.war.input.Cursor
+import come.kennycason.war.move.HumanMoveMaker
+import come.kennycason.war.move.MoveType
 import come.kennycason.war.piece.*
 
 
@@ -19,7 +21,12 @@ class Board(
 ) {
     val state: Array<Array<Tile>> = array2d(width, height) { Tile() }
 
-    private val cursor = Cursor(-1, -1)
+    val cursorRaw = Cursor(-1, -1)
+    val cursor = Cursor(-1, -1)
+
+    private val playerBlack = HumanMoveMaker(Color.BLACK, this)
+    private val playerWhite = HumanMoveMaker(Color.WHITE, this)
+    private var currentTurn = Color.BLACK
 
     init {
 //        RandomTerrainGenerator().apply(this)
@@ -88,11 +95,25 @@ class Board(
     fun render(gameState: GameState, dx: Float, dy: Float) {
         clearHighlighted(gameState)
         handleInput(gameState)
-        generatePossibleMovesForSelectedPiece(gameState.board)
+        generatePossibleMovesForSelectedPiece()
+
+        val move = when (currentTurn) {
+            Color.BLACK -> playerBlack.makeMove(this)
+            Color.WHITE -> playerWhite.makeMove(this)
+            else -> throw IllegalStateException("invalid turn")
+        }
+        if (move != null) {
+            currentTurn = when (currentTurn) {
+                Color.BLACK -> Color.WHITE
+                Color.WHITE -> Color.BLACK
+                else -> throw IllegalStateException("invalid turn")
+            }
+        }
+
 
         for (y in height - 1 downTo 0) {
             for (x in 0 until width) {
-                state[x][y].draw(gameState, x * tileDim + dx , y * tileDim + dy)
+                state[x][y].draw(gameState, x * tileDim + dx, y * tileDim + dy)
             }
         }
 
@@ -104,29 +125,53 @@ class Board(
     }
 
     private fun handleInput(gameState: GameState) {
-        cursor.x = Gdx.input.x
-        cursor.y = Constants.HEIGHT.toInt() - Gdx.input.y
+        cursorRaw.x = Gdx.input.x
+        cursorRaw.y = Constants.HEIGHT.toInt() - Gdx.input.y
+
+        // TODO better handle the board offset x,y
+        val tileX = clamp((cursorRaw.x - 50) / Constants.TILE_DIM.toInt(), 0, Constants.BOARD_DIMENSIONS - 1)
+        val tileY = clamp((cursorRaw.y - 50) / Constants.TILE_DIM.toInt(), 0, Constants.BOARD_DIMENSIONS - 1)
+        cursor.x = tileX
+        cursor.y = tileY
     }
 
     private fun clearHighlighted(gameState: GameState) {
         for (y in 0 until height) {
             for (x in 0 until width) {
-                gameState.board.state[x][y].highlight = TileHighlight.NONE
+                if (gameState.board.state[x][y].highlight != TileHighlight.SELECTED) {
+                    gameState.board.state[x][y].highlight = TileHighlight.NONE
+                }
             }
         }
     }
 
-    private fun generatePossibleMovesForSelectedPiece(board: Board) {
-        if (cursor.x == -1 && cursor.y == -1) return
+    private fun generatePossibleMovesForSelectedPiece() {
+        for (y in 0 until height) {
+            for (x in 0 until width) {
+                if (state[x][y].highlight == TileHighlight.SELECTED) {
+                    val possibleMoves = state[x][y].piece!!.generatePossibleMoves(this)
+                    possibleMoves.forEach {
+                        state[it.toX][it.toY].highlight = when (it.moveType) {
+                            MoveType.MOVE -> TileHighlight.MOVE
+                            MoveType.ATTACK -> TileHighlight.ATTACK
+                        }
+                    }
+                }
+            }
+        }
 
-        // TODO better handle the board offset x,y
-        val tileX = clamp((cursor.x - 50) / Constants.TILE_DIM.toInt(), 0, Constants.BOARD_DIMENSIONS - 1)
-        val tileY = clamp((cursor.y - 50) / Constants.TILE_DIM.toInt(), 0, Constants.BOARD_DIMENSIONS - 1)
+
+        if (cursor.x == -1 && cursor.y == -1) return
+        val piece = state[cursor.x][cursor.y].piece ?: return
+        if (piece.color != currentTurn) return
 
         // println("${cursor.x}, ${cursor.y} -> $tileX, $tileY")
-        val possibleMoves = state[tileX][tileY].piece?.generatePossibleMoves(board)
-        possibleMoves?.forEach {
-            board.state[it.x][it.y].highlight = it.moveType
+        val possibleMoves = piece.generatePossibleMoves(this)
+        possibleMoves.forEach {
+            state[it.toX][it.toY].highlight = when (it.moveType) {
+                MoveType.MOVE -> TileHighlight.MOVE
+                MoveType.ATTACK -> TileHighlight.ATTACK
+            }
         }
     }
 }

@@ -1,7 +1,7 @@
 package come.kennycason.war.piece
 
 import come.kennycason.war.board.Board
-import come.kennycason.war.board.Move
+import come.kennycason.war.move.Move
 
 class InfantryMoveGenerator {
     private val horizontalVerticalMoveGenerator = HorizontalVerticalMoveGenerator(maxDistance = 1, canAttack = false)

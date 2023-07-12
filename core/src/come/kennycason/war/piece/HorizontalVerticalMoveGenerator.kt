@@ -1,8 +1,8 @@
 package come.kennycason.war.piece
 
 import come.kennycason.war.board.Board
-import come.kennycason.war.board.Move
-import come.kennycason.war.board.TileHighlight
+import come.kennycason.war.move.Move
+import come.kennycason.war.move.MoveType
 import kotlin.math.abs
 
 class HorizontalVerticalMoveGenerator(
@@ -36,18 +36,17 @@ class HorizontalVerticalMoveGenerator(
 
             if (state[x - i][y].piece == null) {
                 if (!requiredAttack) {
-                    moves.add(Move(x - i, y, TileHighlight.MOVE))
+                    moves.add(Move(x, y, x - i, y, MoveType.MOVE))
                 }
             }
             else {
                 val isEnemyPiece = canAttack && state[x - i][y].piece!!.color != piece.color
                 if (isEnemyPiece) {
-                    moves.add(Move(x - i, y, TileHighlight.ATTACK))
+                    moves.add(Move(x, y, x - i, y, MoveType.ATTACK))
                     if (!canGoThroughEnemyPiece) break
                 } else {
                     if (!canGoThroughOwnPiece) break
                 }
-
             }
             i++
         }
@@ -65,13 +64,13 @@ class HorizontalVerticalMoveGenerator(
 
             if (state[x + i][y].piece == null) {
                 if (!requiredAttack) {
-                    moves.add(Move(x + i, y, TileHighlight.MOVE))
+                    moves.add(Move(x, y, x + i, y, MoveType.MOVE))
                 }
             }
             else {
                 val isEnemyPiece = canAttack && state[x + i][y].piece!!.color != piece.color
                 if (isEnemyPiece) {
-                    moves.add(Move(x + i, y, TileHighlight.ATTACK))
+                    moves.add(Move(x, y, x + i, y, MoveType.ATTACK))
                     if (!canGoThroughEnemyPiece) break
                 } else {
                     if (!canGoThroughOwnPiece) break
@@ -94,13 +93,13 @@ class HorizontalVerticalMoveGenerator(
 
             if (state[x][y - i].piece == null) {
                 if (!requiredAttack) {
-                    moves.add(Move(x, y - i, TileHighlight.MOVE))
+                    moves.add(Move(x, y, x, y - i, MoveType.MOVE))
                 }
             }
             else {
                 val isEnemyPiece = canAttack && state[x][y - i].piece!!.color != piece.color
                 if (isEnemyPiece) {
-                    moves.add(Move(x, y - i, TileHighlight.ATTACK))
+                    moves.add(Move(x, y, x, y - i, MoveType.ATTACK))
                     if (!canGoThroughEnemyPiece) break
                 } else {
                     if (!canGoThroughOwnPiece) break
@@ -122,13 +121,13 @@ class HorizontalVerticalMoveGenerator(
 
             if (state[x][y + i].piece == null) {
                 if (!requiredAttack) {
-                    moves.add(Move(x, y + i, TileHighlight.MOVE))
+                    moves.add(Move(x, y, x, y + i, MoveType.MOVE))
                 }
             }
             else {
                 val isEnemyPiece = canAttack && state[x][y + i].piece!!.color != piece.color
                 if (isEnemyPiece) {
-                    moves.add(Move(x, y + i, TileHighlight.ATTACK))
+                    moves.add(Move(x, y, x, y + i, MoveType.ATTACK))
                     if (!canGoThroughEnemyPiece) break
                 } else {
                     if (!canGoThroughOwnPiece) break

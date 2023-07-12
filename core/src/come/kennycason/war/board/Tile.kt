@@ -10,7 +10,8 @@ import come.kennycason.war.piece.Piece
 enum class TileHighlight {
     NONE,
     MOVE,
-    ATTACK
+    ATTACK,
+    SELECTED
 }
 
 class Tile(
@@ -46,9 +47,10 @@ class Tile(
     }
 
     private fun getColor(elevation: Int): Color {
-       return when (highlight) {
+        return when (highlight) {
             TileHighlight.MOVE -> HIGHLIGHTED_MOVE
             TileHighlight.ATTACK -> HIGHLIGHTED_ATTACK
+            TileHighlight.SELECTED -> Color.BROWN
             TileHighlight.NONE -> when (elevation) {
                 0 -> GROUND0
                 1 -> GROUND1
