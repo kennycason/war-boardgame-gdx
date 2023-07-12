@@ -10,8 +10,8 @@ import come.kennycason.war.board.Move
 
 class Tank(
     override val color: Color,
-    override val x: Int,
-    override val y: Int
+    override var x: Int,
+    override var y: Int
 ) : Piece {
     private val moveGenerator = HorizontalVerticalMoveGenerator(maxDistance = 2)
 

@@ -9,11 +9,12 @@ Video game version of the board game. Dev WIP.
 
 ## Dev Log - Videos
 
-[Demo 05](https://v.usetapes.com/95HywxYI8P)
-[Demo 04](https://v.usetapes.com/H8yR3F4Vtm)
-[Demo 03](https://v.usetapes.com/mVB49TulRK)
-[Demo 02](https://v.usetapes.com/bOtt6cTH7s)
-[Demo 01](https://v.usetapes.com/foMUH9apZ3)
+- [06: +Artillery, +Commander](https://v.usetapes.com/c02MFeSOoX)
+- [05](https://v.usetapes.com/95HywxYI8P)
+- [04](https://v.usetapes.com/H8yR3F4Vtm)
+- [03](https://v.usetapes.com/mVB49TulRK)
+- [02](https://v.usetapes.com/bOtt6cTH7s)
+- [01](https://v.usetapes.com/foMUH9apZ3)
 
 ## Dev Log Screenshots
 

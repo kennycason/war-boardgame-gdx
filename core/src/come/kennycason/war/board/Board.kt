@@ -9,14 +9,11 @@ import come.kennycason.war.Dice
 import come.kennycason.war.DrawUtils
 import come.kennycason.war.GameState
 import come.kennycason.war.input.Cursor
-import come.kennycason.war.piece.Bomber
-import come.kennycason.war.piece.Infantry
-import come.kennycason.war.piece.Missile
-import come.kennycason.war.piece.Tank
+import come.kennycason.war.piece.*
 
 
 class Board(
-    val width: Int = 11,
+    var width: Int = 11,
     val height: Int = 11,
     val tileDim: Float = 48f
 ) {
@@ -28,38 +25,63 @@ class Board(
 //        RandomTerrainGenerator().apply(this)
         DefaultTerrainV2Generator().apply(this)
 
-        for (i in 1 until 15) {
-            val wx = Dice.d(width) - 1
-            val wy = Dice.d(width) - 1
-            val bx = Dice.d(width) - 1
-            val by = Dice.d(width) - 1
-            state[wx][wy].piece = Infantry(Color.BLACK, wx, wy)
-            state[bx][by].piece = Infantry(Color.WHITE, bx, by)
-        }
+        val pieces = mutableListOf(
+            Infantry(Color.BLACK, 0, 0),
+            Infantry(Color.BLACK, 0, 0),
+            Infantry(Color.BLACK, 0, 0),
+            Infantry(Color.BLACK, 0, 0),
+            Infantry(Color.BLACK, 0, 0),
+            Infantry(Color.BLACK, 0, 0),
+            Infantry(Color.BLACK, 0, 0),
+            Infantry(Color.BLACK, 0, 0),
 
-        for (i in 1 until 8) {
-            val wx = Dice.d(width) - 1
-            val wy = Dice.d(width) - 1
-            val bx = Dice.d(width) - 1
-            val by = Dice.d(width) - 1
-            state[wx][wy].piece = Missile(Color.BLACK, wx, wy)
-            state[bx][by].piece = Missile(Color.WHITE, bx, by)
-        }
-        for (i in 1 until 8) {
-            val wx = Dice.d(width) - 1
-            val wy = Dice.d(width) - 1
-            val bx = Dice.d(width) - 1
-            val by = Dice.d(width) - 1
-            state[wx][wy].piece = Bomber(Color.BLACK, wx, wy)
-            state[bx][by].piece = Bomber(Color.WHITE, bx, by)
-        }
-        for (i in 1 until 8) {
-            val wx = Dice.d(width) - 1
-            val wy = Dice.d(width) - 1
-            val bx = Dice.d(width) - 1
-            val by = Dice.d(width) - 1
-            state[wx][wy].piece = Tank(Color.BLACK, wx, wy)
-            state[bx][by].piece = Tank(Color.WHITE, bx, by)
+            Infantry(Color.WHITE, 0, 0),
+            Infantry(Color.WHITE, 0, 0),
+            Infantry(Color.WHITE, 0, 0),
+            Infantry(Color.WHITE, 0, 0),
+            Infantry(Color.WHITE, 0, 0),
+            Infantry(Color.WHITE, 0, 0),
+            Infantry(Color.WHITE, 0, 0),
+            Infantry(Color.WHITE, 0, 0),
+
+            Tank(Color.BLACK, 0, 0),
+            Tank(Color.BLACK, 0, 0),
+
+            Tank(Color.WHITE, 0, 0),
+            Tank(Color.WHITE, 0, 0),
+
+            Artillery(Color.BLACK, 0, 0),
+            Artillery(Color.BLACK, 0, 0),
+
+            Artillery(Color.WHITE, 0, 0),
+            Artillery(Color.WHITE, 0, 0),
+
+            Bomber(Color.BLACK, 0, 0),
+            Bomber(Color.BLACK, 0, 0),
+
+            Bomber(Color.WHITE, 0, 0),
+            Bomber(Color.WHITE, 0, 0),
+
+            Missile(Color.BLACK, 0, 0),
+            Missile(Color.BLACK, 0, 0),
+
+            Missile(Color.WHITE, 0, 0),
+            Missile(Color.WHITE, 0, 0),
+
+            Commander(Color.BLACK, 0, 0),
+
+            Commander(Color.WHITE, 0, 0)
+        )
+
+        while (pieces.isNotEmpty()) {
+            val x = Dice.d(width) - 1
+            val y = Dice.d(width) - 1
+            if (state[x][y].piece == null) {
+                val piece = pieces.removeAt(0)
+                piece.x = x
+                piece.y = y
+                state[x][y].piece = piece
+            }
         }
     }
 
