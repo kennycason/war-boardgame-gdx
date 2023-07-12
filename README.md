@@ -10,11 +10,11 @@ Video game version of the board game. Dev WIP.
 ## Dev Log - Videos
 
 - [06: +Artillery, +Commander](https://v.usetapes.com/c02MFeSOoX)
-- [05](https://v.usetapes.com/95HywxYI8P)
-- [04](https://v.usetapes.com/H8yR3F4Vtm)
-- [03](https://v.usetapes.com/mVB49TulRK)
-- [02](https://v.usetapes.com/bOtt6cTH7s)
-- [01](https://v.usetapes.com/foMUH9apZ3)
+- [05: +Refine piece movement rules](https://v.usetapes.com/95HywxYI8P)
+- [04: +Missile, +Jet, +Better terrain, +Move vs attack highlighting](https://v.usetapes.com/H8yR3F4Vtm)
+- [03: +Refine piece movement rules](https://v.usetapes.com/mVB49TulRK)
+- [02: +Tank](https://v.usetapes.com/bOtt6cTH7s)
+- [01: +Infantry, +Highlight allowed moves](https://v.usetapes.com/foMUH9apZ3)
 
 ## Dev Log Screenshots
 
