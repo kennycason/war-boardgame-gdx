@@ -7,6 +7,7 @@ import come.kennycason.war.DrawUtils
 import come.kennycason.war.GameState
 import come.kennycason.war.board.Board
 import come.kennycason.war.move.Move
+import come.kennycason.war.move.MoveType
 
 class Missile(
     override val color: Color,
@@ -18,6 +19,7 @@ class Missile(
         startI = 2,
         canGoThroughPieces = true,
         requiredAttack = true,
+        canAttack = true,
         ignoreHeight = true
     )
     private val horizontalVerticalMoveGenerator = HorizontalVerticalMoveGenerator(
@@ -83,6 +85,21 @@ class Missile(
         moves.addAll(horizontalVerticalMoveGenerator.generatePossibleMoves(this, board))
         moves.addAll(diagonalMoveGenerator.generatePossibleMoves(this, board))
         return moves
+    }
+
+    override fun applyMove(board: Board, move: Move) {
+        when (move.moveType) {
+            MoveType.MOVE -> {
+                board.state[move.fromX][move.fromY].piece = null
+                board.state[move.toX][move.toY].piece = this
+                x = move.toX
+                y = move.toY
+            }
+            MoveType.ATTACK -> {
+                board.state[move.fromX][move.fromY].piece = null
+                board.state[move.toX][move.toY].piece = null
+            }
+        }
     }
 
 }

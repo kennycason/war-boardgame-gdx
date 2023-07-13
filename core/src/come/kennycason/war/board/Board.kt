@@ -20,6 +20,7 @@ class Board(
     val tileDim: Float = 48f
 ) {
     val state: Array<Array<Tile>> = array2d(width, height) { Tile() }
+    var turnCount = 0
 
     val cursorRaw = Cursor(-1, -1)
     val cursor = Cursor(-1, -1)
@@ -103,6 +104,7 @@ class Board(
             else -> throw IllegalStateException("invalid turn")
         }
         if (move != null) {
+            turnCount++
             currentTurn = when (currentTurn) {
                 Color.BLACK -> Color.WHITE
                 Color.WHITE -> Color.BLACK
@@ -146,6 +148,7 @@ class Board(
     }
 
     private fun generatePossibleMovesForSelectedPiece() {
+        // always highlight tiles for selected piece
         for (y in 0 until height) {
             for (x in 0 until width) {
                 if (state[x][y].highlight == TileHighlight.SELECTED) {
@@ -160,8 +163,9 @@ class Board(
             }
         }
 
-
+        // also highlight possible moves for piece cursor is highlighting
         if (cursor.x == -1 && cursor.y == -1) return
+        if (state[cursor.x][cursor.y].highlight == TileHighlight.SELECTED) return // already rendered above.
         val piece = state[cursor.x][cursor.y].piece ?: return
         if (piece.color != currentTurn) return
 

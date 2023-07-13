@@ -32,6 +32,12 @@ class HumanMoveMaker(private val color: Color, private val board: Board) {
         if (Gdx.input.justTouched() && System.currentTimeMillis() - lastClicked > 500L) {
             lastClicked = System.currentTimeMillis()
 
+            if (tile.highlight == TileHighlight.SELECTED) {
+                tile.highlight = TileHighlight.NONE
+                selectedPiece = null
+                return null
+            }
+
             if (selectedPiece == null) {
                 when (tile.highlight) {
                     TileHighlight.SELECTED -> {
@@ -51,13 +57,9 @@ class HumanMoveMaker(private val color: Color, private val board: Board) {
                 val possibleMoves = selectedPiece?.generatePossibleMoves(board).orEmpty()
                 for (move in possibleMoves) {
                     if (move.toX == board.cursor.x && move.toY == board.cursor.y) {
-                        board.state[move.fromX][move.fromY].piece = null
-                        board.state[move.fromX][move.fromY].highlight = TileHighlight.NONE
-
-                        board.state[move.toX][move.toY].piece = selectedPiece
-                        selectedPiece!!.x = move.toX
-                        selectedPiece!!.y = move.toY
+                        board.state[move.fromX][move.fromY].piece!!.applyMove(board, move)
                         selectedPiece = null
+                        board.state[move.fromX][move.fromY].highlight = TileHighlight.NONE
                         return move
                     }
                 }

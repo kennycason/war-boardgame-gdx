@@ -7,6 +7,7 @@ import come.kennycason.war.DrawUtils
 import come.kennycason.war.GameState
 import come.kennycason.war.board.Board
 import come.kennycason.war.move.Move
+import come.kennycason.war.move.MoveType
 
 class Artillery(
     override val color: Color,
@@ -27,10 +28,12 @@ class Artillery(
         canAttack = true,
         requiredAttack = true,
         canGoThroughOwnPiece = true,
-        canGoThroughEnemyPiece = true
+        canGoThroughEnemyPiece = true,
+        ignoreHeight = true
     )
 
     private var isReloading = false
+    private var lastAttackTurn = 0
 
     override val type = PieceType.ARTILLERY
 
@@ -82,14 +85,64 @@ class Artillery(
             color,
             ShapeRenderer.ShapeType.Filled
         )
+
+        // show reload symbol
+        DrawUtils.drawCircle(
+            gameState,
+            x + 4f, y + Constants.TILE_DIM - 8,
+            4f,
+            color,
+            ShapeRenderer.ShapeType.Filled
+        )
+        DrawUtils.drawRect(
+            gameState,
+            x, y + Constants.TILE_DIM - 20,
+            8f, 12f,
+            color,
+            ShapeRenderer.ShapeType.Filled
+        )
+        if (isReloading) {
+            DrawUtils.drawLine(gameState,
+                x, y + Constants.TILE_DIM,
+                x + 8f, y + Constants.TILE_DIM - 20f,
+                Color.RED
+            )
+            DrawUtils.drawLine(gameState,
+                x + 8f, y + Constants.TILE_DIM,
+                x, y + Constants.TILE_DIM - 20f,
+                Color.RED
+            )
+        }
     }
 
     override fun generatePossibleMoves(board: Board): List<Move> {
+        if (isReloading && board.turnCount - lastAttackTurn > 3) {
+            isReloading = false
+        }
+
         val moves = mutableListOf<Move>()
         moves.addAll(horizontalVerticalMoveGenerator.generatePossibleMoves(this, board))
         moves.addAll(diagonalMoveGenerator.generatePossibleMoves(this, board))
-        moves.addAll(attackMoveGenerator.generatePossibleMoves(this, board))
+        if (!isReloading) {
+            moves.addAll(attackMoveGenerator.generatePossibleMoves(this, board))
+        }
         return moves
+    }
+
+    override fun applyMove(board: Board, move: Move) {
+        when (move.moveType) {
+            MoveType.MOVE -> {
+                board.state[move.fromX][move.fromY].piece = null
+                board.state[move.toX][move.toY].piece = this
+                x = move.toX
+                y = move.toY
+            }
+            MoveType.ATTACK -> {
+                board.state[move.toX][move.toY].piece = null
+                isReloading = true
+                lastAttackTurn = board.turnCount
+            }
+        }
     }
 
 }
