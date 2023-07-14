@@ -4,7 +4,9 @@ import com.badlogic.gdx.graphics.Color
 import come.kennycason.war.GameState
 import come.kennycason.war.board.Board
 import come.kennycason.war.board.TileHighlight
+import come.kennycason.war.explosion.Explosion
 import come.kennycason.war.move.Move
+import come.kennycason.war.move.MoveType
 
 interface Piece {
     val color: Color
@@ -20,5 +22,9 @@ interface Piece {
         board.state[move.toX][move.toY].piece = this
         x = move.toX
         y = move.toY
+
+        if (move.moveType == MoveType.ATTACK) {
+            board.explosions.add(Explosion(move.toX.toFloat(), move.toY.toFloat()))
+        }
     }
 }

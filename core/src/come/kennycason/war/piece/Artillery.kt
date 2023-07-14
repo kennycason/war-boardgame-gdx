@@ -6,6 +6,7 @@ import come.kennycason.war.Constants
 import come.kennycason.war.DrawUtils
 import come.kennycason.war.GameState
 import come.kennycason.war.board.Board
+import come.kennycason.war.explosion.Explosion
 import come.kennycason.war.move.Move
 import come.kennycason.war.move.MoveType
 
@@ -141,6 +142,7 @@ class Artillery(
                 board.state[move.toX][move.toY].piece = null
                 isReloading = true
                 lastAttackTurn = board.turnCount
+                board.explosions.add(Explosion(move.toX.toFloat(), move.toY.toFloat()))
             }
         }
     }

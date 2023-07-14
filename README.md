@@ -8,7 +8,8 @@ Video game version of the board game. Dev WIP.
 <img src="https://github.com/kennycason/war-boardgame-gdx/blob/main/screenshots/dev_10.png?raw=true" width="66%" />
 
 ## Dev Log - Videos
-- [07: +two-player mode, +artillery fire/reload, +missile one-time use](https://v.usetapes.com/c02MFeSOoX)
+- [08: +Explosion](https://v.usetapes.com/5mOD6kmuZF)
+- [07: +Two-player mode, +Artillery fire/reload, +Missile one-time use](https://v.usetapes.com/c02MFeSOoX)
 - [06: +Artillery, +Commander](https://v.usetapes.com/c02MFeSOoX)
 - [05: +Refine piece movement rules](https://v.usetapes.com/95HywxYI8P)
 - [04: +Missile, +Jet, +Better terrain, +Move vs attack highlighting](https://v.usetapes.com/H8yR3F4Vtm)

@@ -8,6 +8,7 @@ import come.kennycason.war.Constants
 import come.kennycason.war.Dice
 import come.kennycason.war.DrawUtils
 import come.kennycason.war.GameState
+import come.kennycason.war.explosion.Explosion
 import come.kennycason.war.input.Cursor
 import come.kennycason.war.move.HumanMoveMaker
 import come.kennycason.war.move.MoveType
@@ -19,6 +20,7 @@ class Board(
     val height: Int = 11,
     val tileDim: Float = 48f
 ) {
+    val explosions = mutableListOf<Explosion>()
     val state: Array<Array<Tile>> = array2d(width, height) { Tile() }
     var turnCount = 0
 
@@ -119,11 +121,23 @@ class Board(
             }
         }
 
+        handleExplosion(gameState)
         drawCursor(gameState)
     }
 
+    private fun handleExplosion(gameState: GameState) {
+        val explosionIterator = explosions.iterator()
+        while (explosionIterator.hasNext()) {
+            val explosion = explosionIterator.next()
+            explosion.render(gameState)
+            if (!explosion.active) {
+                explosionIterator.remove()
+            }
+        }
+    }
+
     private fun drawCursor(gameState: GameState) {
-        DrawUtils.drawCircle(gameState, cursor.x.toFloat(), cursor.y.toFloat(), 24f, Color.WHITE)
+        DrawUtils.drawCircle(gameState, cursorRaw.x.toFloat(), cursorRaw.y.toFloat(), 24f, Color.WHITE)
     }
 
     private fun handleInput(gameState: GameState) {
