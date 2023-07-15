@@ -6,5 +6,5 @@ data class Move(
     val toX: Int,
     val toY: Int,
     val moveType: MoveType = MoveType.MOVE,
-    val score: Int = 0
+    var score: Int = 0 // will be set after applying move. TODO handle better
 )

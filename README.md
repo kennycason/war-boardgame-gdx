@@ -8,6 +8,7 @@ Video game version of the board game. Dev WIP.
 <img src="https://github.com/kennycason/war-boardgame-gdx/blob/main/screenshots/dev_10.png?raw=true" width="66%" />
 
 ## Dev Log - Videos
+- [09: +Display turns & score](https://v.usetapes.com/qawlJtXTrL)
 - [08: +Explosion](https://v.usetapes.com/5mOD6kmuZF)
 - [07: +Two-player mode, +Artillery fire/reload, +Missile one-time use](https://v.usetapes.com/c02MFeSOoX)
 - [06: +Artillery, +Commander](https://v.usetapes.com/c02MFeSOoX)
@@ -19,7 +20,7 @@ Video game version of the board game. Dev WIP.
 
 ## Dev Log - Screenshots
 
-<img src="https://github.com/kennycason/war-boardgame-gdx/blob/main/screenshots/dev_11.png?raw=true" width="33%" /><img src="https://github.com/kennycason/war-boardgame-gdx/blob/main/screenshots/dev_10.png?raw=true" width="33%" /><img src="https://github.com/kennycason/war-boardgame-gdx/blob/main/screenshots/dev_09.png?raw=true" width="33%" /><img src="https://github.com/kennycason/war-boardgame-gdx/blob/main/screenshots/dev_08.png?raw=true" width="33%" /><img src="https://github.com/kennycason/war-boardgame-gdx/blob/main/screenshots/dev_07.png?raw=true" width="33%" /><img src="https://github.com/kennycason/war-boardgame-gdx/blob/main/screenshots/dev_06.png?raw=true" width="33%" /><img src="https://github.com/kennycason/war-boardgame-gdx/blob/main/screenshots/dev_05.png?raw=true" width="33%" /><img src="https://github.com/kennycason/war-boardgame-gdx/blob/main/screenshots/dev_04.png?raw=true" width="33%" /><img src="https://github.com/kennycason/war-boardgame-gdx/blob/main/screenshots/dev_03.png?raw=true" width="33%" /><img src="https://github.com/kennycason/war-boardgame-gdx/blob/main/screenshots/dev_02.png?raw=true" width="33%" /><img src="https://github.com/kennycason/war-boardgame-gdx/blob/main/screenshots/dev_01.png?raw=true" width="33%" />
+<img src="https://github.com/kennycason/war-boardgame-gdx/blob/main/screenshots/dev_12.png?raw=true" width="33%" /><img src="https://github.com/kennycason/war-boardgame-gdx/blob/main/screenshots/dev_11.png?raw=true" width="33%" /><img src="https://github.com/kennycason/war-boardgame-gdx/blob/main/screenshots/dev_10.png?raw=true" width="33%" /><img src="https://github.com/kennycason/war-boardgame-gdx/blob/main/screenshots/dev_09.png?raw=true" width="33%" /><img src="https://github.com/kennycason/war-boardgame-gdx/blob/main/screenshots/dev_08.png?raw=true" width="33%" /><img src="https://github.com/kennycason/war-boardgame-gdx/blob/main/screenshots/dev_07.png?raw=true" width="33%" /><img src="https://github.com/kennycason/war-boardgame-gdx/blob/main/screenshots/dev_06.png?raw=true" width="33%" /><img src="https://github.com/kennycason/war-boardgame-gdx/blob/main/screenshots/dev_05.png?raw=true" width="33%" /><img src="https://github.com/kennycason/war-boardgame-gdx/blob/main/screenshots/dev_04.png?raw=true" width="33%" /><img src="https://github.com/kennycason/war-boardgame-gdx/blob/main/screenshots/dev_03.png?raw=true" width="33%" /><img src="https://github.com/kennycason/war-boardgame-gdx/blob/main/screenshots/dev_02.png?raw=true" width="33%" /><img src="https://github.com/kennycason/war-boardgame-gdx/blob/main/screenshots/dev_01.png?raw=true" width="33%" />
 
 
 ## Possible Names

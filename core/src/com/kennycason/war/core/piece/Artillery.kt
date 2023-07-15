@@ -40,6 +40,7 @@ class Artillery(
                 y = move.toY
             }
             MoveType.ATTACK -> {
+                scoreMove(board, move)
                 board.state[move.toX][move.toY].piece = null
                 isReloading = true
                 lastAttackTurn = board.turnCount

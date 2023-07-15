@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils.clamp
 import com.badlogic.gdx.math.Vector2
 import com.kennycason.war.Constants
+import com.kennycason.war.ai.MiniMaxCarlo
 import com.kennycason.war.core.board.Board
 import com.kennycason.war.core.board.DefaultTerrainV2Generator
 import com.kennycason.war.core.move.Cursor
@@ -26,7 +27,8 @@ class TwoPlayerWar(
     private val explosions = mutableListOf<Explosion>()
     private val cursor = Cursor(-1, -1, -1, -1)
     private val playerBlack: MoveMaker = HumanMoveMaker(Color.BLACK, cursor)
-    private val playerWhite: MoveMaker = HumanMoveMaker(Color.WHITE, cursor)
+    private val playerWhite: MoveMaker = MiniMaxCarlo(maxDepth = 1, color = Color.WHITE)
+//    private val playerWhite: MoveMaker = HumanMoveMaker(Color.WHITE, cursor)
     private val tileRenderer = TileRenderer(tileDim)
 
     // init after GDX initialized
@@ -36,9 +38,9 @@ class TwoPlayerWar(
         DefaultTerrainV2Generator.apply(board)
         RandomPiecePlacer.place(board)
 
-        soundManager = SoundManager(musicVolume = 10)
-        soundManager!!.stopMusic()
-        soundManager!!.playMusic()
+//        soundManager = SoundManager(musicVolume = 10)
+//        soundManager!!.stopMusic()
+//        soundManager!!.playMusic()
     }
 
     fun update() {
@@ -59,6 +61,11 @@ class TwoPlayerWar(
                 Color.WHITE -> Color.BLACK
                 else -> throw IllegalStateException("invalid turn")
             }
+             when (board.currentTurn) {
+                Color.BLACK -> board.blackScore += move.score
+                Color.WHITE -> board.whiteScore += move.score
+                else -> throw IllegalStateException("invalid turn")
+            }
             if (move.moveType == MoveType.ATTACK) {
                 explosions.add(Explosion(move.toX.toFloat(), move.toY.toFloat()))
             }
@@ -66,8 +73,9 @@ class TwoPlayerWar(
     }
 
     fun render() {
-        Fonts.VISITOR_16.color = Color.WHITE
-        Fonts.VISITOR_16.draw(GraphicsGdx.batch(), "${if (board.currentTurn == Color.WHITE) "White's" else "Black's"} Turn", 5f, 5f)
+        Fonts.VISITOR_24.color = Color.WHITE
+        Fonts.VISITOR_24.draw(GraphicsGdx.batch(), "${if (board.currentTurn == Color.WHITE) "White's" else "Black's"} Turn", 20f, 25f)
+        Fonts.VISITOR_24.draw(GraphicsGdx.batch(), "Black ${board.blackScore}  White ${board.whiteScore}", Constants.WIDTH - 200f, 25f)
 
         for (y in board.height - 1 downTo 0) {
             for (x in 0 until board.width) {
