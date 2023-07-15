@@ -5,9 +5,7 @@ import com.badlogic.gdx.utils.Pool
 import com.kennycason.war.core.board.Board
 import com.kennycason.war.core.move.Move
 import com.kennycason.war.core.move.MoveMaker
-import com.kennycason.war.core.piece.Artillery
-import com.kennycason.war.core.piece.Piece
-import com.kennycason.war.core.piece.PieceType
+import com.kennycason.war.core.piece.*
 
 /**
  * Perform MiniMax for n-layers, then apply monte-carlo from random/promising leaf nodes.
@@ -21,13 +19,22 @@ class MiniMaxCarlo(
 
     private var maxNode: MiniMaxNode? = null
 
-    override fun makeMove(board: Board): Move? {
+    override fun make(board: Board): Move? {
+        println("Minimax start")
         maxNode = null
         val rootNode = MiniMaxNode(board)
         val maxNode = evaluate(rootNode, 0)
-        return getFirstMove(maxNode)
+        val firstMove = getFirstMove(maxNode) // walk back up the tree to the original move
+        if (firstMove != null) {
+            board.state[firstMove.fromX][firstMove.fromY].piece!!.applyMove(board, firstMove)
+            println("move: ${firstMove.pieceType.name.substring(0, 3)} " +
+                    "[${firstMove.fromX}, ${firstMove.fromY}] to [${firstMove.toX}, ${firstMove.toY}], " +
+                    "score ${getBoardScore(board, color)}")
+        }
+        return firstMove
     }
 
+    // breadth-first
     private fun evaluate(node: MiniMaxNode, depth: Int): MiniMaxNode? {
         val children = mutableListOf<MiniMaxNode>()
 
@@ -38,25 +45,33 @@ class MiniMaxCarlo(
                 val piece = board.state[x][y].piece
                 if (piece != null && piece.color == color) {
                     val moves = piece.generatePossibleMoves(board)
+
                     for (move in moves) {
-                        val newBoard = boardPool.obtain()
+//                        val newBoard = boardPool.obtain()
+                        val newBoard = Board(width = board.width, height = board.height)
                         copyBoard(board, newBoard)
-                        piece.applyMove(newBoard, move)
+                        val newPiece = newBoard.state[x][y].piece!!
+                        newPiece.applyMove(newBoard, move)
+                        val score = getBoardScore(newBoard, color)
+//                        println("${depth}: ${move.pieceType.name.substring(0, 3)} [${move.fromX}, ${move.fromY}] to [${move.toX}, ${move.toY}], score: $score")
+
+
                         val childNode = MiniMaxNode(
                             board = newBoard,
                             move = move,
                             previousNode = node
                         )
-                        println("${depth}: ${board.state[move.fromX][move.fromY].piece?.type?.name?.substring(0, 3)} to [${move.toX}, ${move.toY}], score: ${getScore(childNode)}")
-
                         if (maxNode == null) {
                             maxNode = childNode
                         }
                         else {
-                            if (getScore(childNode) > getScore(maxNode!!)) {
+                            if (score > getBoardScore(maxNode!!.board, color)) {
                                 maxNode = childNode
+                                println("max: ${depth}: ${move.pieceType.name.substring(0, 3)} [${move.fromX}, ${move.fromY}] to [${move.toX}, ${move.toY}], score: $score")
                             }
                         }
+
+                      //  boardPool.free(newBoard)
                         children.add(childNode)
                     }
                 }
@@ -78,21 +93,14 @@ class MiniMaxCarlo(
         return maxNode
     }
 
-    private fun getScore(node: MiniMaxNode): Int {
-        return when (node.board.currentTurn) {
-            Color.BLACK -> node.board.blackScore - node.board.whiteScore
-            Color.WHITE -> node.board.whiteScore - node.board.blackScore
-            else -> throw IllegalStateException("invalid turn")
-        }
-    }
-
     private fun getFirstMove(node: MiniMaxNode?): Move? {
-        node ?: return null
+        if (node == null) return null
 
-//        val move = node.move
-//        val piece = node.board.state[move.to]
-//        println("${move. .name.substring(0, 3)} [${node.fromX + 1}, ${maxNode.fromY + 1}] -> [${maxNode.toX + 1}, ${maxNode.toY + 1}]")
+//        println("-- ${node.move?.pieceType?.name?.substring(0, 3)} [${node.move?.fromX}, ${node.move?.fromY}] to [${node.move?.toX}, ${node.move?.toY}], score: ${getBoardScore(node.board, color)}, " +
+//                "turn: ${node.board.turnCount}")
+
         if (node.previousNode == null) return node.move
+        if (node.previousNode.move == null) return node.move
 
         return getFirstMove(node.previousNode)
     }
@@ -129,14 +137,27 @@ fun copyBoard(from: Board, to: Board) {
 // most pieces don't hold state and don't need to be copied
 fun copyPiece(piece: Piece?): Piece? {
     return when (piece?.type) {
+        PieceType.INFANTRY -> Infantry(piece.color, piece.x, piece.y)
+        PieceType.TANK -> Tank(piece.color, piece.x, piece.y)
         PieceType.ARTILLERY -> Artillery(
-            color = piece.color,
-            x = piece.x,
-            y = piece.y
-        ).also {
-            it.isReloading = (piece as Artillery).isReloading
-            it.lastAttackTurn = piece.lastAttackTurn
-        }
-        else -> piece
+                color = piece.color,
+                x = piece.x,
+                y = piece.y
+            ).also {
+                it.isReloading = (piece as Artillery).isReloading
+                it.lastAttackTurn = piece.lastAttackTurn
+            }
+        PieceType.MISSILE -> Missile(piece.color, piece.x, piece.y)
+        PieceType.BOMBER -> Bomber(piece.color, piece.x, piece.y)
+        PieceType.COMMANDER -> Commander(piece.color, piece.x, piece.y)
+        null -> null
+    }
+}
+
+private fun getBoardScore(board: Board, color: Color): Int {
+    return when (color) {
+        Color.BLACK -> board.blackScore - board.whiteScore
+        Color.WHITE -> board.whiteScore - board.blackScore
+        else -> throw IllegalStateException("invalid turn")
     }
 }

@@ -20,14 +20,14 @@ import com.kennycason.war.war2d.graphics.GraphicsGdx
 
 
 class TwoPlayerWar(
-    private val position: Vector2 = Vector2(50f, 50f),
+    private val position: Vector2 = Vector2(75f, 75f),
     private val tileDim: Int = 75
 ) {
     private val board: Board = Board(Constants.BOARD_DIMENSIONS, Constants.BOARD_DIMENSIONS)
     private val explosions = mutableListOf<Explosion>()
     private val cursor = Cursor(-1, -1, -1, -1)
     private val playerBlack: MoveMaker = HumanMoveMaker(Color.BLACK, cursor)
-    private val playerWhite: MoveMaker = MiniMaxCarlo(maxDepth = 1, color = Color.WHITE)
+    private val playerWhite: MoveMaker = MiniMaxCarlo(maxDepth = 3, color = Color.WHITE)
 //    private val playerWhite: MoveMaker = HumanMoveMaker(Color.WHITE, cursor)
     private val tileRenderer = TileRenderer(tileDim)
 
@@ -37,6 +37,7 @@ class TwoPlayerWar(
     fun newGame() {
         DefaultTerrainV2Generator.apply(board)
         RandomPiecePlacer.place(board)
+//        TestPiecePlacer.place(board)
 
 //        soundManager = SoundManager(musicVolume = 10)
 //        soundManager!!.stopMusic()
@@ -50,8 +51,8 @@ class TwoPlayerWar(
         handleExplosion()
 
         val move = when (board.currentTurn) {
-            Color.BLACK -> playerBlack.makeMove(board)
-            Color.WHITE -> playerWhite.makeMove(board)
+            Color.BLACK -> playerBlack.make(board)
+            Color.WHITE -> playerWhite.make(board)
             else -> throw IllegalStateException("invalid turn")
         }
         if (move != null) {
@@ -61,11 +62,7 @@ class TwoPlayerWar(
                 Color.WHITE -> Color.BLACK
                 else -> throw IllegalStateException("invalid turn")
             }
-             when (board.currentTurn) {
-                Color.BLACK -> board.blackScore += move.score
-                Color.WHITE -> board.whiteScore += move.score
-                else -> throw IllegalStateException("invalid turn")
-            }
+
             if (move.moveType == MoveType.ATTACK) {
                 explosions.add(Explosion(move.toX.toFloat(), move.toY.toFloat()))
             }
@@ -76,6 +73,13 @@ class TwoPlayerWar(
         Fonts.VISITOR_24.color = Color.WHITE
         Fonts.VISITOR_24.draw(GraphicsGdx.batch(), "${if (board.currentTurn == Color.WHITE) "White's" else "Black's"} Turn", 20f, 25f)
         Fonts.VISITOR_24.draw(GraphicsGdx.batch(), "Black ${board.blackScore}  White ${board.whiteScore}", Constants.WIDTH - 200f, 25f)
+
+        for (x in 0 until board.width) {
+            Fonts.VISITOR_24.draw(GraphicsGdx.batch(), "$x", position.x + (x * tileDim) + tileDim / 2, 60f)
+        }
+        for (y in 0 until board.height) {
+            Fonts.VISITOR_24.draw(GraphicsGdx.batch(), "$y", 50f, position.y + (y * tileDim) + tileDim / 2)
+        }
 
         for (y in board.height - 1 downTo 0) {
             for (x in 0 until board.width) {

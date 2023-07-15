@@ -2,6 +2,7 @@ package com.kennycason.war.core.move
 
 import com.kennycason.war.core.board.Board
 import com.kennycason.war.core.piece.Piece
+import com.kennycason.war.util.orDefault
 import kotlin.math.abs
 
 class DiagonalMoveGenerator(
@@ -22,6 +23,8 @@ class DiagonalMoveGenerator(
         return moves
     }
 
+    private fun getScore(board: Board, x: Int, y: Int) = board.state[x][y].piece?.type?.score.orDefault(0)
+
     private fun moveLeftUp(piece: Piece, board: Board, moves: MutableList<Move>) {
         val x = piece.x
         val y = piece.y
@@ -34,12 +37,12 @@ class DiagonalMoveGenerator(
 
             if (state[x - i][y + i].piece == null) {
                 if (!requiredAttack) {
-                    moves.add(Move(x, y, x - i, y + i, MoveType.MOVE))
+                    moves.add(Move(piece.type, MoveType.MOVE, x, y, x - i, y + i, getScore(board, x - i, y + i)))
                 }
             }
             else {
                 if (canAttack && state[x - i][y + i].piece!!.color != piece.color) {
-                    moves.add(Move(x, y, x - i, y + i, MoveType.ATTACK))
+                    moves.add(Move(piece.type, MoveType.ATTACK, x, y, x - i, y + i, getScore(board, x - i, y + i)))
                 }
                 if (!canGoThroughPieces) break
             }
@@ -59,12 +62,12 @@ class DiagonalMoveGenerator(
 
             if (state[x + i][y + i].piece == null) {
                 if (!requiredAttack) {
-                    moves.add(Move(x, y, x + i, y + i, MoveType.MOVE))
+                    moves.add(Move(piece.type, MoveType.MOVE, x, y, x + i, y + i, getScore(board, x + i, y + i)))
                 }
             }
             else {
                 if (canAttack && state[x + i][y + i].piece!!.color != piece.color) {
-                    moves.add(Move(x, y, x + i, y + i, MoveType.ATTACK))
+                    moves.add(Move(piece.type, MoveType.ATTACK, x, y, x + i, y + i, getScore(board, x + i, y + i)))
                 }
                 if (!canGoThroughPieces) break
             }
@@ -84,12 +87,12 @@ class DiagonalMoveGenerator(
 
             if (state[x - i][y - i].piece == null) {
                 if (!requiredAttack) {
-                    moves.add(Move(x, y, x - i, y - i, MoveType.MOVE))
+                    moves.add(Move(piece.type, MoveType.MOVE, x, y, x - i, y - i, getScore(board, x - i, y - i)))
                 }
             }
             else {
                 if (canAttack && state[x - i][y - i].piece!!.color != piece.color) {
-                    moves.add(Move(x, y, x - i, y - i, MoveType.ATTACK))
+                    moves.add(Move(piece.type, MoveType.ATTACK, x, y, x - i, y - i, getScore(board, x - i, y - i)))
                 }
                 if (!canGoThroughPieces) break
             }
@@ -109,12 +112,12 @@ class DiagonalMoveGenerator(
 
             if (state[x + i][y - i].piece == null) {
                 if (!requiredAttack) {
-                    moves.add(Move(x, y, x + i, y - i, MoveType.MOVE))
+                    moves.add(Move(piece.type, MoveType.MOVE, x, y, x + i, y - i, getScore(board, x + i, y - i)))
                 }
             }
             else {
                 if (canAttack && state[x + i][y - i].piece!!.color != piece.color) {
-                    moves.add(Move(x, y, x + i, y - i, MoveType.ATTACK))
+                    moves.add(Move(piece.type, MoveType.ATTACK, x, y, x + i, y - i, getScore(board, x + i, y - i)))
                 }
                 if (!canGoThroughPieces) break
             }

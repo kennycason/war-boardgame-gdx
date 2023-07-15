@@ -1,7 +1,7 @@
 package com.kennycason.war.core.board
 
-import array2d
 import com.badlogic.gdx.graphics.Color
+import com.kennycason.war.util.array2d
 
 data class Board(
     val width: Int = 11,

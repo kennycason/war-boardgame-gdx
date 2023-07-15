@@ -17,30 +17,20 @@ interface Piece {
         board.state[move.fromX][move.fromY].piece = null
         board.state[move.fromX][move.fromY].highlight = TileHighlight.NONE
 
-        scoreMove(board, move)
-
         // place piece
         board.state[move.toX][move.toY].piece = this
         x = move.toX
         y = move.toY
+
+        addScore(board, move)
     }
 
 }
 
-fun scoreMove(board: Board, move: Move) {
-    val targetPiece = board.state[move.toX][move.toY].piece
-    if (targetPiece != null) {
-        move.score = PieceScore.score(targetPiece.type)
-    }
-}
-
-object PieceScore {
-    fun score(pieceType: PieceType) = when (pieceType) {
-        PieceType.INFANTRY -> 1
-        PieceType.TANK -> 2
-        PieceType.ARTILLERY -> 3
-        PieceType.MISSILE -> 4
-        PieceType.BOMBER -> 5
-        PieceType.COMMANDER -> 1000
+fun addScore(board: Board, move: Move) {
+    when (board.currentTurn) {
+        Color.BLACK -> board.blackScore += move.score
+        Color.WHITE -> board.whiteScore += move.score
+        else -> throw IllegalStateException("invalid turn")
     }
 }

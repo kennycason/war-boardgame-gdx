@@ -32,9 +32,9 @@ class Missile(
                 y = move.toY
             }
             MoveType.ATTACK -> {
-                scoreMove(board, move)
                 board.state[move.fromX][move.fromY].piece = null
                 board.state[move.toX][move.toY].piece = null
+                addScore(board, move)
             }
         }
     }

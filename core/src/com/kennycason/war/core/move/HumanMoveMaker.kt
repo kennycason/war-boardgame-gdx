@@ -3,8 +3,8 @@ package com.kennycason.war.core.move
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import com.kennycason.war.core.board.Board
-import com.kennycason.war.war2d.TileHighlight
 import com.kennycason.war.core.piece.Piece
+import com.kennycason.war.war2d.TileHighlight
 
 class HumanMoveMaker(
     private val color: Color,
@@ -26,7 +26,7 @@ class HumanMoveMaker(
 //        }
 //    }
 
-    override fun makeMove(board: Board): Move? {
+    override fun make(board: Board): Move? {
         if (cursor.x == -1 && cursor.y == -1) return null
 
         val tile = board.state[cursor.x][cursor.y]
