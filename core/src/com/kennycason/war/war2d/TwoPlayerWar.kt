@@ -27,7 +27,7 @@ class TwoPlayerWar(
     private val explosions = mutableListOf<Explosion>()
     private val cursor = Cursor(-1, -1, -1, -1)
     private val playerBlack: MoveMaker = HumanMoveMaker(Color.BLACK, cursor)
-    private val playerWhite: MoveMaker = MiniMaxCarlo(maxDepth = 3, color = Color.WHITE)
+    private val playerWhite: MoveMaker = MiniMaxCarlo(maxDepth = 4, color = Color.WHITE)
 //    private val playerWhite: MoveMaker = HumanMoveMaker(Color.WHITE, cursor)
     private val tileRenderer = TileRenderer(tileDim)
 
