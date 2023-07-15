@@ -12,7 +12,7 @@ import com.kennycason.war.core.move.Cursor
 import com.kennycason.war.core.move.HumanMoveMaker
 import com.kennycason.war.core.move.MoveMaker
 import com.kennycason.war.core.move.MoveType
-import com.kennycason.war.core.piece.RandomPiecePlacer
+import com.kennycason.war.core.piece.PrimaryFormationPiecePlacer
 import com.kennycason.war.font.Fonts
 import com.kennycason.war.sound.SoundManager
 import com.kennycason.war.war2d.explosion.Explosion
@@ -36,7 +36,8 @@ class TwoPlayerWar(
 
     fun newGame() {
         DefaultTerrainV2Generator.apply(board)
-        RandomPiecePlacer.place(board)
+        PrimaryFormationPiecePlacer.place(board)
+//        RandomPiecePlacer.place(board)
 //        TestPiecePlacer.place(board)
 
 //        soundManager = SoundManager(musicVolume = 10)
