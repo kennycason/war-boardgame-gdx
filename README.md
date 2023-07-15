@@ -5,7 +5,7 @@ Video game version of the board game. Dev WIP.
 [About](https://kennycason.com/posts/2023-06-27-war-strategy-board-game.html)
 
 
-<img src="https://github.com/kennycason/war-boardgame-gdx/blob/main/screenshots/dev_10.png?raw=true" width="66%" />
+<img src="https://github.com/kennycason/war-boardgame-gdx/blob/main/screenshots/dev_13.png?raw=true" width="66%" />
 
 ## Dev Log - Videos
 - [11: +MiniMax AI demo 2](https://v.usetapes.com/WkxzEAXjH8)
