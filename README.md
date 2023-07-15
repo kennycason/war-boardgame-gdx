@@ -9,7 +9,7 @@ Video game version of the board game. Dev WIP.
 
 ## Dev Log - Videos
 - [11: +MiniMax AI demo 2](https://v.usetapes.com/WkxzEAXjH8)
-- [10: +MiniMax AI demo 1)https://v.usetapes.com/Vy8TtMEieJ)
+- [10: +MiniMax AI demo 1](https://v.usetapes.com/Vy8TtMEieJ)
 - [09: +Display turns & score](https://v.usetapes.com/qawlJtXTrL)
 - [08: +Explosion](https://v.usetapes.com/5mOD6kmuZF)
 - [07: +Two-player mode, +Artillery fire/reload, +Missile one-time use](https://v.usetapes.com/c02MFeSOoX)
