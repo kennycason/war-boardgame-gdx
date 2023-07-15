@@ -1,11 +1,17 @@
-package come.kennycason.war.piece
+package come.kennycason.war.move
 
 import come.kennycason.war.board.Board
-import come.kennycason.war.move.Move
+import come.kennycason.war.piece.Piece
 
 class InfantryMoveGenerator {
-    private val horizontalVerticalMoveGenerator = HorizontalVerticalMoveGenerator(maxDistance = 1, canAttack = false)
-    private val diagonalMoveGenerator = DiagonalMoveGenerator(maxDistance = 1, requiredAttack = true)
+    private val horizontalVerticalMoveGenerator = HorizontalVerticalMoveGenerator(
+        maxDistance = 1,
+        canAttack = false
+    )
+    private val diagonalMoveGenerator = DiagonalMoveGenerator(
+        maxDistance = 1,
+        requiredAttack = true
+    )
 
     fun generatePossibleMoves(piece: Piece, board: Board): List<Move> {
         val moves = mutableListOf<Move>()

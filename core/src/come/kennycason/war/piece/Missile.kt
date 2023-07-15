@@ -1,12 +1,9 @@
 package come.kennycason.war.piece
 
 import com.badlogic.gdx.graphics.Color
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer
-import come.kennycason.war.Constants
-import come.kennycason.war.DrawUtils
-import come.kennycason.war.GameState
 import come.kennycason.war.board.Board
-import come.kennycason.war.explosion.Explosion
+import come.kennycason.war.move.DiagonalMoveGenerator
+import come.kennycason.war.move.HorizontalVerticalMoveGenerator
 import come.kennycason.war.move.Move
 import come.kennycason.war.move.MoveType
 
@@ -34,52 +31,6 @@ class Missile(
 
     override val type = PieceType.MISSILE
 
-    override fun draw(gameState: GameState, x: Float, y: Float) {
-        val center = Constants.TILE_DIM / 2
-
-        DrawUtils.drawLine(
-            gameState,
-            x + center - 26, y + center - 26,
-            x + center + 26, y + center + 26,
-            color,
-            ShapeRenderer.ShapeType.Filled
-        )
-
-        DrawUtils.drawLine(
-            gameState,
-            x + center - 26, y + center + 26,
-            x + center + 26, y + center - 26,
-            color,
-            ShapeRenderer.ShapeType.Filled
-        )
-
-        DrawUtils.drawCircle(
-            gameState,
-            x + center, y + center,
-            23f,
-            color,
-            ShapeRenderer.ShapeType.Filled
-        )
-
-        DrawUtils.drawCircle(
-            gameState,
-            x + center, y + center,
-            18f,
-            if (color == Color.WHITE) Color(color.r - 0.1f, color.g - 0.1f, color.b - 0.1f, color.a)
-            else Color(color.r + 0.2f, color.g + 0.2f, color.b + 0.2f, color.a),
-            ShapeRenderer.ShapeType.Filled
-        )
-
-        DrawUtils.drawCircle(
-            gameState,
-            x + center, y + center,
-            8f,
-            color,
-            ShapeRenderer.ShapeType.Filled
-        )
-
-    }
-
     override fun generatePossibleMoves(board: Board): List<Move> {
         val moves = mutableListOf<Move>()
         moves.addAll(attackMoveGenerator.generatePossibleMoves(this, board))
@@ -99,7 +50,6 @@ class Missile(
             MoveType.ATTACK -> {
                 board.state[move.fromX][move.fromY].piece = null
                 board.state[move.toX][move.toY].piece = null
-                board.explosions.add(Explosion(move.toX.toFloat(), move.toY.toFloat()))
             }
         }
     }

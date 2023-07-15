@@ -1,8 +1,7 @@
-package come.kennycason.war.piece
+package come.kennycason.war.move
 
 import come.kennycason.war.board.Board
-import come.kennycason.war.move.Move
-import come.kennycason.war.move.MoveType
+import come.kennycason.war.piece.Piece
 import kotlin.math.abs
 
 class DiagonalMoveGenerator(

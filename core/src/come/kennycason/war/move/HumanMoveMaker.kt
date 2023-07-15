@@ -3,32 +3,33 @@ package come.kennycason.war.move
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
 import come.kennycason.war.board.Board
-import come.kennycason.war.board.TileHighlight
+import come.kennycason.war.war2d.TileHighlight
 import come.kennycason.war.piece.Piece
 
-class HumanMoveMaker(private val color: Color, private val board: Board) {
-    private val pieces = mutableListOf<Piece>()
+class HumanMoveMaker(
+    private val color: Color,
+    private val cursor: Cursor
+) : MoveMaker {
     private var lastClicked = 0L
     private var selectedPiece: Piece? = null
 
-    private fun init() {
-        // aggregate player piece for efficiency to avoid re-scans
-        for (y in 0 until board.height) {
-            for (x in 0 until board.width) {
-                val piece = board.state[x][y].piece
-                if (piece != null && piece.color == color) {
-                    pieces.add(piece)
-                }
-            }
-        }
-    }
+//    private fun init() {
+//        // aggregate player piece for efficiency to avoid re-scans
+//        // todo handle removing off pieces
+//        for (y in 0 until board.height) {
+//            for (x in 0 until board.width) {
+//                val piece = board.state[x][y].piece
+//                if (piece != null && piece.color == color) {
+//                    pieces.add(piece)
+//                }
+//            }
+//        }
+//    }
 
-    fun makeMove(board: Board): Move? {
-        if (pieces.isEmpty()) init()
+    override fun makeMove(board: Board): Move? {
+        if (cursor.x == -1 && cursor.y == -1) return null
 
-        if (board.cursor.x == -1 && board.cursor.y == -1) return null
-
-        val tile = board.state[board.cursor.x][board.cursor.y]
+        val tile = board.state[cursor.x][cursor.y]
         if (Gdx.input.justTouched() && System.currentTimeMillis() - lastClicked > 500L) {
             lastClicked = System.currentTimeMillis()
 
@@ -47,7 +48,7 @@ class HumanMoveMaker(private val color: Color, private val board: Board) {
                     else -> {
                         val piece = tile.piece ?: return null
                         if (piece.color != color) return null
-                        clearSelected()
+                        clearSelected(board)
                         tile.highlight = TileHighlight.SELECTED
                         selectedPiece = tile.piece
                     }
@@ -56,7 +57,7 @@ class HumanMoveMaker(private val color: Color, private val board: Board) {
             else {
                 val possibleMoves = selectedPiece?.generatePossibleMoves(board).orEmpty()
                 for (move in possibleMoves) {
-                    if (move.toX == board.cursor.x && move.toY == board.cursor.y) {
+                    if (move.toX == cursor.x && move.toY == cursor.y) {
                         board.state[move.fromX][move.fromY].piece!!.applyMove(board, move)
                         selectedPiece = null
                         board.state[move.fromX][move.fromY].highlight = TileHighlight.NONE
@@ -69,7 +70,7 @@ class HumanMoveMaker(private val color: Color, private val board: Board) {
         return null
     }
 
-    private fun clearSelected() {
+    private fun clearSelected(board: Board) {
         // aggregate player piece for efficiency to avoid re-scans
         for (y in 0 until board.height) {
             for (x in 0 until board.width) {

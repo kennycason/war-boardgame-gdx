@@ -1,6 +1,6 @@
 package come.kennycason.war.board
 
-class DefaultTerrainV2Generator {
+object DefaultTerrainV2Generator {
     private val terrain = arrayOf(
         arrayOf(2,2,2,0,3,3,0,0,0,0,0),
         arrayOf(2,2,2,0,0,0,0,0,0,0,0),

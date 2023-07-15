@@ -1,31 +1,29 @@
 package come.kennycason.war
 
 import com.badlogic.gdx.ApplicationAdapter
-import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.utils.ScreenUtils
+import come.kennycason.war.graphics.GraphicsGdx
+import come.kennycason.war.war2d.TwoPlayerWar
 
 // The graphical interface to War.
 class WarGdx : ApplicationAdapter() {
-    private var gameState: GameState? = null
-//    private var img: Texture? = null
-
+    private val twoPlayerWar = TwoPlayerWar()
 
     override fun create() {
-        gameState = GameState()
-//        img = Texture("badlogic.jpg")
+        twoPlayerWar.newGame()
     }
 
     override fun render() {
-        ScreenUtils.clear(0.1f, 0.1f, 0.1f, 1f)
-        gameState!!.batch.begin()
-//        gameState.batch.draw(img, 100f, 0f)
-        gameState!!.board.render(gameState!!, 50f, 50f)
+        twoPlayerWar.update()
 
-        gameState!!.batch.end()
+        ScreenUtils.clear(0.1f, 0.1f, 0.1f, 1f)
+        GraphicsGdx.batch().begin()
+        twoPlayerWar.render()
+        GraphicsGdx.batch().end()
     }
 
     override fun dispose() {
-        gameState!!.batch.dispose()
-//        img?.dispose()
+        GraphicsGdx.batch().dispose()
     }
 }
+
