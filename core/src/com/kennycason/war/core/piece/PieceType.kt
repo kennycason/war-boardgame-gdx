@@ -6,7 +6,7 @@ enum class PieceType(val score: Int) {
     ARTILLERY(3),
     MISSILE(4),
     BOMBER(5),
-    COMMANDER(100)
+    COMMANDER(1000)
 }
 
 

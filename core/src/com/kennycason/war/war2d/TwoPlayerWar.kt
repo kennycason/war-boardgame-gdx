@@ -8,6 +8,7 @@ import com.kennycason.war.Constants
 import com.kennycason.war.ai.MiniMaxCarlo
 import com.kennycason.war.core.board.Board
 import com.kennycason.war.core.board.DefaultTerrainV2Generator
+import com.kennycason.war.core.board.Player
 import com.kennycason.war.core.move.Cursor
 import com.kennycason.war.core.move.HumanMoveMaker
 import com.kennycason.war.core.move.MoveMaker
@@ -26,8 +27,8 @@ class TwoPlayerWar(
     private val board: Board = Board(Constants.BOARD_DIMENSIONS, Constants.BOARD_DIMENSIONS)
     private val explosions = mutableListOf<Explosion>()
     private val cursor = Cursor(-1, -1, -1, -1)
-    private val playerBlack: MoveMaker = HumanMoveMaker(Color.BLACK, cursor)
-    private val playerWhite: MoveMaker = MiniMaxCarlo(maxDepth = 4, color = Color.WHITE)
+    private val playerBlack: MoveMaker = HumanMoveMaker(Player.BLACK, cursor)
+    private val playerWhite: MoveMaker = MiniMaxCarlo(maxDepth = 2, player = Player.WHITE)
 //    private val playerWhite: MoveMaker = HumanMoveMaker(Color.WHITE, cursor)
     private val tileRenderer = TileRenderer(tileDim)
 
@@ -51,19 +52,11 @@ class TwoPlayerWar(
         generatePossibleMovesForSelectedPiece(board)
         handleExplosion()
 
-        val move = when (board.currentTurn) {
-            Color.BLACK -> playerBlack.make(board)
-            Color.WHITE -> playerWhite.make(board)
-            else -> throw IllegalStateException("invalid turn")
+        val move = when (board.currentPlayer) {
+            Player.BLACK -> playerBlack.make(board)
+            Player.WHITE -> playerWhite.make(board)
         }
         if (move != null) {
-            board.turnCount++
-            board.currentTurn = when (board.currentTurn) {
-                Color.BLACK -> Color.WHITE
-                Color.WHITE -> Color.BLACK
-                else -> throw IllegalStateException("invalid turn")
-            }
-
             if (move.moveType == MoveType.ATTACK) {
                 explosions.add(Explosion(move.toX.toFloat(), move.toY.toFloat()))
             }
@@ -72,8 +65,8 @@ class TwoPlayerWar(
 
     fun render() {
         Fonts.VISITOR_24.color = Color.WHITE
-        Fonts.VISITOR_24.draw(GraphicsGdx.batch(), "${if (board.currentTurn == Color.WHITE) "White's" else "Black's"} Turn", 20f, 25f)
-        Fonts.VISITOR_24.draw(GraphicsGdx.batch(), "Black ${board.blackScore}  White ${board.whiteScore}", Constants.WIDTH - 200f, 25f)
+        Fonts.VISITOR_24.draw(GraphicsGdx.batch(), "${board.currentPlayer}'s Turn", 20f, 25f)
+        Fonts.VISITOR_24.draw(GraphicsGdx.batch(), "Black ${board.blackScore}  White ${board.whiteScore}", Constants.WIDTH - 220f, 25f)
 
         for (x in 0 until board.width) {
             Fonts.VISITOR_24.draw(GraphicsGdx.batch(), "$x", position.x + (x * tileDim) + tileDim / 2, 60f)
@@ -160,7 +153,7 @@ class TwoPlayerWar(
         if (cursor.x == -1 && cursor.y == -1) return
         if (board.state[cursor.x][cursor.y].highlight == TileHighlight.SELECTED) return // already rendered above.
         val piece = board.state[cursor.x][cursor.y].piece ?: return
-        if (piece.color != board.currentTurn) return
+        if (piece.player != board.currentPlayer) return
 
         // println("${cursor.x}, ${cursor.y} -> $tileX, $tileY")
         val possibleMoves = piece.generatePossibleMoves(board)

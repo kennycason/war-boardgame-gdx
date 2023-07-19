@@ -1,12 +1,12 @@
 package com.kennycason.war.core.piece
 
-import com.badlogic.gdx.graphics.Color
 import com.kennycason.war.core.board.Board
+import com.kennycason.war.core.board.Player
 import com.kennycason.war.core.move.Move
 import com.kennycason.war.war2d.TileHighlight
 
 interface Piece {
-    val color: Color // TODO use enum
+    val player: Player
     var x: Int
     var y: Int
     val type: PieceType
@@ -23,14 +23,22 @@ interface Piece {
         y = move.toY
 
         addScore(board, move)
+        changeTurn(board)
     }
 
 }
 
 fun addScore(board: Board, move: Move) {
-    when (board.currentTurn) {
-        Color.BLACK -> board.blackScore += move.score
-        Color.WHITE -> board.whiteScore += move.score
-        else -> throw IllegalStateException("invalid turn")
+    when (board.currentPlayer) {
+        Player.BLACK -> board.blackScore += move.score
+        Player.WHITE -> board.whiteScore += move.score
+    }
+}
+
+fun changeTurn(board: Board) {
+    board.turnCount++
+    board.currentPlayer = when (board.currentPlayer) {
+        Player.BLACK -> Player.WHITE
+        Player.WHITE -> Player.BLACK
     }
 }

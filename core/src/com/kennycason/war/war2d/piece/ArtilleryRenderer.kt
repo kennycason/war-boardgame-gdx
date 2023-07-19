@@ -3,12 +3,12 @@ package com.kennycason.war.war2d.piece
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.kennycason.war.Constants
-import com.kennycason.war.war2d.graphics.GraphicsGdx
 import com.kennycason.war.core.piece.Artillery
+import com.kennycason.war.war2d.graphics.GraphicsGdx
 
 class ArtilleryRenderer : PieceRenderer<Artillery> {
     override fun render(piece: Artillery, x: Float, y: Float) {
-        val color = piece.color
+        val color = piece.player.color
         val center = Constants.TILE_DIM / 2
 
         // axle

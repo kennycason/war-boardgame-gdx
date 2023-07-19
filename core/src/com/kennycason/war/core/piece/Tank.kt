@@ -1,12 +1,12 @@
 package com.kennycason.war.core.piece
 
-import com.badlogic.gdx.graphics.Color
 import com.kennycason.war.core.board.Board
+import com.kennycason.war.core.board.Player
 import com.kennycason.war.core.move.HorizontalVerticalMoveGenerator
 import com.kennycason.war.core.move.Move
 
 class Tank(
-    override val color: Color,
+    override val player: Player,
     override var x: Int,
     override var y: Int
 ) : Piece {

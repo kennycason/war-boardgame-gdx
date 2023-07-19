@@ -42,7 +42,7 @@ class HorizontalVerticalMoveGenerator(
                 }
             }
             else {
-                val isEnemyPiece = canAttack && state[x - i][y].piece!!.color != piece.color
+                val isEnemyPiece = canAttack && state[x - i][y].piece!!.player != piece.player
                 if (isEnemyPiece) {
                     moves.add(Move(piece.type, MoveType.ATTACK, x, y, x - i, y, getPiece(board, x - i, y)))
                     if (!canGoThroughEnemyPiece) break
@@ -70,7 +70,7 @@ class HorizontalVerticalMoveGenerator(
                 }
             }
             else {
-                val isEnemyPiece = canAttack && state[x + i][y].piece!!.color != piece.color
+                val isEnemyPiece = canAttack && state[x + i][y].piece!!.player != piece.player
                 if (isEnemyPiece) {
                     moves.add(Move(piece.type, MoveType.ATTACK, x, y, x + i, y, getPiece(board, x + i, y)))
                     if (!canGoThroughEnemyPiece) break
@@ -99,7 +99,7 @@ class HorizontalVerticalMoveGenerator(
                 }
             }
             else {
-                val isEnemyPiece = canAttack && state[x][y - i].piece!!.color != piece.color
+                val isEnemyPiece = canAttack && state[x][y - i].piece!!.player != piece.player
                 if (isEnemyPiece) {
                     moves.add(Move(piece.type, MoveType.ATTACK, x, y, x, y - i, getPiece(board, x, y - i)))
                     if (!canGoThroughEnemyPiece) break
@@ -127,7 +127,7 @@ class HorizontalVerticalMoveGenerator(
                 }
             }
             else {
-                val isEnemyPiece = canAttack && state[x][y + i].piece!!.color != piece.color
+                val isEnemyPiece = canAttack && state[x][y + i].piece!!.player != piece.player
                 if (isEnemyPiece) {
                     moves.add(Move(piece.type, MoveType.ATTACK, x, y, x, y + i, getPiece(board, x, y + i)))
                     if (!canGoThroughEnemyPiece) break

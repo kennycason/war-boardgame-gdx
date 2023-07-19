@@ -1,57 +1,57 @@
 package com.kennycason.war.core.piece
 
-import com.badlogic.gdx.graphics.Color
-import com.kennycason.war.util.Dice
 import com.kennycason.war.core.board.Board
+import com.kennycason.war.core.board.Player
+import com.kennycason.war.util.Dice
 
 object RandomPiecePlacer {
     fun place(board: Board) {
         val pieces = mutableListOf(
-            Infantry(Color.BLACK, 0, 0),
-            Infantry(Color.BLACK, 0, 0),
-            Infantry(Color.BLACK, 0, 0),
-            Infantry(Color.BLACK, 0, 0),
-            Infantry(Color.BLACK, 0, 0),
-            Infantry(Color.BLACK, 0, 0),
-            Infantry(Color.BLACK, 0, 0),
-            Infantry(Color.BLACK, 0, 0),
+            Infantry(Player.BLACK, 0, 0),
+            Infantry(Player.BLACK, 0, 0),
+            Infantry(Player.BLACK, 0, 0),
+            Infantry(Player.BLACK, 0, 0),
+            Infantry(Player.BLACK, 0, 0),
+            Infantry(Player.BLACK, 0, 0),
+            Infantry(Player.BLACK, 0, 0),
+            Infantry(Player.BLACK, 0, 0),
 
-            Infantry(Color.WHITE, 0, 0),
-            Infantry(Color.WHITE, 0, 0),
-            Infantry(Color.WHITE, 0, 0),
-            Infantry(Color.WHITE, 0, 0),
-            Infantry(Color.WHITE, 0, 0),
-            Infantry(Color.WHITE, 0, 0),
-            Infantry(Color.WHITE, 0, 0),
-            Infantry(Color.WHITE, 0, 0),
+            Infantry(Player.WHITE, 0, 0),
+            Infantry(Player.WHITE, 0, 0),
+            Infantry(Player.WHITE, 0, 0),
+            Infantry(Player.WHITE, 0, 0),
+            Infantry(Player.WHITE, 0, 0),
+            Infantry(Player.WHITE, 0, 0),
+            Infantry(Player.WHITE, 0, 0),
+            Infantry(Player.WHITE, 0, 0),
 
-            Tank(Color.BLACK, 0, 0),
-            Tank(Color.BLACK, 0, 0),
+            Tank(Player.BLACK, 0, 0),
+            Tank(Player.BLACK, 0, 0),
 
-            Tank(Color.WHITE, 0, 0),
-            Tank(Color.WHITE, 0, 0),
+            Tank(Player.WHITE, 0, 0),
+            Tank(Player.WHITE, 0, 0),
 
-            Artillery(Color.BLACK, 0, 0),
-            Artillery(Color.BLACK, 0, 0),
+            Artillery(Player.BLACK, 0, 0),
+            Artillery(Player.BLACK, 0, 0),
 
-            Artillery(Color.WHITE, 0, 0),
-            Artillery(Color.WHITE, 0, 0),
+            Artillery(Player.WHITE, 0, 0),
+            Artillery(Player.WHITE, 0, 0),
 
-            Bomber(Color.BLACK, 0, 0),
-            Bomber(Color.BLACK, 0, 0),
+            Bomber(Player.BLACK, 0, 0),
+            Bomber(Player.BLACK, 0, 0),
 
-            Bomber(Color.WHITE, 0, 0),
-            Bomber(Color.WHITE, 0, 0),
+            Bomber(Player.WHITE, 0, 0),
+            Bomber(Player.WHITE, 0, 0),
 
-            Missile(Color.BLACK, 0, 0),
-            Missile(Color.BLACK, 0, 0),
+            Missile(Player.BLACK, 0, 0),
+            Missile(Player.BLACK, 0, 0),
 
-            Missile(Color.WHITE, 0, 0),
-            Missile(Color.WHITE, 0, 0),
+            Missile(Player.WHITE, 0, 0),
+            Missile(Player.WHITE, 0, 0),
 
-            Commander(Color.BLACK, 0, 0),
+            Commander(Player.BLACK, 0, 0),
 
-            Commander(Color.WHITE, 0, 0)
+            Commander(Player.WHITE, 0, 0)
         )
 
         while (pieces.isNotEmpty()) {

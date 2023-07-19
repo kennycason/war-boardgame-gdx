@@ -1,14 +1,14 @@
 package com.kennycason.war.core.piece
 
-import com.badlogic.gdx.graphics.Color
 import com.kennycason.war.core.board.Board
+import com.kennycason.war.core.board.Player
 import com.kennycason.war.core.move.DiagonalMoveGenerator
 import com.kennycason.war.core.move.HorizontalVerticalMoveGenerator
 import com.kennycason.war.core.move.Move
 import com.kennycason.war.core.move.MoveType
 
 class Artillery(
-    override val color: Color,
+    override val player: Player,
     override var x: Int,
     override var y: Int
 ) : Piece {
@@ -44,6 +44,7 @@ class Artillery(
                 isReloading = true
                 lastAttackTurn = board.turnCount
                 addScore(board, move)
+                changeTurn(board)
             }
         }
     }

@@ -1,13 +1,13 @@
 package com.kennycason.war.core.move
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Color
 import com.kennycason.war.core.board.Board
+import com.kennycason.war.core.board.Player
 import com.kennycason.war.core.piece.Piece
 import com.kennycason.war.war2d.TileHighlight
 
 class HumanMoveMaker(
-    private val color: Color,
+    private val player: Player,
     private val cursor: Cursor
 ) : MoveMaker {
     private var lastClicked = 0L
@@ -47,7 +47,7 @@ class HumanMoveMaker(
                     }
                     else -> {
                         val piece = tile.piece ?: return null
-                        if (piece.color != color) return null
+                        if (piece.player != player) return null
                         clearSelected(board)
                         tile.highlight = TileHighlight.SELECTED
                         selectedPiece = tile.piece

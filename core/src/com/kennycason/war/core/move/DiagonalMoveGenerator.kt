@@ -41,7 +41,7 @@ class DiagonalMoveGenerator(
                 }
             }
             else {
-                if (canAttack && state[x - i][y + i].piece!!.color != piece.color) {
+                if (canAttack && state[x - i][y + i].piece!!.player != piece.player) {
                     moves.add(Move(piece.type, MoveType.ATTACK, x, y, x - i, y + i, getScore(board, x - i, y + i)))
                 }
                 if (!canGoThroughPieces) break
@@ -66,7 +66,7 @@ class DiagonalMoveGenerator(
                 }
             }
             else {
-                if (canAttack && state[x + i][y + i].piece!!.color != piece.color) {
+                if (canAttack && state[x + i][y + i].piece!!.player != piece.player) {
                     moves.add(Move(piece.type, MoveType.ATTACK, x, y, x + i, y + i, getScore(board, x + i, y + i)))
                 }
                 if (!canGoThroughPieces) break
@@ -91,7 +91,7 @@ class DiagonalMoveGenerator(
                 }
             }
             else {
-                if (canAttack && state[x - i][y - i].piece!!.color != piece.color) {
+                if (canAttack && state[x - i][y - i].piece!!.player != piece.player) {
                     moves.add(Move(piece.type, MoveType.ATTACK, x, y, x - i, y - i, getScore(board, x - i, y - i)))
                 }
                 if (!canGoThroughPieces) break
@@ -116,7 +116,7 @@ class DiagonalMoveGenerator(
                 }
             }
             else {
-                if (canAttack && state[x + i][y - i].piece!!.color != piece.color) {
+                if (canAttack && state[x + i][y - i].piece!!.player != piece.player) {
                     moves.add(Move(piece.type, MoveType.ATTACK, x, y, x + i, y - i, getScore(board, x + i, y - i)))
                 }
                 if (!canGoThroughPieces) break
