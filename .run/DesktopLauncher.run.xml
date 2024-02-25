@@ -1,7 +1,9 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="DesktopLauncher" type="Application" factoryName="Application" nameIsGenerated="true">
+    <option name="ALTERNATIVE_JRE_PATH" value="zulu-1.8" />
+    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
     <option name="MAIN_CLASS_NAME" value="com.kennycason.war.DesktopLauncher" />
-    <module name="war-game.desktop.main" />
+    <module name="war-boardgame-gdx.desktop.main" />
     <option name="VM_PARAMETERS" value="-XstartOnFirstThread" />
     <extension name="coverage">
       <pattern>

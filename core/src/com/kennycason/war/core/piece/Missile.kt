@@ -35,9 +35,9 @@ class Missile(
                 board.state[move.fromX][move.fromY].piece = null
                 board.state[move.toX][move.toY].piece = null
                 addScore(board, move)
-                changeTurn(board)
             }
         }
+        changeTurn(board)
     }
 
 }

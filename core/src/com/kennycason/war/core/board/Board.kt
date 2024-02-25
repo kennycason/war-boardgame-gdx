@@ -10,8 +10,8 @@ data class Board(
     val state: Array<Array<Tile>> = array2d(width, height) { Tile() },
     var turnCount: Int = 0,
     var currentPlayer: Player = Player.BLACK,
-    var blackScore: Int = 0,
-    var whiteScore: Int = 0
+    var blackScore: Double = 0.0,
+    var whiteScore: Double = 0.0
 ) {
     fun isFinished() = isBlackWin() || isWhiteWin()
     fun isBlackWin() = blackScore >= PieceType.COMMANDER.score

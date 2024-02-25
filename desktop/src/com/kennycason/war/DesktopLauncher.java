@@ -16,7 +16,7 @@ public class DesktopLauncher {
 
         final int width = (int) (Constants.WIDTH * Constants.SCALE);
         final int height = (int) (Constants.HEIGHT * Constants.SCALE);
-        config.setWindowedMode(width, height);
+        config.setWindowedMode(width + 320, height);
 
         final WarGdx game = new WarGdx();
 

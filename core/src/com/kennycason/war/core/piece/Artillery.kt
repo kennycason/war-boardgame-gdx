@@ -18,9 +18,7 @@ class Artillery(
     override val type = PieceType.ARTILLERY
 
     override fun generatePossibleMoves(board: Board): List<Move> {
-        if (isReloading && board.turnCount - lastAttackTurn > 3) {
-            isReloading = false
-        }
+        handleReloading(board)
 
         val moves = mutableListOf<Move>()
         moves.addAll(horizontalVerticalMoveGenerator.generatePossibleMoves(this, board))
@@ -44,8 +42,14 @@ class Artillery(
                 isReloading = true
                 lastAttackTurn = board.turnCount
                 addScore(board, move)
-                changeTurn(board)
             }
+        }
+        changeTurn(board)
+    }
+
+    fun handleReloading(board: Board) {
+        if (isReloading && board.turnCount - lastAttackTurn > 3) {
+            isReloading = false
         }
     }
 

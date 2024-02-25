@@ -28,6 +28,18 @@ class TileRenderer(
             getColor(tile),
             ShapeRenderer.ShapeType.Filled
         )
+        GraphicsGdx.drawLine(
+            x + tileDim.toFloat() / 2f, tileY ,
+            x + tileDim.toFloat(), tileY,
+            GROUND_BORDER,
+            ShapeRenderer.ShapeType.Line
+        )
+        GraphicsGdx.drawLine(
+            x + tileDim.toFloat(), tileY,
+            x + tileDim.toFloat(), tileY + tileDim.toFloat() / 3.0f,
+            GROUND_BORDER,
+            ShapeRenderer.ShapeType.Line
+        )
 
         // draw piece if needed
         val piece = tile.piece
@@ -58,17 +70,27 @@ class TileRenderer(
             TileHighlight.MOVE -> HIGHLIGHTED_MOVE
             TileHighlight.ATTACK -> HIGHLIGHTED_ATTACK
             TileHighlight.SELECTED -> Color.BROWN
-            TileHighlight.NONE -> when (tile.elevation) {
-                0 -> GROUND0
-                1 -> GROUND1
-                2 -> GROUND2
-                3 -> GROUND3
-                else -> throw IllegalStateException("No color for elevation: ${tile.elevation}")
-            }
+            TileHighlight.NONE -> getElevationColor(tile.elevation)
+        }
+    }
+
+    private fun getElevationColor(elevation: Int): Color {
+        return when (elevation) {
+            0 -> GROUND0
+            1 -> GROUND1
+            2 -> GROUND2
+            3 -> GROUND3
+            4 -> GROUND4
+            5 -> GROUND5
+            else -> throw IllegalStateException("No color for elevation: $elevation")
         }
     }
 
     companion object {
+        val GROUND_BORDER = Color(0.7f, 0.7f, 0.7f, 0.8f)
+
+        val GROUND5 = Color(0.9f, 0.95f, 0.85f, 1f)
+        val GROUND4 = Color(0.9f, 0.90f, 0.8f, 1f)
         val GROUND3 = Color(0.9f, 0.85f, 0.75f, 1f)
         val GROUND2 = Color(0.9f, 0.8f, 0.7f, 1f)
         val GROUND1 = Color(0.9f, 0.75f, 0.65f, 1f)

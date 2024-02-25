@@ -2,7 +2,7 @@ package com.kennycason.war.core.move
 
 import com.kennycason.war.core.board.Board
 import com.kennycason.war.core.piece.Piece
-import com.kennycason.war.util.orDefault
+import com.kennycason.war.core.piece.PieceType
 import kotlin.math.abs
 
 class DiagonalMoveGenerator(
@@ -23,7 +23,7 @@ class DiagonalMoveGenerator(
         return moves
     }
 
-    private fun getScore(board: Board, x: Int, y: Int) = board.state[x][y].piece?.type?.score.orDefault(0)
+    private fun getScore(board: Board, x: Int, y: Int): Double = (board.state[x][y].piece?.type?.score ?: 0.0) - PieceType.MISSILE.score + 2.0
 
     private fun moveLeftUp(piece: Piece, board: Board, moves: MutableList<Move>) {
         val x = piece.x
@@ -37,12 +37,12 @@ class DiagonalMoveGenerator(
 
             if (state[x - i][y + i].piece == null) {
                 if (!requiredAttack) {
-                    moves.add(Move(piece.type, MoveType.MOVE, x, y, x - i, y + i, getScore(board, x - i, y + i)))
+                    moves.add(Move(piece.player, piece.type, MoveType.MOVE, x, y, x - i, y + i, getScore(board, x - i, y + i)))
                 }
             }
             else {
                 if (canAttack && state[x - i][y + i].piece!!.player != piece.player) {
-                    moves.add(Move(piece.type, MoveType.ATTACK, x, y, x - i, y + i, getScore(board, x - i, y + i)))
+                    moves.add(Move(piece.player, piece.type, MoveType.ATTACK, x, y, x - i, y + i, getScore(board, x - i, y + i)))
                 }
                 if (!canGoThroughPieces) break
             }
@@ -62,12 +62,12 @@ class DiagonalMoveGenerator(
 
             if (state[x + i][y + i].piece == null) {
                 if (!requiredAttack) {
-                    moves.add(Move(piece.type, MoveType.MOVE, x, y, x + i, y + i, getScore(board, x + i, y + i)))
+                    moves.add(Move(piece.player, piece.type, MoveType.MOVE, x, y, x + i, y + i, getScore(board, x + i, y + i)))
                 }
             }
             else {
                 if (canAttack && state[x + i][y + i].piece!!.player != piece.player) {
-                    moves.add(Move(piece.type, MoveType.ATTACK, x, y, x + i, y + i, getScore(board, x + i, y + i)))
+                    moves.add(Move(piece.player, piece.type, MoveType.ATTACK, x, y, x + i, y + i, getScore(board, x + i, y + i)))
                 }
                 if (!canGoThroughPieces) break
             }
@@ -87,12 +87,12 @@ class DiagonalMoveGenerator(
 
             if (state[x - i][y - i].piece == null) {
                 if (!requiredAttack) {
-                    moves.add(Move(piece.type, MoveType.MOVE, x, y, x - i, y - i, getScore(board, x - i, y - i)))
+                    moves.add(Move(piece.player, piece.type, MoveType.MOVE, x, y, x - i, y - i, getScore(board, x - i, y - i)))
                 }
             }
             else {
                 if (canAttack && state[x - i][y - i].piece!!.player != piece.player) {
-                    moves.add(Move(piece.type, MoveType.ATTACK, x, y, x - i, y - i, getScore(board, x - i, y - i)))
+                    moves.add(Move(piece.player, piece.type, MoveType.ATTACK, x, y, x - i, y - i, getScore(board, x - i, y - i)))
                 }
                 if (!canGoThroughPieces) break
             }
@@ -112,12 +112,12 @@ class DiagonalMoveGenerator(
 
             if (state[x + i][y - i].piece == null) {
                 if (!requiredAttack) {
-                    moves.add(Move(piece.type, MoveType.MOVE, x, y, x + i, y - i, getScore(board, x + i, y - i)))
+                    moves.add(Move(piece.player, piece.type, MoveType.MOVE, x, y, x + i, y - i, getScore(board, x + i, y - i)))
                 }
             }
             else {
                 if (canAttack && state[x + i][y - i].piece!!.player != piece.player) {
-                    moves.add(Move(piece.type, MoveType.ATTACK, x, y, x + i, y - i, getScore(board, x + i, y - i)))
+                    moves.add(Move(piece.player, piece.type, MoveType.ATTACK, x, y, x + i, y - i, getScore(board, x + i, y - i)))
                 }
                 if (!canGoThroughPieces) break
             }

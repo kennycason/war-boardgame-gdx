@@ -4,4 +4,5 @@ object Fonts {
     val VISITOR_12 = TTFLoader.load("visitor2.ttf", 12)
     val VISITOR_16 = TTFLoader.load("visitor2.ttf", 16)
     val VISITOR_24 = TTFLoader.load("visitor2.ttf", 24)
+    val VISITOR_30 = TTFLoader.load("visitor2.ttf", 30)
 }

@@ -12,7 +12,7 @@ class ComputerMonteCarloMoveMaker(private val color: Color, private val board: B
         for (y in 0 until board.height) {
             for (x in 0 until board.width) {
                 val piece = board.state[x][y].piece
-                if (piece != null && piece.player == color) {
+                if (piece != null && piece.player.color == color) {
                     pieces.add(piece)
                 }
             }

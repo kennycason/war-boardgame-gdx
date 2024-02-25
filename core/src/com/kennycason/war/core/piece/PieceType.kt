@@ -1,12 +1,12 @@
 package com.kennycason.war.core.piece
 
-enum class PieceType(val score: Int) {
-    INFANTRY(1),
-    TANK(2),
-    ARTILLERY(3),
-    MISSILE(4),
-    BOMBER(5),
-    COMMANDER(1000)
+enum class PieceType(val score: Double) {
+    INFANTRY(1.0),
+    TANK(2.0),
+    ARTILLERY(3.0),
+    MISSILE(4.0),
+    BOMBER(5.0),
+    COMMANDER(1000.0)
 }
 
 
