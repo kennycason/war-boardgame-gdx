@@ -149,6 +149,7 @@ fun copyPiece(board: Board, piece: Piece?): Piece? {
         }
 
         PieceType.MISSILE -> Missile(piece.player, piece.x, piece.y)
+        PieceType.AIR_DEFENSE -> AirDefense(piece.player, piece.x, piece.y)
         PieceType.BOMBER -> Bomber(piece.player, piece.x, piece.y)
         PieceType.COMMANDER -> Commander(piece.player, piece.x, piece.y)
         null -> null

@@ -16,6 +16,7 @@ import com.kennycason.war.font.Fonts
 import com.kennycason.war.sound.SoundManager
 import com.kennycason.war.war2d.explosion.Explosion
 import com.kennycason.war.war2d.graphics.GraphicsGdx
+import java.lang.Thread.sleep
 
 class TwoPlayerWar(
     private val position: Vector2 = Vector2(75f, 75f),
@@ -25,6 +26,7 @@ class TwoPlayerWar(
     private val explosions = mutableListOf<Explosion>()
     private val cursor = Cursor(-1, -1, -1, -1)
     private val playerBlack: MoveMaker = HumanMoveMaker(Player.BLACK, cursor)
+//    private val playerBlack: MoveMaker = MiniMaxCarloAsync(maxDepth = 2, player = Player.BLACK)
 //    private val playerBlack: MoveMaker = MiniMaxCarlo(maxDepth = 4, player = Player.WHITE)
     private val playerWhite: MoveMaker = MiniMaxCarloAsync(maxDepth = 4, player = Player.WHITE)
 //    private val playerWhite: MoveMaker = HumanMoveMaker(Player.WHITE, cursor)
@@ -116,6 +118,7 @@ class TwoPlayerWar(
         PieceType.TANK -> "TNK"
         PieceType.ARTILLERY -> "ART"
         PieceType.MISSILE -> "MIS"
+        PieceType.AIR_DEFENSE -> "DEF"
         PieceType.BOMBER -> "BOM"
         PieceType.COMMANDER -> "CMD"
     }

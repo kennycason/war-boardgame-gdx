@@ -1,6 +1,8 @@
 package com.kennycason.war.war2d.graphics
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 
@@ -27,7 +29,10 @@ object GraphicsGdx {
         color: Color = Color.GREEN,
         shapeType: ShapeRenderer.ShapeType = ShapeRenderer.ShapeType.Line
     ) {
+
         batch().end()
+        Gdx.gl.glEnable(GL20.GL_BLEND)
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA)
         shape().begin(shapeType)
         shape().color = color
         shape().rect(x, y, width, height)

@@ -1,6 +1,8 @@
 package com.kennycason.war.war2d
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.kennycason.war.core.board.Tile
 import com.kennycason.war.war2d.graphics.GraphicsGdx
@@ -15,6 +17,7 @@ class TileRenderer(
     private val tankRenderer = TankRenderer()
     private val artilleryRenderer = ArtilleryRenderer()
     private val bomberRenderer = BomberRenderer()
+    private val airDefenseRenderer = AirDefenseRenderer()
     private val missileRenderer = MissileRenderer()
     private val commanderRenderer = CommanderRenderer()
 
@@ -22,24 +25,40 @@ class TileRenderer(
         // draw top tile
         val tileElevationHeight = tile.elevation * 10f
         val tileY = y + tileElevationHeight
-        GraphicsGdx.drawRect(
-            x, tileY,
-            tileDim.toFloat(), tileDim.toFloat(),
-            getColor(tile),
-            ShapeRenderer.ShapeType.Filled
-        )
-        GraphicsGdx.drawLine(
-            x + tileDim.toFloat() / 2f, tileY ,
-            x + tileDim.toFloat(), tileY,
-            GROUND_BORDER,
-            ShapeRenderer.ShapeType.Line
-        )
-        GraphicsGdx.drawLine(
-            x + tileDim.toFloat(), tileY,
-            x + tileDim.toFloat(), tileY + tileDim.toFloat() / 3.0f,
-            GROUND_BORDER,
-            ShapeRenderer.ShapeType.Line
-        )
+
+        if (tile.highlight == TileHighlight.MOVE|| tile.highlight == TileHighlight.ATTACK) {
+            GraphicsGdx.drawRect(
+                x, tileY,
+                tileDim.toFloat(), tileDim.toFloat(),
+                getElevationColor(tile.elevation),
+                ShapeRenderer.ShapeType.Filled
+            )
+            GraphicsGdx.drawRect(
+                x, tileY,
+                tileDim.toFloat(), tileDim.toFloat(),
+                getColor(tile),
+                ShapeRenderer.ShapeType.Filled
+            )
+        } else {
+            GraphicsGdx.drawRect(
+                x, tileY,
+                tileDim.toFloat(), tileDim.toFloat(),
+                getColor(tile),
+                ShapeRenderer.ShapeType.Filled
+            )
+            GraphicsGdx.drawLine(
+                x + tileDim.toFloat() / 2f, tileY,
+                x + tileDim.toFloat(), tileY,
+                GROUND_BORDER,
+                ShapeRenderer.ShapeType.Line
+            )
+            GraphicsGdx.drawLine(
+                x + tileDim.toFloat(), tileY,
+                x + tileDim.toFloat(), tileY + tileDim.toFloat() / 3.0f,
+                GROUND_BORDER,
+                ShapeRenderer.ShapeType.Line
+            )
+        }
 
         // draw piece if needed
         val piece = tile.piece
@@ -49,6 +68,7 @@ class TileRenderer(
                 PieceType.TANK -> tankRenderer.render(piece as Tank, x, tileY)
                 PieceType.ARTILLERY -> artilleryRenderer.render(piece as Artillery, x, tileY)
                 PieceType.BOMBER -> bomberRenderer.render(piece as Bomber, x, tileY)
+                PieceType.AIR_DEFENSE -> airDefenseRenderer.render(piece as AirDefense, x, tileY)
                 PieceType.MISSILE -> missileRenderer.render(piece as Missile, x, tileY)
                 PieceType.COMMANDER -> commanderRenderer.render(piece as Commander, x, tileY)
             }
@@ -99,7 +119,7 @@ class TileRenderer(
 
         val WALL = Color(0.7f, 0.6f, 0.5f, 1f)
 
-        val HIGHLIGHTED_MOVE = Color(0.4f, 0.7f, 0.4f, 1f)
-        val HIGHLIGHTED_ATTACK = Color(0.7f, 0.4f, 0.4f, 1f)
+        val HIGHLIGHTED_MOVE = Color(0.4f, 0.7f, 0.4f, 0.5f)
+        val HIGHLIGHTED_ATTACK = Color(0.7f, 0.4f, 0.4f, 0.5f)
     }
 }
