@@ -26,10 +26,10 @@ class TwoPlayerWar(
     private val board: Board = Board(Constants.BOARD_DIMENSIONS, Constants.BOARD_DIMENSIONS)
     private val explosions = mutableListOf<Explosion>()
     private val cursor = Cursor(-1, -1, -1, -1)
-    private val playerBlack: MoveMaker = HumanMoveMaker(Player.BLACK, cursor)
-//    private val playerBlack: MoveMaker = MiniMaxCarloAsync(maxDepth = 2, player = Player.BLACK)
+//    private val playerBlack: MoveMaker = HumanMoveMaker(Player.BLACK, cursor)
+    private val playerBlack: MoveMaker = MiniMaxCarloAsync(maxDepth = 2, player = Player.BLACK)
 //    private val playerBlack: MoveMaker = MiniMaxCarlo(maxDepth = 4, player = Player.WHITE)
-    private val playerWhite: MoveMaker = MiniMaxCarloAsync(maxDepth = 5, player = Player.WHITE)
+    private val playerWhite: MoveMaker = MiniMaxCarloAsync(maxDepth = 4, player = Player.WHITE)
 //    private val playerWhite: MoveMaker = HumanMoveMaker(Player.WHITE, cursor)
     private val tileRenderer = TileRenderer(tileDim)
 
@@ -41,8 +41,8 @@ class TwoPlayerWar(
     fun newGame() {
         DefaultTerrainV2Generator.apply(board)
 //        TerrainNoiseGenerator.apply(board)
-//        PrimaryFormationPiecePlacer.place(board)
-        TestAirDefenseFormationPiecePlacer.place(board)
+        PrimaryFormationPiecePlacer.place(board)
+//        TestAirDefenseFormationPiecePlacer.place(board)
 //        RandomPiecePlacer.place(board)
 //        TestPiecePlacer.place(board)
 
@@ -102,13 +102,15 @@ class TwoPlayerWar(
         Fonts.VISITOR_30.color = Color.WHITE
 
         Fonts.VISITOR_30.draw(GraphicsGdx.batch(), "History", Constants.WIDTH * Constants.SCALE - 10, Constants.WIDTH * Constants.SCALE - 20f)
-        moveHistory.forEachIndexed { i, move ->
+        for (i in 0 until moveHistory.size) {
+            val move = moveHistory[i]
             Fonts.VISITOR_30.draw(GraphicsGdx.batch(),
                 "${getAttackText(move)}${getPlayerText(move)} ${getPieceTypeText(move)} (${move.fromX}, ${move.fromY}) ",
                 Constants.WIDTH * Constants.SCALE - 23, Constants.WIDTH * Constants.SCALE - (20f * (i + 2)))
             Fonts.VISITOR_30.draw(GraphicsGdx.batch(),
                 "to (${move.toX}, ${move.toY})",
                 Constants.WIDTH * Constants.SCALE + 185, Constants.WIDTH * Constants.SCALE - (20f * (i + 2)))
+            if (i > 40) break
         }
     }
 
