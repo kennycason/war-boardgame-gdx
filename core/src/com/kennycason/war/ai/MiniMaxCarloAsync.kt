@@ -11,22 +11,13 @@ enum class AsyncMoveState {
     WAITING, START_THINKING, THINKING
 }
 
-data class AsyncMove(
-    val state: AsyncMoveState,
-    val move: Move? = null
-)
-
-interface AsyncMoveCallback {
-    fun onStateChange(state: AsyncMoveState, move: Move? = null)
-}
-
 /**
  * Perform MiniMax for n-layers, then apply monte-carlo from random/promising leaf nodes.
  */
 class MiniMaxCarloAsync(
     maxDepth: Int = 1,
     player: Player,
-    noise: Double = 0.5
+    noise: Double = 0.4
 ) : MoveMaker {
     private val executorService = Executors.newSingleThreadExecutor()
     private val miniMaxCarlo = MiniMaxCarlo(maxDepth = maxDepth, player = player, noise = noise)

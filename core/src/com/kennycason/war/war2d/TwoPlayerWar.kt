@@ -12,6 +12,7 @@ import com.kennycason.war.core.board.Player
 import com.kennycason.war.core.move.*
 import com.kennycason.war.core.piece.PieceType
 import com.kennycason.war.core.piece.PrimaryFormationPiecePlacer
+import com.kennycason.war.core.piece.TestAirDefenseFormationPiecePlacer
 import com.kennycason.war.font.Fonts
 import com.kennycason.war.sound.SoundManager
 import com.kennycason.war.war2d.explosion.Explosion
@@ -28,7 +29,7 @@ class TwoPlayerWar(
     private val playerBlack: MoveMaker = HumanMoveMaker(Player.BLACK, cursor)
 //    private val playerBlack: MoveMaker = MiniMaxCarloAsync(maxDepth = 2, player = Player.BLACK)
 //    private val playerBlack: MoveMaker = MiniMaxCarlo(maxDepth = 4, player = Player.WHITE)
-    private val playerWhite: MoveMaker = MiniMaxCarloAsync(maxDepth = 4, player = Player.WHITE)
+    private val playerWhite: MoveMaker = MiniMaxCarloAsync(maxDepth = 5, player = Player.WHITE)
 //    private val playerWhite: MoveMaker = HumanMoveMaker(Player.WHITE, cursor)
     private val tileRenderer = TileRenderer(tileDim)
 
@@ -40,7 +41,8 @@ class TwoPlayerWar(
     fun newGame() {
         DefaultTerrainV2Generator.apply(board)
 //        TerrainNoiseGenerator.apply(board)
-        PrimaryFormationPiecePlacer.place(board)
+//        PrimaryFormationPiecePlacer.place(board)
+        TestAirDefenseFormationPiecePlacer.place(board)
 //        RandomPiecePlacer.place(board)
 //        TestPiecePlacer.place(board)
 

@@ -11,5 +11,5 @@ data class Move(
     val fromY: Int,
     val toX: Int,
     val toY: Int,
-    val score: Double = 0.0
+    var score: Double = 0.0
 )
