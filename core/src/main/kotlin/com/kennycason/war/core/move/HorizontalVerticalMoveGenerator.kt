@@ -2,6 +2,7 @@ package com.kennycason.war.core.move
 
 import com.kennycason.war.core.board.Board
 import com.kennycason.war.core.piece.Piece
+import com.kennycason.war.util.copyPiece
 import kotlin.math.abs
 
 class HorizontalVerticalMoveGenerator(
@@ -35,15 +36,28 @@ class HorizontalVerticalMoveGenerator(
             if (i > maxDistance) break
             if (!ignoreHeight && abs(state[x - i][y].elevation - state[x - i + 1][y].elevation) > 1) break
 
-            if (state[x - i][y].piece == null) {
+            val targetPiece = state[x - i][y].piece
+            if (targetPiece == null) {
                 if (!requiredAttack) {
-                    moves.add(Move(piece.player, piece.type, MoveType.MOVE, x, y, x - i, y,  getPieceScore(board, x - i, y)))
+                    moves.add(
+                        Move(
+                            piece.player, piece.type, MoveType.MOVE,
+                            x, y, x - i, y,
+                            score = getPieceScore(board, x - i, y)
+                        )
+                    )
                 }
-            }
-            else {
-                val isEnemyPiece = canAttack && state[x - i][y].piece!!.player != piece.player
+            } else {
+                val isEnemyPiece = canAttack && targetPiece.player != piece.player
                 if (isEnemyPiece) {
-                    moves.add(Move(piece.player, piece.type, MoveType.ATTACK, x, y, x - i, y, getPieceScore(board, x - i, y)))
+                    moves.add(
+                        Move(
+                            piece.player, piece.type, MoveType.ATTACK,
+                            x, y, x - i, y,
+                            score = getPieceScore(board, x - i, y),
+                            destroyed = copyPiece(targetPiece)
+                        )
+                    )
                     if (!canGoThroughEnemyPiece) break
                 } else {
                     if (!canGoThroughOwnPiece) break
@@ -63,15 +77,28 @@ class HorizontalVerticalMoveGenerator(
             if (i > maxDistance) break
             if (!ignoreHeight && abs(state[x + i][y].elevation - state[x + i - 1][y].elevation) > 1) break
 
-            if (state[x + i][y].piece == null) {
+            val targetPiece = state[x + i][y].piece
+            if (targetPiece == null) {
                 if (!requiredAttack) {
-                    moves.add(Move(piece.player, piece.type, MoveType.MOVE, x, y, x + i, y, getPieceScore(board, x + i, y)))
+                    moves.add(
+                        Move(
+                            piece.player, piece.type, MoveType.MOVE,
+                            x, y, x + i, y,
+                            score = getPieceScore(board, x + i, y)
+                        )
+                    )
                 }
-            }
-            else {
-                val isEnemyPiece = canAttack && state[x + i][y].piece!!.player != piece.player
+            } else {
+                val isEnemyPiece = canAttack && targetPiece.player != piece.player
                 if (isEnemyPiece) {
-                    moves.add(Move(piece.player, piece.type, MoveType.ATTACK, x, y, x + i, y, getPieceScore(board, x + i, y)))
+                    moves.add(
+                        Move(
+                            piece.player, piece.type, MoveType.ATTACK,
+                            x, y, x + i, y,
+                            score = getPieceScore(board, x + i, y),
+                            destroyed = copyPiece(targetPiece)
+                        )
+                    )
                     if (!canGoThroughEnemyPiece) break
                 } else {
                     if (!canGoThroughOwnPiece) break
@@ -92,15 +119,28 @@ class HorizontalVerticalMoveGenerator(
             if (i > maxDistance) break
             if (!ignoreHeight && abs(state[x][y - i].elevation - state[x][y - i + 1].elevation) > 1) break
 
-            if (state[x][y - i].piece == null) {
+            val targetPiece = state[x][y - i].piece
+            if (targetPiece == null) {
                 if (!requiredAttack) {
-                    moves.add(Move(piece.player, piece.type, MoveType.MOVE, x, y, x, y - i, getPieceScore(board, x, y - i)))
+                    moves.add(
+                        Move(
+                            piece.player, piece.type, MoveType.MOVE,
+                            x, y, x, y - i,
+                            score = getPieceScore(board, x, y - i)
+                        )
+                    )
                 }
-            }
-            else {
-                val isEnemyPiece = canAttack && state[x][y - i].piece!!.player != piece.player
+            } else {
+                val isEnemyPiece = canAttack && targetPiece.player != piece.player
                 if (isEnemyPiece) {
-                    moves.add(Move(piece.player, piece.type, MoveType.ATTACK, x, y, x, y - i, getPieceScore(board, x, y - i)))
+                    moves.add(
+                        Move(
+                            piece.player, piece.type, MoveType.ATTACK,
+                            x, y, x, y - i,
+                            score = getPieceScore(board, x, y - i),
+                            destroyed = copyPiece(targetPiece)
+                        )
+                    )
                     if (!canGoThroughEnemyPiece) break
                 } else {
                     if (!canGoThroughOwnPiece) break
@@ -120,15 +160,28 @@ class HorizontalVerticalMoveGenerator(
             if (i > maxDistance) break
             if (!ignoreHeight && abs(state[x][y + i].elevation - state[x][y + i - 1].elevation) > 1) break
 
-            if (state[x][y + i].piece == null) {
+            val targetPiece = state[x][y + i].piece
+            if (targetPiece == null) {
                 if (!requiredAttack) {
-                    moves.add(Move(piece.player, piece.type, MoveType.MOVE, x, y, x, y + i, getPieceScore(board, x, y + i)))
+                    moves.add(
+                        Move(
+                            piece.player, piece.type, MoveType.MOVE,
+                            x, y, x, y + i,
+                            score = getPieceScore(board, x, y + i)
+                        )
+                    )
                 }
-            }
-            else {
-                val isEnemyPiece = canAttack && state[x][y + i].piece!!.player != piece.player
+            } else {
+                val isEnemyPiece = canAttack && targetPiece.player != piece.player
                 if (isEnemyPiece) {
-                    moves.add(Move(piece.player, piece.type, MoveType.ATTACK, x, y, x, y + i, getPieceScore(board, x, y + i)))
+                    moves.add(
+                        Move(
+                            piece.player, piece.type, MoveType.ATTACK,
+                            x, y, x, y + i,
+                            score = getPieceScore(board, x, y + i),
+                            destroyed = copyPiece(targetPiece)
+                        )
+                    )
                     if (!canGoThroughEnemyPiece) break
                 } else {
                     if (!canGoThroughOwnPiece) break

@@ -15,8 +15,8 @@ object DefaultTerrainV2Generator {
         arrayOf(0,0,0,0,0,3,0,0,1,2,2)
     )
     fun apply(board: Board) {
-        for (y in 0 until board.height) {
-            for (x in 0 until board.width) {
+        for (y in 0 until terrain.size) {
+            for (x in 0 until terrain[y].size) {
                 board.state[x][y].elevation = terrain[x][y]
             }
         }

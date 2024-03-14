@@ -119,7 +119,7 @@ class BoardPool(init: Int, max: Int) : Pool<Board>(init, max) {
     }
 }
 
-fun copyBoard(from: Board, to: Board) {
+private fun copyBoard(from: Board, to: Board = Board(from.width, from.height)) {
     to.turnCount = from.turnCount
     to.currentPlayer = from.currentPlayer
     to.blackScore = from.blackScore
@@ -134,7 +134,7 @@ fun copyBoard(from: Board, to: Board) {
 }
 
 // most pieces don't hold state and don't need to be copied
-fun copyPiece(board: Board, piece: Piece?): Piece? {
+private fun copyPiece(board: Board, piece: Piece?): Piece? {
     return when (piece?.type) {
         PieceType.INFANTRY -> Infantry(piece.player, piece.x, piece.y)
         PieceType.TANK -> Tank(piece.player, piece.x, piece.y)

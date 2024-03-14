@@ -5,18 +5,21 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils.clamp
 import com.badlogic.gdx.math.Vector2
 import com.kennycason.war.Constants
+import com.kennycason.war.ai.MiniMaxCarlo2
+import com.kennycason.war.ai.MiniMaxCarlo2Async
 import com.kennycason.war.ai.MiniMaxCarloAsync
 import com.kennycason.war.core.board.Board
 import com.kennycason.war.core.board.DefaultTerrainV2Generator
 import com.kennycason.war.core.board.Player
+import com.kennycason.war.core.board.ValleyTerrainGenerator
 import com.kennycason.war.core.move.*
 import com.kennycason.war.core.piece.PieceType
 import com.kennycason.war.core.piece.PrimaryFormationPiecePlacer
+import com.kennycason.war.core.piece.TestAirDefenseFormationPiecePlacer
 import com.kennycason.war.font.Fonts
 import com.kennycason.war.sound.SoundManager
 import com.kennycason.war.war2d.explosion.Explosion
 import com.kennycason.war.war2d.graphics.GraphicsGdx
-import java.lang.Thread.sleep
 
 class TwoPlayerWar(
     private val position: Vector2 = Vector2(75f, 75f),
@@ -28,7 +31,9 @@ class TwoPlayerWar(
     private val playerBlack: MoveMaker = HumanMoveMaker(Player.BLACK, cursor)
 //    private val playerBlack: MoveMaker = MiniMaxCarloAsync(maxDepth = 2, player = Player.BLACK)
 //    private val playerBlack: MoveMaker = MiniMaxCarlo(maxDepth = 4, player = Player.WHITE)
-    private val playerWhite: MoveMaker = MiniMaxCarloAsync(maxDepth = 4, player = Player.WHITE)
+//    private val playerWhite: MoveMaker = MiniMaxCarlo2Async(maxDepth = 3, player = Player.WHITE)
+    private val playerWhite: MoveMaker = MiniMaxCarlo2(maxDepth = 4, player = Player.WHITE)
+//    private val playerWhite: MoveMaker = MiniMaxCarloAsync(maxDepth = 4, player = Player.WHITE)
 //    private val playerWhite: MoveMaker = HumanMoveMaker(Player.WHITE, cursor)
     private val tileRenderer = TileRenderer(tileDim)
 
@@ -38,9 +43,11 @@ class TwoPlayerWar(
     private var soundManager: SoundManager? = null
 
     fun newGame() {
-        DefaultTerrainV2Generator.apply(board)
+        ValleyTerrainGenerator.apply(board)
+//        DefaultTerrainV2Generator.apply(board)
 //        TerrainNoiseGenerator.apply(board)
         PrimaryFormationPiecePlacer.place(board)
+//        TestAirDefenseFormationPiecePlacer.place(board)
 //        RandomPiecePlacer.place(board)
 //        TestPiecePlacer.place(board)
 
@@ -100,13 +107,15 @@ class TwoPlayerWar(
         Fonts.VISITOR_30.color = Color.WHITE
 
         Fonts.VISITOR_30.draw(GraphicsGdx.batch(), "History", Constants.WIDTH * Constants.SCALE - 10, Constants.WIDTH * Constants.SCALE - 20f)
-        moveHistory.forEachIndexed { i, move ->
+        for (i in 0 until moveHistory.size) {
+            val move = moveHistory[i]
             Fonts.VISITOR_30.draw(GraphicsGdx.batch(),
                 "${getAttackText(move)}${getPlayerText(move)} ${getPieceTypeText(move)} (${move.fromX}, ${move.fromY}) ",
                 Constants.WIDTH * Constants.SCALE - 23, Constants.WIDTH * Constants.SCALE - (20f * (i + 2)))
             Fonts.VISITOR_30.draw(GraphicsGdx.batch(),
                 "to (${move.toX}, ${move.toY})",
                 Constants.WIDTH * Constants.SCALE + 185, Constants.WIDTH * Constants.SCALE - (20f * (i + 2)))
+            if (i > 40) break
         }
     }
 

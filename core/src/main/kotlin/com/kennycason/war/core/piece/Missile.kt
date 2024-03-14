@@ -2,10 +2,7 @@ package com.kennycason.war.core.piece
 
 import com.kennycason.war.core.board.Board
 import com.kennycason.war.core.board.Player
-import com.kennycason.war.core.move.DiagonalMoveGenerator
-import com.kennycason.war.core.move.HorizontalVerticalMoveGenerator
-import com.kennycason.war.core.move.Move
-import com.kennycason.war.core.move.MoveType
+import com.kennycason.war.core.move.*
 
 class Missile(
     override val player: Player,
@@ -17,7 +14,11 @@ class Missile(
 
     override fun generatePossibleMoves(board: Board): List<Move> {
         val moves = mutableListOf<Move>()
-        moves.addAll(attackMoveGenerator.generatePossibleMoves(this, board))
+
+        val attackMoves = attackMoveGenerator.generatePossibleMoves(this, board)
+        attackMoves.forEach { AirDefenseDetector.updateScoreBaseOnAirDefense(board, this, it) }
+
+        moves.addAll(attackMoves)
         moves.addAll(horizontalVerticalMoveGenerator.generatePossibleMoves(this, board))
         moves.addAll(diagonalMoveGenerator.generatePossibleMoves(this, board))
         return moves
@@ -31,10 +32,17 @@ class Missile(
                 x = move.toX
                 y = move.toY
             }
+
             MoveType.ATTACK -> {
                 board.state[move.fromX][move.fromY].piece = null
                 board.state[move.toX][move.toY].piece = null
                 addScore(board, move)
+                // air defense affects missile during attack
+                val airDefense = AirDefenseDetector.getNeighborAirDefense(board, this, move)
+                if (airDefense != null) {
+                    board.state[airDefense.x][airDefense.y].piece = null
+                    board.state[airDefense.x][airDefense.y].piece = null
+                }
             }
         }
         changeTurn(board)

@@ -3,7 +3,7 @@ package com.kennycason.war.core.piece
 import com.kennycason.war.core.board.Board
 import com.kennycason.war.core.board.Player
 
-object PrimaryFormationPiecePlacer {
+object TestAirDefenseFormationPiecePlacer {
     fun place(board: Board) {
         val maxX = board.width - 1
         val maxY = board.height - 1
@@ -29,26 +29,31 @@ object PrimaryFormationPiecePlacer {
             Infantry(Player.BLACK, 4, 1),
             Infantry(Player.BLACK, 4, 2),
 
+            Tank(Player.WHITE, maxX - 0, maxY - 0),
 
-            Commander(Player.WHITE, maxX - 0, maxY - 0),
-            Missile(Player.WHITE, maxX - 0, maxY - 1),
+//            Commander(Player.WHITE, maxX - 0, maxY - 0),
+//            Missile(Player.WHITE, maxX - 0, maxY - 1),
             Infantry(Player.WHITE, maxX - 0, maxY - 2),
 
-            Bomber(Player.WHITE, maxX - 1, maxY - 0),
+//            Bomber(Player.WHITE, maxX - 1, maxY - 0),
             AirDefense(Player.WHITE, maxX - 1, maxY - 1),
             Infantry(Player.WHITE, maxX - 1, maxY - 2),
 
-            Artillery(Player.WHITE, maxX - 2, maxY - 0),
-            Artillery(Player.WHITE, maxX - 2, maxY - 1),
+//            Artillery(Player.WHITE, maxX - 2, maxY - 0),
+//            Artillery(Player.WHITE, maxX - 2, maxY - 1),
             Infantry(Player.WHITE, maxX - 2, maxY - 2),
 
-            Tank(Player.WHITE, maxX - 3, maxY - 0),
-            Tank(Player.WHITE, maxX - 3, maxY - 1),
-            Infantry(Player.WHITE, maxX - 3, maxY - 2),
+//            Tank(Player.WHITE, maxX - 3, maxY - 0),
+//            Tank(Player.WHITE, maxX - 3, maxY - 1),
+//            Infantry(Player.WHITE, maxX - 3, maxY - 2),
+//
+//            Infantry(Player.WHITE, maxX - 4, maxY - 0),
+//            Infantry(Player.WHITE, maxX - 4, maxY - 1),
+//            Infantry(Player.WHITE, maxX - 4, maxY - 2)
 
-            Infantry(Player.WHITE, maxX - 4, maxY - 0),
-            Infantry(Player.WHITE, maxX - 4, maxY - 1),
-            Infantry(Player.WHITE, maxX - 4, maxY - 2)
+            AirDefense(Player.WHITE, 0, maxY),
+            Tank(Player.WHITE, 1, maxY),
+            Bomber(Player.BLACK, 4, maxY),
         )
 
         for (piece in pieces) {

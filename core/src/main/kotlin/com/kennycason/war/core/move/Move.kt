@@ -1,6 +1,7 @@
 package com.kennycason.war.core.move
 
 import com.kennycason.war.core.board.Player
+import com.kennycason.war.core.piece.Piece
 import com.kennycason.war.core.piece.PieceType
 
 data class Move(
@@ -11,5 +12,6 @@ data class Move(
     val fromY: Int,
     val toX: Int,
     val toY: Int,
-    val score: Double = 0.0
+    var score: Double = 0.0,
+    var destroyed: Piece? = null
 )
