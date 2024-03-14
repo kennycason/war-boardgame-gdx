@@ -14,7 +14,8 @@ object PrimaryFormationPiecePlacer {
             Infantry(Player.BLACK, 0, 2),
 
             Bomber(Player.BLACK, 1, 0),
-            AirDefense(Player.BLACK, 1, 1),
+//            AirDefense(Player.BLACK, 1, 1),
+            Bomber(Player.BLACK, 1, 1),
             Infantry(Player.BLACK, 1, 2),
 
             Artillery(Player.BLACK, 2, 0),
@@ -35,7 +36,8 @@ object PrimaryFormationPiecePlacer {
             Infantry(Player.WHITE, maxX - 0, maxY - 2),
 
             Bomber(Player.WHITE, maxX - 1, maxY - 0),
-            AirDefense(Player.WHITE, maxX - 1, maxY - 1),
+//            AirDefense(Player.WHITE, maxX - 1, maxY - 1),
+            Bomber(Player.WHITE, maxX - 1, maxY - 1),
             Infantry(Player.WHITE, maxX - 1, maxY - 2),
 
             Artillery(Player.WHITE, maxX - 2, maxY - 0),
@@ -49,6 +51,7 @@ object PrimaryFormationPiecePlacer {
             Infantry(Player.WHITE, maxX - 4, maxY - 0),
             Infantry(Player.WHITE, maxX - 4, maxY - 1),
             Infantry(Player.WHITE, maxX - 4, maxY - 2)
+//            Infantry(Player.WHITE, maxX - 2, maxY - 7)
         )
 
         for (piece in pieces) {

@@ -1,7 +1,14 @@
 sourceCompatibility = 1.8
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
-sourceSets.main.java.srcDirs = [ "src/" ]
-sourceSets.main.resources.srcDirs = [ "resources/" ]
+sourceSets {
+    main {
+        java.srcDirs = [ "src/main/kotlin/" ]
+        resources.srcDirs = [ "src/main/resources/" ]
+    }
+    test {
+        java.srcDirs = ["src/test/kotlin/"]
+    }
+}
 
 eclipse.project.name = appName + "-core"

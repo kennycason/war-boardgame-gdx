@@ -26,12 +26,32 @@ interface Piece {
         changeTurn(board)
     }
 
+    fun undoMove(board: Board, move: Move) {
+        board.state[move.toX][move.toY].piece = move.destroyed
+        board.state[move.toX][move.toY].highlight = TileHighlight.NONE
+
+        board.state[move.fromX][move.fromY].piece = this
+
+        x = move.fromX
+        y = move.fromY
+
+        changeTurn(board)
+        subtractScore(board, move)
+    }
+
 }
 
 fun addScore(board: Board, move: Move) {
     when (board.currentPlayer) {
         Player.BLACK -> board.blackScore += move.score
         Player.WHITE -> board.whiteScore += move.score
+    }
+}
+
+fun subtractScore(board: Board, move: Move) {
+    when (board.currentPlayer) {
+        Player.BLACK -> board.blackScore -= move.score
+        Player.WHITE -> board.whiteScore -= move.score
     }
 }
 

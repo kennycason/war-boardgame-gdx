@@ -5,10 +5,13 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils.clamp
 import com.badlogic.gdx.math.Vector2
 import com.kennycason.war.Constants
+import com.kennycason.war.ai.MiniMaxCarlo2
+import com.kennycason.war.ai.MiniMaxCarlo2Async
 import com.kennycason.war.ai.MiniMaxCarloAsync
 import com.kennycason.war.core.board.Board
 import com.kennycason.war.core.board.DefaultTerrainV2Generator
 import com.kennycason.war.core.board.Player
+import com.kennycason.war.core.board.ValleyTerrainGenerator
 import com.kennycason.war.core.move.*
 import com.kennycason.war.core.piece.PieceType
 import com.kennycason.war.core.piece.PrimaryFormationPiecePlacer
@@ -17,7 +20,6 @@ import com.kennycason.war.font.Fonts
 import com.kennycason.war.sound.SoundManager
 import com.kennycason.war.war2d.explosion.Explosion
 import com.kennycason.war.war2d.graphics.GraphicsGdx
-import java.lang.Thread.sleep
 
 class TwoPlayerWar(
     private val position: Vector2 = Vector2(75f, 75f),
@@ -26,10 +28,12 @@ class TwoPlayerWar(
     private val board: Board = Board(Constants.BOARD_DIMENSIONS, Constants.BOARD_DIMENSIONS)
     private val explosions = mutableListOf<Explosion>()
     private val cursor = Cursor(-1, -1, -1, -1)
-//    private val playerBlack: MoveMaker = HumanMoveMaker(Player.BLACK, cursor)
-    private val playerBlack: MoveMaker = MiniMaxCarloAsync(maxDepth = 2, player = Player.BLACK)
+    private val playerBlack: MoveMaker = HumanMoveMaker(Player.BLACK, cursor)
+//    private val playerBlack: MoveMaker = MiniMaxCarloAsync(maxDepth = 2, player = Player.BLACK)
 //    private val playerBlack: MoveMaker = MiniMaxCarlo(maxDepth = 4, player = Player.WHITE)
-    private val playerWhite: MoveMaker = MiniMaxCarloAsync(maxDepth = 4, player = Player.WHITE)
+//    private val playerWhite: MoveMaker = MiniMaxCarlo2Async(maxDepth = 3, player = Player.WHITE)
+    private val playerWhite: MoveMaker = MiniMaxCarlo2(maxDepth = 4, player = Player.WHITE)
+//    private val playerWhite: MoveMaker = MiniMaxCarloAsync(maxDepth = 4, player = Player.WHITE)
 //    private val playerWhite: MoveMaker = HumanMoveMaker(Player.WHITE, cursor)
     private val tileRenderer = TileRenderer(tileDim)
 
@@ -39,7 +43,8 @@ class TwoPlayerWar(
     private var soundManager: SoundManager? = null
 
     fun newGame() {
-        DefaultTerrainV2Generator.apply(board)
+        ValleyTerrainGenerator.apply(board)
+//        DefaultTerrainV2Generator.apply(board)
 //        TerrainNoiseGenerator.apply(board)
         PrimaryFormationPiecePlacer.place(board)
 //        TestAirDefenseFormationPiecePlacer.place(board)
