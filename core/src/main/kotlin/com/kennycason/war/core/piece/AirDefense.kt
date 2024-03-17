@@ -11,7 +11,7 @@ class AirDefense(
     override val player: Player,
     override var x: Int,
     override var y: Int
-) : Piece {
+) : Piece() {
 
     override val type = PieceType.AIR_DEFENSE
 

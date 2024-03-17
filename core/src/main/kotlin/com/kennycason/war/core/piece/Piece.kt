@@ -5,28 +5,30 @@ import com.kennycason.war.core.board.Player
 import com.kennycason.war.core.move.Move
 import com.kennycason.war.war2d.TileHighlight
 
-interface Piece {
-    val player: Player
-    var x: Int
-    var y: Int
-    val type: PieceType
+abstract class Piece {
+    abstract val player: Player
+    abstract var x: Int
+    abstract var y: Int
+    abstract val type: PieceType
 
-    fun generatePossibleMoves(board: Board): List<Move>
+    abstract fun generatePossibleMoves(board: Board): List<Move>
 
-    fun applyMove(board: Board, move: Move) {
+    open fun applyMove(board: Board, move: Move) {
         board.state[move.fromX][move.fromY].piece = null
         board.state[move.fromX][move.fromY].highlight = TileHighlight.NONE
 
         // place piece
-        board.state[move.toX][move.toY].piece = this
-        x = move.toX
-        y = move.toY
+        if (move.airDefense == null) {
+            board.state[move.toX][move.toY].piece = this
+            x = move.toX
+            y = move.toY
+        }
 
         addScore(board, move)
         changeTurn(board)
     }
 
-    fun undoMove(board: Board, move: Move) {
+    open fun undoMove(board: Board, move: Move) {
         board.state[move.toX][move.toY].piece = move.destroyed
         board.state[move.toX][move.toY].highlight = TileHighlight.NONE
 
@@ -42,6 +44,13 @@ interface Piece {
 
         changeTurn(board)
         subtractScore(board, move)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Piece) return false
+
+        return type == other.type && x == other.x && y == other.y
     }
 
 }

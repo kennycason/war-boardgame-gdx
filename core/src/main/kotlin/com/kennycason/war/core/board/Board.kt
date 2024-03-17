@@ -37,6 +37,7 @@ data class Board(
 
     override fun toString(): String {
         val sb = StringBuilder()
+//        sb.append(hashCode()).append("\n")
         for (y in 0 until height) {
             sb.append("|")
             for (x in 0 until width) {

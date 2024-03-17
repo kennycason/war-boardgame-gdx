@@ -40,7 +40,8 @@ object AirDefenseDetector {
                     move.destroyed?.let {
                         board.state[it.x][it.y].piece = it
                     }
-                    move.score -= piece.type.score
+//                    move.destroyed = piece
+                    move.score -= piece.type.score // TODO does this need to worry about current player and sign(+/-)?
                     return
                 }
             }

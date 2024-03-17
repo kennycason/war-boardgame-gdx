@@ -11,7 +11,7 @@ class Artillery(
     override val player: Player,
     override var x: Int,
     override var y: Int
-) : Piece {
+) : Piece() {
     var isReloading = false
     var lastAttackTurn = 0
 
