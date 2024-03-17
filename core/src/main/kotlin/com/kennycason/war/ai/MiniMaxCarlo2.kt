@@ -6,6 +6,8 @@ import com.kennycason.war.core.move.Move
 import com.kennycason.war.core.move.MoveMaker
 import com.kennycason.war.core.piece.*
 import com.kennycason.war.util.copyBoard
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 /**
  * Perform MiniMax for n-layers, then apply monte-carlo from random/promising leaf nodes.
@@ -28,14 +30,20 @@ class MiniMaxCarlo2(
     fun evaluate(board: Board): Move? {
         println("Minimax start turn: ${board.currentPlayer.name}")
 
+        val whiteCommander = board.getCommander(Player.WHITE)
+        val blackCommander = board.getCommander(Player.BLACK)
+
         val initialState = MiniMaxNode2()
-        val maxState = evaluate(board, initialState, 1)
+        val maxState = evaluate(board, initialState, 1, whiteCommander, blackCommander)
 
         println("Minimax finish turn: ${board.currentPlayer.name}")
         return maxState.move
     }
 
-    private fun evaluate(board: Board, node: MiniMaxNode2, depth: Int): MiniMaxNode2 {
+    private fun evaluate(
+        board: Board, node: MiniMaxNode2, depth: Int,
+        whiteCommander: Commander?, blackCommander: Commander?
+    ): MiniMaxNode2 {
         // println("eval depth=$depth")
         val children = mutableListOf<MiniMaxNode2>()
 
@@ -46,15 +54,22 @@ class MiniMaxCarlo2(
 
                 piece.applyMove(board, move)
 
+                val noise = generateNoise(depth)
+                val advanceScore = commanderAdvanceScore(move, board.currentPlayer, whiteCommander, blackCommander)
                 val childNode = MiniMaxNode2(
                     move = move,
                     previousNode = node,
-                    score = getMoveScore(board, move) + generateNoise(depth)
+                    score = getMoveScore(board, move) + noise + advanceScore
                 )
+//                println("$depth ${board.currentPlayer} " +
+//                        "score: ${childNode.score}, " +
+//                         "${move.pieceType.name.substring(0, 3)} [${move.fromX}, ${move.fromY}] to [${move.toX}, ${move.toY}]" +
+//                        "move score: ${getMoveScore(board, move)}, noise=$noise, advance: $advanceScore"
+//                )
                 children.add(childNode)
 
                 if (depth < maxDepth && !board.isFinished()) {
-                    val miniMaxNode = evaluate(board, childNode, depth + 1)
+                    val miniMaxNode = evaluate(board, childNode, depth + 1, whiteCommander, blackCommander)
                     childNode.score += miniMaxNode.score
                 }
 
@@ -81,6 +96,23 @@ class MiniMaxCarlo2(
         return noise
     }
 
+    fun commanderAdvanceScore(
+        move: Move,
+        currentPlayer: Player,
+        whiteCommander: Commander?,
+        blackCommander: Commander?
+    ): Double {
+        val commander = if (currentPlayer == Player.WHITE && whiteCommander != null) blackCommander
+        else if (currentPlayer == Player.BLACK && blackCommander != null) whiteCommander
+        else null
+        commander ?: return 0.0
+        val distanceBefore = sqrt(
+            (move.fromX - commander.x).toDouble().pow(2.0) + (move.fromY - commander.y).toDouble().pow(2.0)) / 10.0
+        val distanceAfter = sqrt(
+            (move.toX - commander.x).toDouble().pow(2.0) + (move.toY - commander.y).toDouble().pow(2.0)) / 10.0
+        return if (player == currentPlayer) distanceBefore - distanceAfter
+        else distanceAfter - distanceBefore
+    }
 
     private fun getMoveScore(board: Board, move: Move): Double {
         return if (player == board.currentPlayer) move.score
@@ -105,7 +137,6 @@ class MiniMaxCarlo2(
 class MiniMaxNode2(
     val move: Move? = null, // root node is null
     val previousNode: MiniMaxNode2? = null,
-    val destroyedPiece: Piece? = null,
     var score: Double = 0.0
 )
 

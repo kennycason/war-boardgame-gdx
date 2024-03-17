@@ -3,6 +3,7 @@ package com.kennycason.war.core.board
 import com.badlogic.gdx.graphics.Color
 import com.kennycason.war.Constants
 import com.kennycason.war.core.move.Move
+import com.kennycason.war.core.piece.Commander
 import com.kennycason.war.core.piece.Piece
 import com.kennycason.war.core.piece.PieceType
 import com.kennycason.war.util.array2d
@@ -23,6 +24,17 @@ data class Board(
         state[piece.x][piece.y].piece = piece
         return piece
     }
+    fun getCommander(player: Player): Commander? {
+        for (x in 0 until width) {
+            for (y in 0 until height) {
+                if (state[x][y].piece?.type == PieceType.COMMANDER) {
+                    return state[x][y].piece as Commander
+                }
+            }
+        }
+        return null
+    }
+
     override fun toString(): String {
         val sb = StringBuilder()
         for (y in 0 until height) {

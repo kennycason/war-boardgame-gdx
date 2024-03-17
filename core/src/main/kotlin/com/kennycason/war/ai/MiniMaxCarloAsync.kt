@@ -31,23 +31,24 @@ class MiniMaxCarloAsync(
         synchronized(lock) {
             return when (state) {
                 AsyncMoveState.WAITING -> {
-//                    println("AI WAITING")
+                    println("AI WAITING")
                     state = AsyncMoveState.START_THINKING
                     moveFuture = null
                     null
                 }
 
                 AsyncMoveState.START_THINKING -> {
-//                    println("AI START_THINKING")
+                    println("AI START_THINKING")
                     state = AsyncMoveState.THINKING
                     moveFuture = executorService.submit<Move> {
+                        println("start eval")
                         miniMaxCarlo.evaluate(board)
                     }
                     null
                 }
 
                 AsyncMoveState.THINKING -> {
-//                    println("AI THINKING")
+                    println("AI THINKING")
                     if (moveFuture!!.isDone) {
                         state = AsyncMoveState.WAITING
                         val move = moveFuture!!.get()
@@ -55,10 +56,10 @@ class MiniMaxCarloAsync(
                             board.state[move.fromX][move.fromY].piece!!.applyMove(board, move)
                         }
                         moveFuture = null
-//                        println("AI FINISHED")
+                        println("AI FINISHED")
                         move
                     } else {
-//                        println("AI THINKING NOT DONE")
+                        println("AI THINKING NOT DONE")
                         null
                     }
                 }

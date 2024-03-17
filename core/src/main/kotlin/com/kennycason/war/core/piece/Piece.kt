@@ -35,6 +35,11 @@ interface Piece {
         x = move.fromX
         y = move.fromY
 
+        move.airDefense
+            ?.let {
+                board.state[it.x][it.y].piece = it
+            }
+
         changeTurn(board)
         subtractScore(board, move)
     }

@@ -1,6 +1,7 @@
 package com.kennycason.war.core.move
 
 import com.kennycason.war.core.board.Board
+import com.kennycason.war.core.piece.AirDefense
 import com.kennycason.war.core.piece.Piece
 import com.kennycason.war.core.piece.PieceType
 import kotlin.math.abs
@@ -35,7 +36,12 @@ object AirDefenseDetector {
                 if (neighborPiece != null
                     && neighborPiece.type == PieceType.AIR_DEFENSE
                     && piece.player != neighborPiece.player) {
-                    move.score -= piece.type.score // you will lose
+                    move.airDefense = neighborPiece as AirDefense
+                    move.destroyed?.let {
+                        println("put back destroyed piece: ${it.type}")
+                        board.state[it.x][it.y].piece = it
+                    }
+                    move.score -= piece.type.score
                     return
                 }
             }
