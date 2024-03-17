@@ -38,7 +38,6 @@ object AirDefenseDetector {
                     && piece.player != neighborPiece.player) {
                     move.airDefense = neighborPiece as AirDefense
                     move.destroyed?.let {
-                        println("put back destroyed piece: ${it.type}")
                         board.state[it.x][it.y].piece = it
                     }
                     move.score -= piece.type.score

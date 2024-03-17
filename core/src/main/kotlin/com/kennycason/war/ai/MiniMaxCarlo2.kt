@@ -96,7 +96,7 @@ class MiniMaxCarlo2(
         return noise
     }
 
-    fun commanderAdvanceScore(
+    private fun commanderAdvanceScore(
         move: Move,
         currentPlayer: Player,
         whiteCommander: Commander?,
