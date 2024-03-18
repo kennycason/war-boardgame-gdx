@@ -20,6 +20,7 @@ class TileRenderer(
     private val airDefenseRenderer = AirDefenseRenderer()
     private val missileRenderer = MissileRenderer()
     private val commanderRenderer = CommanderRenderer()
+    private val excavatorRenderer = ExcavatorRenderer()
 
     fun render(tile: Tile, x: Float, y: Float) {
         // draw top tile
@@ -71,6 +72,7 @@ class TileRenderer(
                 PieceType.AIR_DEFENSE -> airDefenseRenderer.render(piece as AirDefense, x, tileY)
                 PieceType.MISSILE -> missileRenderer.render(piece as Missile, x, tileY)
                 PieceType.COMMANDER -> commanderRenderer.render(piece as Commander, x, tileY)
+                PieceType.EXCAVATOR -> excavatorRenderer.render(piece as Excavator, x, tileY)
             }
         }
 

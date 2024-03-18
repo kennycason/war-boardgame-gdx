@@ -43,26 +43,32 @@ object GraphicsGdx {
     fun drawCircle(
         x: Float, y: Float, radius: Float,
         color: Color = Color.GREEN,
-        shapeType: ShapeRenderer.ShapeType = ShapeRenderer.ShapeType.Line
+        shapeType: ShapeRenderer.ShapeType = ShapeRenderer.ShapeType.Line,
+        lineWidth: Float = 1f
     ) {
         batch().end()
         shape().begin(shapeType)
+        Gdx.gl.glLineWidth(lineWidth)
         shape().color = color
         shape().circle(x, y, radius)
         shape().end()
+        Gdx.gl.glLineWidth(1f)
         batch().begin()
     }
 
     fun drawLine(
         x: Float, y: Float, x2: Float, y2: Float,
         color: Color = Color.GREEN,
-        shapeType: ShapeRenderer.ShapeType = ShapeRenderer.ShapeType.Line
+        shapeType: ShapeRenderer.ShapeType = ShapeRenderer.ShapeType.Line,
+        lineWidth: Float = 1f
     ) {
         batch().end()
         shape().begin(shapeType)
+        Gdx.gl.glLineWidth(lineWidth)
         shape().color = color
         shape().line(x, y, x2, y2)
         shape().end()
+        Gdx.gl.glLineWidth(1f)
         batch().begin()
     }
 

@@ -21,15 +21,15 @@ class MiniMaxCarlo2Async(
 ) : MoveMaker {
     private val executorService = Executors.newSingleThreadExecutor()
     private val miniMaxCarlo = MiniMaxCarlo2(maxDepth = maxDepth, player = player, noise = noise)
-    @Volatile private var state = AsyncMoveState2.WAITING
+    @Volatile
+    private var state = AsyncMoveState2.WAITING
     private var moveFuture: Future<Move?>? = null
 
-    private val lock = Any()
 //    private val boardPool = BoardPool(100, 50_000)
 
     override fun make(board: Board): Move? {
-        synchronized(lock) {
-            return when (state) {
+        return synchronized(state) {
+            when (state) {
                 AsyncMoveState2.WAITING -> {
 //                    println("AI WAITING")
                     state = AsyncMoveState2.START_THINKING

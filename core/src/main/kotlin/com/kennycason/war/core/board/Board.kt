@@ -2,7 +2,6 @@ package com.kennycason.war.core.board
 
 import com.badlogic.gdx.graphics.Color
 import com.kennycason.war.Constants
-import com.kennycason.war.core.move.Move
 import com.kennycason.war.core.piece.Commander
 import com.kennycason.war.core.piece.Piece
 import com.kennycason.war.core.piece.PieceType
@@ -27,7 +26,8 @@ data class Board(
     fun getCommander(player: Player): Commander? {
         for (x in 0 until width) {
             for (y in 0 until height) {
-                if (state[x][y].piece?.type == PieceType.COMMANDER) {
+                if (state[x][y].piece?.type == PieceType.COMMANDER
+                    && state[x][y].piece?.player == player) {
                     return state[x][y].piece as Commander
                 }
             }
@@ -59,6 +59,8 @@ data class Board(
             PieceType.AIR_DEFENSE -> "D"
             PieceType.BOMBER -> "B"
             PieceType.COMMANDER -> "C"
+            // optional
+            PieceType.EXCAVATOR -> "E"
         }
     }
 }

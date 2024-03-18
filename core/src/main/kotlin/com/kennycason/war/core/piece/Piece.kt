@@ -3,6 +3,7 @@ package com.kennycason.war.core.piece
 import com.kennycason.war.core.board.Board
 import com.kennycason.war.core.board.Player
 import com.kennycason.war.core.move.Move
+import com.kennycason.war.core.move.MoveType
 import com.kennycason.war.war2d.TileHighlight
 
 abstract class Piece {
@@ -23,6 +24,9 @@ abstract class Piece {
             x = move.toX
             y = move.toY
         }
+        if (move.terrainDelta != 0) {
+            board.state[move.toX][move.toY].elevation += move.terrainDelta
+        }
 
         addScore(board, move)
         changeTurn(board)
@@ -41,6 +45,10 @@ abstract class Piece {
             ?.let {
                 board.state[it.x][it.y].piece = it
             }
+
+        if (move.terrainDelta != 0) {
+            board.state[move.toX][move.toY].elevation -= move.terrainDelta
+        }
 
         changeTurn(board)
         subtractScore(board, move)

@@ -6,6 +6,7 @@ import com.kennycason.war.core.move.DiagonalMoveGenerator
 import com.kennycason.war.core.move.HorizontalVerticalMoveGenerator
 import com.kennycason.war.core.move.Move
 import com.kennycason.war.core.move.MoveType
+import com.kennycason.war.war2d.TileHighlight
 
 class AirDefense(
     override val player: Player,
@@ -26,6 +27,7 @@ class AirDefense(
         when (move.moveType) {
             MoveType.MOVE -> {
                 board.state[move.fromX][move.fromY].piece = null
+                board.state[move.fromX][move.fromY].highlight = TileHighlight.NONE
                 board.state[move.toX][move.toY].piece = this
                 x = move.toX
                 y = move.toY

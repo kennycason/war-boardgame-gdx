@@ -26,10 +26,13 @@ object PrimaryFormationPiecePlacer {
             Tank(Player.BLACK, 3, 1),
             Infantry(Player.BLACK, 3, 2),
 
-            Infantry(Player.BLACK, 4, 0),
+            Excavator(Player.BLACK, 4, 0),
             Infantry(Player.BLACK, 4, 1),
             Infantry(Player.BLACK, 4, 2),
 
+            Infantry(Player.BLACK, 5, 0),
+            Infantry(Player.BLACK, 5, 1),
+            Infantry(Player.BLACK, 5, 2),
 
             Commander(Player.WHITE, maxX - 0, maxY - 0),
             Missile(Player.WHITE, maxX - 0, maxY - 1),
@@ -48,10 +51,13 @@ object PrimaryFormationPiecePlacer {
             Tank(Player.WHITE, maxX - 3, maxY - 1),
             Infantry(Player.WHITE, maxX - 3, maxY - 2),
 
-            Infantry(Player.WHITE, maxX - 4, maxY - 0),
+            Excavator(Player.WHITE, maxX - 4, maxY - 0),
             Infantry(Player.WHITE, maxX - 4, maxY - 1),
-            Infantry(Player.WHITE, maxX - 4, maxY - 2)
-//            Infantry(Player.WHITE, maxX - 2, maxY - 7)
+            Infantry(Player.WHITE, maxX - 4, maxY - 2),
+
+            Infantry(Player.WHITE, maxX - 5, maxY - 0),
+            Infantry(Player.WHITE, maxX - 5, maxY - 1),
+            Infantry(Player.WHITE, maxX - 5, maxY - 2),
         )
 
         for (piece in pieces) {

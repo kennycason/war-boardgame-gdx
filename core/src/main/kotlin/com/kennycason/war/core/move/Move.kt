@@ -15,5 +15,6 @@ data class Move(
     val toY: Int,
     var score: Double = 0.0,
     var destroyed: Piece? = null,
-    var airDefense: AirDefense? = null // if this move results in an air defense being used.
+    var airDefense: AirDefense? = null, // if this move results in an air defense being used.
+    var terrainDelta: Int = 0
 )

@@ -7,7 +7,10 @@ enum class PieceType(val score: Double) {
     MISSILE(4.0),
     AIR_DEFENSE(4.0),
     BOMBER(5.0),
-    COMMANDER(100.0)
+    COMMANDER(100.0),
+
+    // Optional
+    EXCAVATOR(3.0)
 }
 
 

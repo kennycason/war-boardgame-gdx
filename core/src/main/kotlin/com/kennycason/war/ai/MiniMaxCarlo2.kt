@@ -102,16 +102,18 @@ class MiniMaxCarlo2(
         whiteCommander: Commander?,
         blackCommander: Commander?
     ): Double {
-        val commander = if (currentPlayer == Player.WHITE && whiteCommander != null) blackCommander
-        else if (currentPlayer == Player.BLACK && blackCommander != null) whiteCommander
+        val enemyCommander = if (currentPlayer == Player.WHITE && blackCommander != null) blackCommander
+        else if (currentPlayer == Player.BLACK && whiteCommander != null) whiteCommander
         else null
-        commander ?: return 0.0
+        enemyCommander ?: return 0.0
+
         val distanceBefore = sqrt(
-            (move.fromX - commander.x).toDouble().pow(2.0) + (move.fromY - commander.y).toDouble().pow(2.0)) / 10.0
+            (move.fromX - enemyCommander.x).toDouble().pow(2.0) + (move.fromY - enemyCommander.y).toDouble().pow(2.0))
         val distanceAfter = sqrt(
-            (move.toX - commander.x).toDouble().pow(2.0) + (move.toY - commander.y).toDouble().pow(2.0)) / 10.0
-        return if (player == currentPlayer) distanceBefore - distanceAfter
-        else distanceAfter - distanceBefore
+            (move.toX - enemyCommander.x).toDouble().pow(2.0) + (move.toY - enemyCommander.y).toDouble().pow(2.0))
+
+        return if (player == currentPlayer) -(distanceBefore - distanceAfter) / 10.0
+        else -(distanceAfter - distanceBefore) / 10.0
     }
 
     private fun getMoveScore(board: Board, move: Move): Double {
