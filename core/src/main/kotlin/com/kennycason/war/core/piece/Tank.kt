@@ -2,6 +2,7 @@ package com.kennycason.war.core.piece
 
 import com.kennycason.war.core.board.Board
 import com.kennycason.war.core.board.Player
+import com.kennycason.war.core.move.DiagonalMoveGenerator
 import com.kennycason.war.core.move.HorizontalVerticalMoveGenerator
 import com.kennycason.war.core.move.Move
 
@@ -20,3 +21,4 @@ class Tank(
 }
 
 private val moveGenerator = HorizontalVerticalMoveGenerator(maxDistance = 2)
+//private val moveGenerator = DiagonalMoveGenerator(maxDistance = 2)

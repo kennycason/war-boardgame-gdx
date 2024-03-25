@@ -9,9 +9,9 @@
     "fileStates": {
         "war-terrain-isometric.tmx": {
             "scale": 3,
-            "selectedLayer": 0,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 163.66666666666669,
+                "x": 164,
                 "y": 58.16666666666667
             }
         },

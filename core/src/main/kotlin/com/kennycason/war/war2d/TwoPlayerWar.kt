@@ -1,6 +1,7 @@
 package com.kennycason.war.war2d
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils.clamp
 import com.badlogic.gdx.math.Vector2
@@ -29,7 +30,7 @@ class TwoPlayerWar(
     private val explosions = mutableListOf<Explosion>()
     private val cursor = Cursor(-1, -1, -1, -1)
     private val playerBlack: MoveMaker = HumanMoveMaker(Player.BLACK, cursor)
-//    private val playerBlack: MoveMaker = MiniMaxCarlo2Async(maxDepth = 4, player = Player.BLACK)
+//    private val playerBlack: MoveMaker = MiniMaxCarlo2Async(maxDepth = 2, player = Player.BLACK)
 //    private val playerBlack: MoveMaker = MiniMaxCarloAsync(maxDepth = 2, player = Player.BLACK)
 //    private val playerBlack: MoveMaker = MiniMaxCarlo(maxDepth = 4, player = Player.WHITE)
 //    private val playerWhite: MoveMaker = MiniMaxCarlo2Async(maxDepth = 3, player = Player.WHITE)
@@ -42,6 +43,8 @@ class TwoPlayerWar(
 
     // init after GDX initialized
     private var soundManager: SoundManager? = null
+
+    private var isStarted = false
 
     fun newGame() {
         ValleyTerrainGenerator.apply(board)
@@ -58,6 +61,12 @@ class TwoPlayerWar(
     }
 
     fun update() {
+//        if (!isStarted) {
+//            if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+//                isStarted = true
+//            }
+//            return
+//        }
         clearHighlighted()
         updateCursor()
         updateTileHighlightStateForSelectedPieceOrMouseHover(board)

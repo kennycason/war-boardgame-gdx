@@ -36,7 +36,7 @@ class Excavator(
                     toX = move.toX,
                     toY = move.toY,
                     score = 0.01,
-                    terrainDelta = -1
+                    elevationDelta = -1
                 ))
             }
             if (board.state[move.toX][move.toY].elevation < maxElevation) {
@@ -49,7 +49,7 @@ class Excavator(
                     toX = move.toX,
                     toY = move.toY,
                     score = 0.01,
-                    terrainDelta = +1
+                    elevationDelta = +1
                 ))
             }
         }

@@ -16,5 +16,5 @@ data class Move(
     var score: Double = 0.0,
     var destroyed: Piece? = null,
     var airDefense: AirDefense? = null, // if this move results in an air defense being used.
-    var terrainDelta: Int = 0
+    var elevationDelta: Int = 0
 )

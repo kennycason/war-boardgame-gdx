@@ -63,8 +63,8 @@ class MiniMaxCarlo2(
                 )
 //                println("$depth ${board.currentPlayer} " +
 //                        "score: ${childNode.score}, " +
-//                         "${move.pieceType.name.substring(0, 3)} [${move.fromX}, ${move.fromY}] to [${move.toX}, ${move.toY}]" +
-//                        "move score: ${getMoveScore(board, move)}, noise=$noise, advance: $advanceScore"
+//                         "${move.pieceType.name.substring(0, 3)} [${move.fromX}, ${move.fromY}] to [${move.toX}, ${move.toY}], " +
+//                        "score: ${getMoveScore(board, move)}, noise=$noise, advance: $advanceScore${if (move.elevationDelta != 0) ", ∂ elevation ${move.elevationDelta}" else ""}"
 //                )
                 children.add(childNode)
 

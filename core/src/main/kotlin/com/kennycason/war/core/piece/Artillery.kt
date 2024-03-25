@@ -47,6 +47,13 @@ class Artillery(
         changeTurn(board)
     }
 
+    override fun undoMove(board: Board, move: Move) {
+        super.undoMove(board, move)
+        if (move.moveType == MoveType.ATTACK) {
+            isReloading = false
+        }
+    }
+
     fun handleReloading(board: Board) {
         if (isReloading && board.turnCount - lastAttackTurn > 3) {
             isReloading = false

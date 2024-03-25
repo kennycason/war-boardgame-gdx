@@ -17,12 +17,23 @@ data class Board(
     var whiteScore: Double = 0.0
 ) {
     fun isFinished() = isBlackWin() || isWhiteWin()
+
     fun isBlackWin() = blackScore >= PieceType.COMMANDER.score
+
     fun isWhiteWin() = whiteScore >= PieceType.COMMANDER.score
+
+    operator fun get(x: Int, y: Int): Tile = state[x][y]
+
+    // Optionally, if you want to be able to set tiles using the [x, y] syntax
+    operator fun set(x: Int, y: Int, tile: Tile) {
+        state[x][y] = tile
+    }
+
     fun add(piece: Piece): Piece {
         state[piece.x][piece.y].piece = piece
         return piece
     }
+
     fun getCommander(player: Player): Commander? {
         for (x in 0 until width) {
             for (y in 0 until height) {
@@ -33,6 +44,14 @@ data class Board(
             }
         }
         return null
+    }
+
+    fun paintElevation(elevation: Int) {
+        for (x in 0 until width) {
+            for (y in 0 until height) {
+                state[x][y].elevation = elevation
+            }
+        }
     }
 
     override fun toString(): String {

@@ -16,7 +16,6 @@ class Bomber(
     override val type = PieceType.BOMBER
 
     override fun generatePossibleMoves(board: Board): List<Move> {
-//        return horizontalVerticalMoveGenerator.generatePossibleMoves(this, board)
         val moves = horizontalVerticalMoveGenerator.generatePossibleMoves(this, board)
         moves.forEach { AirDefenseDetector.updateScoreBaseOnAirDefense(board, this, it) }
         return moves
