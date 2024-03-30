@@ -113,11 +113,6 @@ class MiniMaxNode(
     var score: Double = 0.0
 )
 
-class BoardPool(init: Int, max: Int) : Pool<Board>(init, max) {
-    override fun newObject(): Board {
-        return Board()
-    }
-}
 
 private fun copyBoard(from: Board, to: Board = Board(from.width, from.height)) {
     to.turnCount = from.turnCount

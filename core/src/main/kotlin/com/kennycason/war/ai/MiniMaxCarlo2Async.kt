@@ -4,6 +4,7 @@ import com.kennycason.war.core.board.Board
 import com.kennycason.war.core.board.Player
 import com.kennycason.war.core.move.Move
 import com.kennycason.war.core.move.MoveMaker
+import com.kennycason.war.util.copyBoard
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
 
@@ -25,23 +26,28 @@ class MiniMaxCarlo2Async(
     private var state = AsyncMoveState2.WAITING
     private var moveFuture: Future<Move?>? = null
 
-//    private val boardPool = BoardPool(100, 50_000)
 
     override fun make(board: Board): Move? {
         return synchronized(state) {
             when (state) {
                 AsyncMoveState2.WAITING -> {
-//                    println("AI WAITING")
+                    println("AI WAITING -> START_THINKING")
                     state = AsyncMoveState2.START_THINKING
                     moveFuture = null
                     null
                 }
 
                 AsyncMoveState2.START_THINKING -> {
-//                    println("AI START_THINKING")
+                    println("AI START_THINKING -> THINKING")
                     state = AsyncMoveState2.THINKING
                     moveFuture = executorService.submit<Move> {
-                        miniMaxCarlo.evaluate(board)
+                        println("AI EXECUTOR START EVALUATION")
+                        val boardCopy = copyBoard(board)
+                        val move = miniMaxCarlo.evaluate(boardCopy)
+                        if (move != null) {
+                            boardCopy[move.fromX, move.fromY].piece?.applyMove(boardCopy, move)
+                        }
+                        move
                     }
                     null
                 }
@@ -55,13 +61,9 @@ class MiniMaxCarlo2Async(
                             board[move.fromX, move.fromY].piece!!.applyMove(board, move)
                         }
                         moveFuture = null
-                        println("AI FINISHED")
+                        println("AI FINISHED THINKING")
                         move
-                    } else {
-                        println(board)
-                        println("AI THINKING NOT DONE")
-                        null
-                    }
+                    } else null
                 }
             }
         }
