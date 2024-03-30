@@ -18,7 +18,7 @@ class HumanMoveMaker(
 //        // todo handle removing off pieces
 //        for (y in 0 until board.height) {
 //            for (x in 0 until board.width) {
-//                val piece = board.state[x][y].piece
+//                val piece = board[x, y].piece
 //                if (piece != null && piece.color == color) {
 //                    pieces.add(piece)
 //                }
@@ -29,7 +29,7 @@ class HumanMoveMaker(
     override fun make(board: Board): Move? {
         if (cursor.x == -1 && cursor.y == -1) return null
 
-        val tile = board.state[cursor.x][cursor.y]
+        val tile = board[cursor.x, cursor.y]
         if (Gdx.input.justTouched() && System.currentTimeMillis() - lastClicked > 500L) {
             lastClicked = System.currentTimeMillis()
 
@@ -58,9 +58,9 @@ class HumanMoveMaker(
                 val possibleMoves = selectedPiece?.generatePossibleMoves(board).orEmpty()
                 for (move in possibleMoves) {
                     if (move.toX == cursor.x && move.toY == cursor.y) {
-                        board.state[move.fromX][move.fromY].piece!!.applyMove(board, move)
+                        board[move.fromX, move.fromY].piece!!.applyMove(board, move)
                         selectedPiece = null
-                        board.state[move.fromX][move.fromY].highlight = TileHighlight.NONE
+                        board[move.fromX, move.fromY].highlight = TileHighlight.NONE
                         return move
                     }
                 }
@@ -74,8 +74,8 @@ class HumanMoveMaker(
         // aggregate player piece for efficiency to avoid re-scans
         for (y in 0 until board.height) {
             for (x in 0 until board.width) {
-                if (board.state[x][y].highlight == TileHighlight.SELECTED) {
-                    board.state[x][y].highlight = TileHighlight.NONE
+                if (board[x, y].highlight == TileHighlight.SELECTED) {
+                    board[x, y].highlight = TileHighlight.NONE
                 }
             }
         }

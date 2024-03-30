@@ -1,22 +1,18 @@
 package com.kennycason.war.war2d
 
 import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils.clamp
 import com.badlogic.gdx.math.Vector2
 import com.kennycason.war.Constants
 import com.kennycason.war.ai.MiniMaxCarlo2
 import com.kennycason.war.ai.MiniMaxCarlo2Async
-import com.kennycason.war.ai.MiniMaxCarloAsync
 import com.kennycason.war.core.board.Board
-import com.kennycason.war.core.board.DefaultTerrainV2Generator
 import com.kennycason.war.core.board.Player
 import com.kennycason.war.core.board.ValleyTerrainGenerator
 import com.kennycason.war.core.move.*
 import com.kennycason.war.core.piece.PieceType
 import com.kennycason.war.core.piece.PrimaryFormationPiecePlacer
-import com.kennycason.war.core.piece.TestAirDefenseFormationPiecePlacer
 import com.kennycason.war.font.Fonts
 import com.kennycason.war.sound.SoundManager
 import com.kennycason.war.war2d.explosion.Explosion
@@ -30,11 +26,11 @@ class TwoPlayerWar(
     private val explosions = mutableListOf<Explosion>()
     private val cursor = Cursor(-1, -1, -1, -1)
     private val playerBlack: MoveMaker = HumanMoveMaker(Player.BLACK, cursor)
-//    private val playerBlack: MoveMaker = MiniMaxCarlo2Async(maxDepth = 2, player = Player.BLACK)
+//    private val playerBlack: MoveMaker = MiniMaxCarlo2(maxDepth = 2, player = Player.BLACK)
 //    private val playerBlack: MoveMaker = MiniMaxCarloAsync(maxDepth = 2, player = Player.BLACK)
 //    private val playerBlack: MoveMaker = MiniMaxCarlo(maxDepth = 4, player = Player.WHITE)
 //    private val playerWhite: MoveMaker = MiniMaxCarlo2Async(maxDepth = 3, player = Player.WHITE)
-    private val playerWhite: MoveMaker = MiniMaxCarlo2(maxDepth = 4, player = Player.WHITE)
+    private val playerWhite: MoveMaker = MiniMaxCarlo2Async(maxDepth = 4, player = Player.WHITE)
 //    private val playerWhite: MoveMaker = MiniMaxCarloAsync(maxDepth = 4, player = Player.WHITE)
 //    private val playerWhite: MoveMaker = HumanMoveMaker(Player.WHITE, cursor)
     private val tileRenderer = TileRenderer(tileDim)
@@ -100,7 +96,7 @@ class TwoPlayerWar(
 
         for (y in board.height - 1 downTo 0) {
             for (x in 0 until board.width) {
-                val tile = board.state[x][y]
+                val tile = board[x, y]
                 tileRenderer.render(tile,
                     position.x + (x * tileDim),
                     position.y + (y * tileDim)
@@ -146,8 +142,8 @@ class TwoPlayerWar(
     private fun clearHighlighted() {
         for (y in 0 until board.height) {
             for (x in 0 until board.width) {
-                if (board.state[x][y].highlight != TileHighlight.SELECTED) {
-                    board.state[x][y].highlight = TileHighlight.NONE
+                if (board[x, y].highlight != TileHighlight.SELECTED) {
+                    board[x, y].highlight = TileHighlight.NONE
                 }
             }
         }
@@ -187,11 +183,11 @@ class TwoPlayerWar(
         var isTileSelected = false
         for (y in 0 until board.height) {
             for (x in 0 until board.width) {
-                if (board.state[x][y].highlight == TileHighlight.SELECTED) {
+                if (board[x, y].highlight == TileHighlight.SELECTED) {
                     isTileSelected = true
-                    val possibleMoves = board.state[x][y].piece!!.generatePossibleMoves(board)
+                    val possibleMoves = board[x, y].piece!!.generatePossibleMoves(board)
                     possibleMoves.forEach {
-                        board.state[it.toX][it.toY].highlight = when (it.moveType) {
+                        board[it.toX, it.toY].highlight = when (it.moveType) {
                             MoveType.MOVE -> TileHighlight.MOVE
                             MoveType.ATTACK -> TileHighlight.ATTACK
                         }
@@ -203,14 +199,14 @@ class TwoPlayerWar(
         // also highlight possible moves for piece cursor is highlighting
         if (isTileSelected) return
         if (cursor.x == -1 && cursor.y == -1) return
-        if (board.state[cursor.x][cursor.y].highlight == TileHighlight.SELECTED) return // already rendered above.
-        val piece = board.state[cursor.x][cursor.y].piece ?: return
+        if (board[cursor.x, cursor.y].highlight == TileHighlight.SELECTED) return // already rendered above.
+        val piece = board[cursor.x, cursor.y].piece ?: return
         if (piece.player != board.currentPlayer) return
 
         // println("${cursor.x}, ${cursor.y} -> $tileX, $tileY")
         val possibleMoves = piece.generatePossibleMoves(board)
         possibleMoves.forEach {
-            board.state[it.toX][it.toY].highlight = when (it.moveType) {
+            board[it.toX, it.toY].highlight = when (it.moveType) {
                 MoveType.MOVE -> TileHighlight.MOVE
                 MoveType.ATTACK -> TileHighlight.ATTACK
             }

@@ -28,16 +28,16 @@ class AirDefenseTest {
         blackBomber.applyMove(board, attackInfantryMove)
         println("after apply\n$board")
 
-        assertNull(board.state[attackInfantryMove.fromX][attackInfantryMove.fromY].piece) // bomber no longer in place
-        assertEquals(whiteInfantry, board.state[attackInfantryMove.toX][attackInfantryMove.toY].piece) // should still be white infantry because air defense
-        assertNull(board.state[whiteAirDefense.x][whiteAirDefense.x].piece) // air defense used to attack bomber
+        assertNull(board[attackInfantryMove.fromX, attackInfantryMove.fromY].piece) // bomber no longer in place
+        assertEquals(whiteInfantry, board[attackInfantryMove.toX, attackInfantryMove.toY].piece) // should still be white infantry because air defense
+        assertNull(board[whiteAirDefense.x, whiteAirDefense.x].piece) // air defense used to attack bomber
 
         blackBomber.undoMove(board, attackInfantryMove)
         println("after undo\n$board")
 
-        assertEquals(whiteInfantry, board.state[attackInfantryMove.toX][attackInfantryMove.toY].piece)
-        assertEquals(whiteAirDefense, board.state[whiteAirDefense.x][whiteAirDefense.y].piece)
-        assertEquals(blackBomber, board.state[attackInfantryMove.fromX][attackInfantryMove.fromY].piece)
+        assertEquals(whiteInfantry, board[attackInfantryMove.toX, attackInfantryMove.toY].piece)
+        assertEquals(whiteAirDefense, board[whiteAirDefense.x, whiteAirDefense.y].piece)
+        assertEquals(blackBomber, board[attackInfantryMove.fromX, attackInfantryMove.fromY].piece)
     }
 
 }

@@ -25,7 +25,7 @@ class DiagonalMoveGenerator(
     }
 
     private fun getPieceScore(board: Board, x: Int, y: Int, moveType: MoveType = MoveType.MOVE): Double {
-        val piece = board.state[x][y].piece ?: return 0.0
+        val piece = board[x, y].piece ?: return 0.0
         return when (piece.type) {
             PieceType.MISSILE -> {
                 when (moveType) {
@@ -41,14 +41,13 @@ class DiagonalMoveGenerator(
     private fun moveLeftUp(piece: Piece, board: Board, moves: MutableList<Move>) {
         val x = piece.x
         val y = piece.y
-        val state = board.state
         var i = startI
         while (true) {
-            if (x - i < 0 || y + i >= state.size) break
+            if (x - i < 0 || y + i >= board.width) break
             if (i > maxDistance) break
-            if (!ignoreHeight && abs(state[x - i][y + i].elevation - state[x - i + 1][y + i - 1].elevation) > 1) break
+            if (!ignoreHeight && abs(board[x - i, y + i].elevation - board[x - i + 1, y + i - 1].elevation) > 1) break
 
-            val targetPiece = state[x - i][y + i].piece
+            val targetPiece = board[x - i, y + i].piece
             if (targetPiece == null) {
                 if (!requiredAttack) {
                     moves.add(
@@ -79,14 +78,13 @@ class DiagonalMoveGenerator(
     private fun moveRightUp(piece: Piece, board: Board, moves: MutableList<Move>) {
         val x = piece.x
         val y = piece.y
-        val state = board.state
         var i = startI
         while (true) {
-            if (x + i >= state.size || y + i >= state.size) break
+            if (x + i >= board.width || y + i >= board.height) break
             if (i > maxDistance) break
-            if (!ignoreHeight && abs(state[x + i][y + i].elevation - state[x + i - 1][y + i - 1].elevation) > 1) break
+            if (!ignoreHeight && abs(board[x + i, y + i].elevation - board[x + i - 1, y + i - 1].elevation) > 1) break
 
-            val targetPiece = state[x + i][y + i].piece
+            val targetPiece = board[x + i, y + i].piece
             if (targetPiece == null) {
                 if (!requiredAttack) {
                     moves.add(
@@ -117,14 +115,13 @@ class DiagonalMoveGenerator(
     private fun moveLeftDown(piece: Piece, board: Board, moves: MutableList<Move>) {
         val x = piece.x
         val y = piece.y
-        val state = board.state
         var i = startI
         while (true) {
             if (x - i < 0 || y - i < 0) break
             if (i > maxDistance) break
-            if (!ignoreHeight && abs(state[x - i][y - i].elevation - state[x - i + 1][y - i + 1].elevation) > 1) break
+            if (!ignoreHeight && abs(board[x - i, y - i].elevation - board[x - i + 1, y - i + 1].elevation) > 1) break
 
-            val targetPiece = state[x - i][y - i].piece
+            val targetPiece = board[x - i, y - i].piece
             if (targetPiece == null) {
                 if (!requiredAttack) {
                     moves.add(
@@ -155,14 +152,13 @@ class DiagonalMoveGenerator(
     private fun moveRightDown(piece: Piece, board: Board, moves: MutableList<Move>) {
         val x = piece.x
         val y = piece.y
-        val state = board.state
         var i = startI
         while (true) {
-            if (x + i >= state.size || y - i < 0) break
+            if (x + i >= board.width || y - i < 0) break
             if (i > maxDistance) break
-            if (!ignoreHeight && abs(state[x + i][y - i].elevation - state[x + i - 1][y - i + 1].elevation) > 1) break
+            if (!ignoreHeight && abs(board[x + i, y - i].elevation - board[x + i - 1, y - i + 1].elevation) > 1) break
 
-            val targetPiece = state[x + i][y - i].piece
+            val targetPiece = board[x + i, y - i].piece
             if (targetPiece == null) {
                 if (!requiredAttack) {
                     moves.add(

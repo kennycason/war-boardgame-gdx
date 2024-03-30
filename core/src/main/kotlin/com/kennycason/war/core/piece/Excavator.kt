@@ -24,9 +24,9 @@ class Excavator(
 
         val excavateMoves = mutableListOf<Move>()
         for (move in moves) {
-            if (board.state[move.toX][move.toY].piece != null) continue
+            if (board[move.toX, move.toY].piece != null) continue
             // can raise or lower
-            if (board.state[move.toX][move.toY].elevation > minElevation) {
+            if (board[move.toX, move.toY].elevation > minElevation) {
                 excavateMoves.add(Move(
                     player = player,
                     pieceType = type,
@@ -39,7 +39,7 @@ class Excavator(
                     elevationDelta = -1
                 ))
             }
-            if (board.state[move.toX][move.toY].elevation < maxElevation) {
+            if (board[move.toX, move.toY].elevation < maxElevation) {
                 excavateMoves.add(Move(
                     player = player,
                     pieceType = type,

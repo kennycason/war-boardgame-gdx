@@ -27,21 +27,21 @@ class Missile(
     override fun applyMove(board: Board, move: Move) {
         when (move.moveType) {
             MoveType.MOVE -> {
-                board.state[move.fromX][move.fromY].piece = null
-                board.state[move.toX][move.toY].piece = this
+                board[move.fromX, move.fromY].piece = null
+                board[move.toX, move.toY].piece = this
                 x = move.toX
                 y = move.toY
             }
 
             MoveType.ATTACK -> {
-                board.state[move.fromX][move.fromY].piece = null
-                board.state[move.toX][move.toY].piece = null
+                board[move.fromX, move.fromY].piece = null
+                board[move.toX, move.toY].piece = null
                 addScore(board, move)
                 // air defense affects missile during attack
                 val airDefense = AirDefenseDetector.getNeighborAirDefense(board, this, move)
                 if (airDefense != null) {
-                    board.state[airDefense.x][airDefense.y].piece = null
-                    board.state[airDefense.x][airDefense.y].piece = null
+                    board[airDefense.x, airDefense.y].piece = null
+                    board[airDefense.x, airDefense.y].piece = null
                 }
             }
         }

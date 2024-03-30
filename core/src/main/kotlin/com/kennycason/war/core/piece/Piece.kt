@@ -14,17 +14,17 @@ abstract class Piece {
     abstract fun generatePossibleMoves(board: Board): List<Move>
 
     open fun applyMove(board: Board, move: Move) {
-        board.state[move.fromX][move.fromY].piece = null
-        board.state[move.fromX][move.fromY].highlight = TileHighlight.NONE
+        board[move.fromX, move.fromY].piece = null
+        board[move.fromX, move.fromY].highlight = TileHighlight.NONE
 
         // place piece
         if (move.airDefense == null) {
-            board.state[move.toX][move.toY].piece = this
+            board[move.toX, move.toY].piece = this
             x = move.toX
             y = move.toY
         }
         if (move.elevationDelta != 0) {
-            board.state[move.toX][move.toY].elevation += move.elevationDelta
+            board[move.toX, move.toY].elevation += move.elevationDelta
         }
 
         addScore(board, move)
@@ -32,21 +32,21 @@ abstract class Piece {
     }
 
     open fun undoMove(board: Board, move: Move) {
-        board.state[move.toX][move.toY].piece = move.destroyed
-        board.state[move.toX][move.toY].highlight = TileHighlight.NONE
+        board[move.toX, move.toY].piece = move.destroyed
+        board[move.toX, move.toY].highlight = TileHighlight.NONE
 
-        board.state[move.fromX][move.fromY].piece = this
+        board[move.fromX, move.fromY].piece = this
 
         x = move.fromX
         y = move.fromY
 
         move.airDefense
             ?.let {
-                board.state[it.x][it.y].piece = it
+                board[it.x, it.y].piece = it
             }
 
         if (move.elevationDelta != 0) {
-            board.state[move.toX][move.toY].elevation -= move.elevationDelta
+            board[move.toX, move.toY].elevation -= move.elevationDelta
         }
 
         changeTurn(board)

@@ -22,7 +22,7 @@ class MiniMaxCarlo2(
         val boardCopy = copyBoard(board)
         val move = evaluate(boardCopy)
         if (move != null) {
-            board.state[move.fromX][move.fromY].piece!!.applyMove(board, move)
+            board[move.fromX, move.fromY].piece!!.applyMove(board, move)
         }
         return move
     }
@@ -125,7 +125,7 @@ class MiniMaxCarlo2(
         val pieces = mutableListOf<Piece>()
         for (y in 0 until board.height) {
             for (x in 0 until board.width) {
-                val piece = board.state[x][y].piece
+                val piece = board[x, y].piece
                 if (piece != null && piece.player == board.currentPlayer) {
                     pieces.add(piece)
                 }

@@ -9,9 +9,9 @@ fun copyBoard(from: Board, to: Board = Board(from.width, from.height)): Board {
     to.whiteScore = from.whiteScore
     for (y in 0 until from.height) {
         for (x in 0 until from.width) {
-            to.state[x][y].piece = copyPiece(from.state[x][y].piece)
-            to.state[x][y].elevation = from.state[x][y].elevation
-            to.state[x][y].highlight = from.state[x][y].highlight
+            to[x, y].piece = copyPiece(from[x, y].piece)
+            to[x, y].elevation = from[x, y].elevation
+            to[x, y].highlight = from[x, y].highlight
         }
     }
     return to

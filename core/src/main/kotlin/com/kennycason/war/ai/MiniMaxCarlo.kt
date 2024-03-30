@@ -21,7 +21,7 @@ class MiniMaxCarlo(
     override fun make(board: Board): Move? {
         val move = evaluate(board)
         if (move != null) {
-            board.state[move.fromX][move.fromY].piece!!.applyMove(board, move)
+            board[move.fromX, move.fromY].piece!!.applyMove(board, move)
         }
         return move
     }
@@ -47,7 +47,7 @@ class MiniMaxCarlo(
                 val newBoard = Board(width = board.width, height = board.height)
                 copyBoard(board, newBoard)
 
-                val newPiece = newBoard.state[move.fromX][move.fromY].piece!!
+                val newPiece = newBoard[move.fromX, move.fromY].piece!!
                 newPiece.applyMove(newBoard, move)
 
                 val childNode = MiniMaxNode(
@@ -94,7 +94,7 @@ class MiniMaxCarlo(
         val pieces = mutableListOf<Piece>()
         for (y in 0 until board.height) {
             for (x in 0 until board.width) {
-                val piece = board.state[x][y].piece
+                val piece = board[x, y].piece
                 if (piece != null && piece.player == board.currentPlayer) {
                     pieces.add(piece)
                 }
@@ -126,9 +126,9 @@ private fun copyBoard(from: Board, to: Board = Board(from.width, from.height)) {
     to.whiteScore = from.whiteScore
     for (y in 0 until from.height) {
         for (x in 0 until from.width) {
-            to.state[x][y].piece = copyPiece(to , from.state[x][y].piece)
-            to.state[x][y].elevation = from.state[x][y].elevation
-            to.state[x][y].highlight = from.state[x][y].highlight
+            to[x, y].piece = copyPiece(to , from[x, y].piece)
+            to[x, y].elevation = from[x, y].elevation
+            to[x, y].highlight = from[x, y].highlight
         }
     }
 }

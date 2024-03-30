@@ -32,13 +32,13 @@ class Artillery(
     override fun applyMove(board: Board, move: Move) {
         when (move.moveType) {
             MoveType.MOVE -> {
-                board.state[move.fromX][move.fromY].piece = null
-                board.state[move.toX][move.toY].piece = this
+                board[move.fromX, move.fromY].piece = null
+                board[move.toX, move.toY].piece = this
                 x = move.toX
                 y = move.toY
             }
             MoveType.ATTACK -> {
-                board.state[move.toX][move.toY].piece = null
+                board[move.toX, move.toY].piece = null
                 isReloading = true
                 lastAttackTurn = board.turnCount
                 addScore(board, move)

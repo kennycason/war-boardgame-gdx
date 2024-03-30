@@ -57,11 +57,11 @@ object RandomPiecePlacer {
         while (pieces.isNotEmpty()) {
             val x = Dice.d(board.width) - 1
             val y = Dice.d(board.height) - 1
-            if (board.state[x][y].piece == null) {
+            if (board[x, y].piece == null) {
                 val piece = pieces.removeAt(0)
                 piece.x = x
                 piece.y = y
-                board.state[x][y].piece = piece
+                board.add(piece)
             }
         }
     }

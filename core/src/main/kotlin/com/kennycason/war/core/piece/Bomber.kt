@@ -25,12 +25,12 @@ class Bomber(
         // air defense affects flight, move or attack
         val airDefense = AirDefenseDetector.getNeighborAirDefense(board, this, move)
         if (airDefense != null) {
-            board.state[airDefense.x][airDefense.y].piece = null
+            board[airDefense.x, airDefense.y].piece = null
         }
         super.applyMove(board, move)
 
         if (airDefense != null) {
-            board.state[x][y].piece = null
+            board[x, y].piece = null
         }
     }
 

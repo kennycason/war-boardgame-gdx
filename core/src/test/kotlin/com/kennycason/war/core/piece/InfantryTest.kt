@@ -28,8 +28,8 @@ class InfantryTest {
         )
         piece.applyMove(board, move)
 
-        assertNull(board.state[move.fromX][move.fromY].piece)
-        assertEquals(piece, board.state[move.toX][move.toY].piece)
+        assertNull(board[move.fromX, move.fromY].piece)
+        assertEquals(piece, board[move.toX, move.toY].piece)
         assertEquals(move.toX, piece.x)
         assertEquals(move.toY, piece.y)
         assertEquals(move.score, board.blackScore)
@@ -37,8 +37,8 @@ class InfantryTest {
 
         piece.undoMove(board, move)
 
-        assertNull(board.state[move.toX][move.toY].piece)
-        assertEquals(piece, board.state[move.fromX][move.fromY].piece)
+        assertNull(board[move.toX, move.toY].piece)
+        assertEquals(piece, board[move.fromX, move.fromY].piece)
         assertEquals(move.fromX, piece.x)
         assertEquals(move.fromY, piece.y)
         assertEquals(0.0, board.blackScore)
@@ -56,8 +56,8 @@ class InfantryTest {
             piece.applyMove(board, move)
             println(board)
 
-            assertNull(board.state[move.fromX][move.fromY].piece)
-            assertEquals(piece, board.state[move.toX][move.toY].piece)
+            assertNull(board[move.fromX, move.fromY].piece)
+            assertEquals(piece, board[move.toX, move.toY].piece)
             assertEquals(move.toX, piece.x)
             assertEquals(move.toY, piece.y)
             assertEquals(move.score, board.blackScore)
@@ -65,8 +65,8 @@ class InfantryTest {
             piece.undoMove(board, move)
             println(board)
 
-            assertNull(board.state[move.toX][move.toY].piece)
-            assertEquals(piece, board.state[move.fromX][move.fromY].piece)
+            assertNull(board[move.toX, move.toY].piece)
+            assertEquals(piece, board[move.fromX, move.fromY].piece)
             assertEquals(move.fromX, piece.x)
             assertEquals(move.fromY, piece.y)
             assertEquals(0.0, board.blackScore)

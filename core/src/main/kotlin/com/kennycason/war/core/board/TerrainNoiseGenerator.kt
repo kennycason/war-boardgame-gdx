@@ -11,9 +11,9 @@ object TerrainNoiseGenerator {
         for (y in 0 until board.height) {
             for (x in 0 until board.width) {
                 if (Dice.d(100) > probability) {
-                    board.state[x][y].elevation += Dice.d(-1, 1)
-                    if (board.state[x][y].elevation < 0) {
-                        board.state[x][y].elevation = 0
+                    board[x, y].elevation += Dice.d(-1, 1)
+                    if (board[x, y].elevation < 0) {
+                        board[x, y].elevation = 0
                     }
                 }
             }

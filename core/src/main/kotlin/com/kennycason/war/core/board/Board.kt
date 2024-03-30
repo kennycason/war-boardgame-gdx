@@ -10,7 +10,7 @@ import com.kennycason.war.util.array2d
 data class Board(
     val width: Int = Constants.BOARD_DIMENSIONS,
     val height: Int = Constants.BOARD_DIMENSIONS,
-    val state: Array<Array<Tile>> = array2d(width, height) { Tile() },
+    private val state: Array<Array<Tile>> = array2d(width, height) { Tile() },
     var turnCount: Int = 0,
     var currentPlayer: Player = Player.BLACK,
     var blackScore: Double = 0.0,
@@ -29,9 +29,9 @@ data class Board(
         state[x][y] = tile
     }
 
-    fun add(piece: Piece): Piece {
+    fun add(piece: Piece): Board {
         state[piece.x][piece.y].piece = piece
-        return piece
+        return this
     }
 
     fun getCommander(player: Player): Commander? {

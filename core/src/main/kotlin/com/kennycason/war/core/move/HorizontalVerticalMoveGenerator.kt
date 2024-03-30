@@ -24,19 +24,18 @@ class HorizontalVerticalMoveGenerator(
         return moves
     }
 
-    private fun getPieceScore(board: Board, x: Int, y: Int) = board.state[x][y].piece?.type?.score ?: 0.0
+    private fun getPieceScore(board: Board, x: Int, y: Int) = board[x, y].piece?.type?.score ?: 0.0
 
     private fun moveLeft(piece: Piece, board: Board, moves: MutableList<Move>) {
         val x = piece.x
         val y = piece.y
-        val state = board.state
         var i = startI
         while (true) {
             if (x - i < 0) break
             if (i > maxDistance) break
-            if (!ignoreHeight && abs(state[x - i][y].elevation - state[x - i + 1][y].elevation) > 1) break
+            if (!ignoreHeight && abs(board[x - i, y].elevation - board[x - i + 1, y].elevation) > 1) break
 
-            val targetPiece = state[x - i][y].piece
+            val targetPiece = board[x - i, y].piece
             if (targetPiece == null) {
                 if (!requiredAttack) {
                     moves.add(
@@ -70,14 +69,13 @@ class HorizontalVerticalMoveGenerator(
     private fun moveRight(piece: Piece, board: Board, moves: MutableList<Move>) {
         val x = piece.x
         val y = piece.y
-        val state = board.state
         var i = startI
         while (true) {
-            if (x + i >= state.size) break
+            if (x + i >= board.width) break
             if (i > maxDistance) break
-            if (!ignoreHeight && abs(state[x + i][y].elevation - state[x + i - 1][y].elevation) > 1) break
+            if (!ignoreHeight && abs(board[x + i, y].elevation - board[x + i - 1, y].elevation) > 1) break
 
-            val targetPiece = state[x + i][y].piece
+            val targetPiece = board[x + i, y].piece
             if (targetPiece == null) {
                 if (!requiredAttack) {
                     moves.add(
@@ -112,14 +110,13 @@ class HorizontalVerticalMoveGenerator(
     private fun moveDown(piece: Piece, board: Board, moves: MutableList<Move>) {
         val x = piece.x
         val y = piece.y
-        val state = board.state
         var i = startI
         while (true) {
             if (y - i < 0) break
             if (i > maxDistance) break
-            if (!ignoreHeight && abs(state[x][y - i].elevation - state[x][y - i + 1].elevation) > 1) break
+            if (!ignoreHeight && abs(board[x, y - i].elevation - board[x, y - i + 1].elevation) > 1) break
 
-            val targetPiece = state[x][y - i].piece
+            val targetPiece = board[x, y - i].piece
             if (targetPiece == null) {
                 if (!requiredAttack) {
                     moves.add(
@@ -153,14 +150,13 @@ class HorizontalVerticalMoveGenerator(
     private fun moveUp(piece: Piece, board: Board, moves: MutableList<Move>) {
         val x = piece.x
         val y = piece.y
-        val state = board.state
         var i = startI
         while (true) {
-            if (y + i >= state.size) break
+            if (y + i >= board.height) break
             if (i > maxDistance) break
-            if (!ignoreHeight && abs(state[x][y + i].elevation - state[x][y + i - 1].elevation) > 1) break
+            if (!ignoreHeight && abs(board[x, y + i].elevation - board[x, y + i - 1].elevation) > 1) break
 
-            val targetPiece = state[x][y + i].piece
+            val targetPiece = board[x, y + i].piece
             if (targetPiece == null) {
                 if (!requiredAttack) {
                     moves.add(

@@ -17,7 +17,7 @@ object ValleyTerrainGenerator {
     fun apply(board: Board) {
         for (y in 0 until terrain.size) {
             for (x in 0 until terrain[y].size) {
-                board.state[x][terrain[y].size - 1 - y].elevation = terrain[y][x]
+                board[x, terrain[y].size - 1 - y].elevation = terrain[y][x]
             }
         }
     }

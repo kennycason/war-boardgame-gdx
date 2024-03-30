@@ -57,7 +57,7 @@ object TestAirDefenseFormationPiecePlacer {
         )
 
         for (piece in pieces) {
-            board.state[piece.x][piece.y].piece = piece
+            board.add(piece)
         }
     }
 }

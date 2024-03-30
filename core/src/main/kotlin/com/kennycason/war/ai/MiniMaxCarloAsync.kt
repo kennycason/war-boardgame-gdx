@@ -53,7 +53,7 @@ class MiniMaxCarloAsync(
                         state = AsyncMoveState.WAITING
                         val move = moveFuture!!.get()
                         if (move != null) {
-                            board.state[move.fromX][move.fromY].piece!!.applyMove(board, move)
+                            board[move.fromX, move.fromY].piece!!.applyMove(board, move)
                         }
                         moveFuture = null
                         println("AI FINISHED")

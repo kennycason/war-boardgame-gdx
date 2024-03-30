@@ -14,7 +14,7 @@ object AirDefenseDetector {
                 if (move.toX + x < 0 || move.toX + x >= board.width) continue
                 if (move.toY + y < 0 || move.toY + y >= board.height) continue
 
-                val neighborPiece = board.state[move.toX + x][move.toY + y].piece
+                val neighborPiece = board[move.toX + x, move.toY + y].piece
                 if (neighborPiece != null
                     && neighborPiece.type == PieceType.AIR_DEFENSE
                     && piece.player != neighborPiece.player
@@ -33,7 +33,7 @@ object AirDefenseDetector {
                 if (move.toX + x < 0 || move.toX + x >= board.width) continue
                 if (move.toY + y < 0 || move.toY + y >= board.height) continue
 
-                val neighborPiece = board.state[move.toX + x][move.toY + y].piece
+                val neighborPiece = board[move.toX + x, move.toY + y].piece
                 if (neighborPiece != null
                     && neighborPiece.type == PieceType.AIR_DEFENSE
                     && piece.player != neighborPiece.player
@@ -42,7 +42,7 @@ object AirDefenseDetector {
 
                     val destroyed = move.destroyed
                     if (destroyed != null) {
-                        board.state[destroyed.x][destroyed.y].piece = destroyed
+                        board[destroyed.x, destroyed.y].piece = destroyed
                     }
 //                    move.destroyed = piece
                     move.score -= piece.type.score // TODO does this need to worry about current player and sign(+/-)?
