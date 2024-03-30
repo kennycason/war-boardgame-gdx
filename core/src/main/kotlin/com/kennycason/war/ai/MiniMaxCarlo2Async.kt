@@ -43,11 +43,7 @@ class MiniMaxCarlo2Async(
                     moveFuture = executorService.submit<Move> {
                         println("AI EXECUTOR START EVALUATION")
                         val boardCopy = copyBoard(board)
-                        val move = miniMaxCarlo.evaluate(boardCopy)
-                        if (move != null) {
-                            boardCopy[move.fromX, move.fromY].piece?.applyMove(boardCopy, move)
-                        }
-                        move
+                        miniMaxCarlo.evaluate(boardCopy)
                     }
                     null
                 }
