@@ -25,8 +25,8 @@ class TwoPlayerWar(
     private val board: Board = Board(Constants.BOARD_DIMENSIONS, Constants.BOARD_DIMENSIONS)
     private val explosions = mutableListOf<Explosion>()
     private val cursor = Cursor(-1, -1, -1, -1)
-    private val playerBlack: MoveMaker = HumanMoveMaker(Player.BLACK, cursor)
-//    private val playerBlack: MoveMaker = MiniMaxCarlo2(maxDepth = 2, player = Player.BLACK)
+//    private val playerBlack: MoveMaker = HumanMoveMaker(Player.BLACK, cursor)
+    private val playerBlack: MoveMaker = MiniMaxCarlo2(maxDepth = 2, player = Player.BLACK)
 //    private val playerBlack: MoveMaker = MiniMaxCarloAsync(maxDepth = 2, player = Player.BLACK)
 //    private val playerBlack: MoveMaker = MiniMaxCarlo(maxDepth = 4, player = Player.WHITE)
 //    private val playerWhite: MoveMaker = MiniMaxCarlo2Async(maxDepth = 3, player = Player.WHITE)
@@ -201,7 +201,7 @@ class TwoPlayerWar(
         if (cursor.x == -1 && cursor.y == -1) return
         if (board[cursor.x, cursor.y].highlight == TileHighlight.SELECTED) return // already rendered above.
         val piece = board[cursor.x, cursor.y].piece ?: return
-        if (piece.player != board.currentPlayer) return
+//        if (piece.player != board.currentPlayer) return
 
         // println("${cursor.x}, ${cursor.y} -> $tileX, $tileY")
         val possibleMoves = piece.generatePossibleMoves(board)
