@@ -6,6 +6,7 @@ import com.kennycason.war.core.move.Move
 import com.kennycason.war.core.move.MoveEvaluator
 import com.kennycason.war.core.move.MoveMaker
 import com.kennycason.war.core.piece.Piece
+import com.kennycason.war.util.Dice
 import com.kennycason.war.util.copyBoard
 
 
@@ -16,8 +17,14 @@ class MiniMaxCarlo(
     private val maxDepth: Int = 1,
     private val player: Player,
     private val noise: Double = 0.0,
-    private val log: Boolean = false
+    private val log: Boolean = false,
+    private val randomWalkProbability: Double = 0.05,
+    private val maxRandomWalkDepth: Int = maxDepth + 1
 ) : MoveMaker, MoveEvaluator {
+
+    init {
+        if (maxRandomWalkDepth < maxDepth) throw IllegalStateException("maxRandomWalkDepth must be >= maxDepth")
+    }
 
     override fun make(board: Board): Move? {
         val boardCopy = copyBoard(board)
@@ -29,24 +36,26 @@ class MiniMaxCarlo(
     }
 
     override fun evaluate(board: Board): Move? {
+        val startTime = System.currentTimeMillis()
         println("Minimax start turn: ${board.currentPlayer.name}")
 
         val moveScorer = MoveScorer(board, player, noise)
-        val initialState = MiniMaxNodeV2()
+        val initialState = MiniMaxNode()
         val maxState = evaluate(board, initialState, 1, moveScorer)
 
-        println("Minimax finish turn: ${board.currentPlayer.name}")
+        val timeElapsed = (System.currentTimeMillis() - startTime)
+        println("Minimax finish turn: ${board.currentPlayer.name}, time ${timeElapsed}ms")
         return maxState.move
     }
 
     // depth-first apply/unapply
     private fun evaluate(
         board: Board,
-        node: MiniMaxNodeV2,
+        node: MiniMaxNode,
         depth: Int,
         moveScorer: MoveScorer
-    ): MiniMaxNodeV2 {
-        val children = mutableListOf<MiniMaxNodeV2>()
+    ): MiniMaxNode {
+        val children = mutableListOf<MiniMaxNode>()
 
         val piecesForColor = getPiecesForColor(board) // consider in-lining array iteration for performance
         for (piece in piecesForColor) {
@@ -55,16 +64,18 @@ class MiniMaxCarlo(
                 val moveScore = moveScorer.calculate(move, depth)
 
                 if (log) {
+                    val padding = if (depth == 0) "" else "  ".repeat(depth)
                     //@formatter:off
-                    println("$depth ${board.currentPlayer} " +
-                            "${move.displayText()}, " +
-                            "score: ${moveScore.totalScore()}, move: ${moveScore.score}, noise: ${moveScore.noise}, advance: ${moveScore.commanderAdvance}"
-                    )
+                    println("$padding$depth ${board.currentPlayer} ${move.displayText()}, score: ${"%.3f".format(moveScore.totalScore())}")
+//                    println("$padding$depth ${board.currentPlayer} " +
+//                            "${move.displayText()}, " +
+//                            "score: ${moveScore.totalScore()}, move: ${moveScore.score}, noise: ${moveScore.noise}, advance: ${moveScore.commanderAdvance}"
+//                    )
                 }
 
                 piece.applyMove(board, move)
 
-                val childNode = MiniMaxNodeV2(
+                val childNode = MiniMaxNode(
                     previous = node,
                     move = move,
                     score = moveScore.totalScore()
@@ -72,7 +83,11 @@ class MiniMaxCarlo(
 
                 children.add(childNode)
 
-                if (depth < maxDepth && !board.isFinished()) {
+                // TODO only walk promising paths?
+                val shouldMonteCarloWalk = depth >= maxDepth && Dice.double() < randomWalkProbability && depth < maxRandomWalkDepth
+                //println("carlo: $shouldMonteCarloWalk ${depth >= maxDepth} ${Dice.double() < randomWalkProbability} ${depth < maxRandomWalkDepth}")
+                val continueEvaluation = depth < maxDepth || shouldMonteCarloWalk
+                if (continueEvaluation && !board.isFinished()) {
                     val miniMaxNode = evaluate(board, childNode, depth + 1, moveScorer)
                     childNode.score += miniMaxNode.score
                 }
@@ -81,7 +96,7 @@ class MiniMaxCarlo(
             }
         }
         // apply simple min / max
-        if (children.isEmpty()) return MiniMaxNodeV2()
+        if (children.isEmpty()) return MiniMaxNode()
         return if (player == board.currentPlayer) children.maxBy { it.score }
         else children.minBy { it.score }
     }
@@ -101,8 +116,8 @@ class MiniMaxCarlo(
 
 }
 
-class MiniMaxNodeV2(
-    val previous: MiniMaxNodeV2? = null,
+class MiniMaxNode(
+    val previous: MiniMaxNode? = null,
     val move: Move? = null, // root node is null
     var score: Double = 0.0
 )

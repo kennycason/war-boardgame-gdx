@@ -28,7 +28,14 @@ class TwoPlayerWar(
     private val playerBlack: MoveMaker = HumanMoveMaker(Player.BLACK, cursor)
 
     private val playerWhite: MoveMaker = MoveMakerAsync(
-        moveEvaluator = MiniMaxCarlo(maxDepth = 4, player = Player.WHITE, noise = 0.2)
+        moveEvaluator = MiniMaxCarlo(
+            maxDepth = 3,
+            player = Player.WHITE,
+            noise = 0.2,
+            randomWalkProbability = 0.05,
+            maxRandomWalkDepth = 5,
+            log = false
+        )
     )
 
     private val tileRenderer = TileRenderer(tileDim)
