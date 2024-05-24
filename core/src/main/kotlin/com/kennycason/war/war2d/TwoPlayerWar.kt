@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils.clamp
 import com.badlogic.gdx.math.Vector2
 import com.kennycason.war.Constants
-import com.kennycason.war.ai.MiniMaxCarlo2
-import com.kennycason.war.ai.MiniMaxCarlo2Async
+import com.kennycason.war.ai.MiniMaxCarlo
+import com.kennycason.war.ai.MoveMakerAsync
 import com.kennycason.war.core.board.Board
 import com.kennycason.war.core.board.Player
 import com.kennycason.war.core.board.ValleyTerrainGenerator
@@ -25,22 +25,19 @@ class TwoPlayerWar(
     private val board: Board = Board(Constants.BOARD_DIMENSIONS, Constants.BOARD_DIMENSIONS)
     private val explosions = mutableListOf<Explosion>()
     private val cursor = Cursor(-1, -1, -1, -1)
-//    private val playerBlack: MoveMaker = HumanMoveMaker(Player.BLACK, cursor)
-    private val playerBlack: MoveMaker = MiniMaxCarlo2(maxDepth = 2, player = Player.BLACK)
-//    private val playerBlack: MoveMaker = MiniMaxCarloAsync(maxDepth = 2, player = Player.BLACK)
-//    private val playerBlack: MoveMaker = MiniMaxCarlo(maxDepth = 4, player = Player.WHITE)
-//    private val playerWhite: MoveMaker = MiniMaxCarlo2Async(maxDepth = 3, player = Player.WHITE)
-    private val playerWhite: MoveMaker = MiniMaxCarlo2Async(maxDepth = 4, player = Player.WHITE)
-//    private val playerWhite: MoveMaker = MiniMaxCarloAsync(maxDepth = 4, player = Player.WHITE)
-//    private val playerWhite: MoveMaker = HumanMoveMaker(Player.WHITE, cursor)
+
+    private val playerBlack: MoveMaker = HumanMoveMaker(Player.BLACK, cursor)
+
+    private val playerWhite: MoveMaker = MoveMakerAsync(
+        moveEvaluator = MiniMaxCarlo(maxDepth = 4, player = Player.WHITE, noise = 0.2)
+    )
+
     private val tileRenderer = TileRenderer(tileDim)
 
     private val moveHistory = mutableListOf<Move>()
 
     // init after GDX initialized
     private var soundManager: SoundManager? = null
-
-    private var isStarted = false
 
     fun newGame() {
         ValleyTerrainGenerator.apply(board)
@@ -57,12 +54,6 @@ class TwoPlayerWar(
     }
 
     fun update() {
-//        if (!isStarted) {
-//            if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
-//                isStarted = true
-//            }
-//            return
-//        }
         clearHighlighted()
         updateCursor()
         updateTileHighlightStateForSelectedPieceOrMouseHover(board)
@@ -97,7 +88,8 @@ class TwoPlayerWar(
         for (y in board.height - 1 downTo 0) {
             for (x in 0 until board.width) {
                 val tile = board[x, y]
-                tileRenderer.render(tile,
+                tileRenderer.render(
+                    tile,
                     position.x + (x * tileDim),
                     position.y + (y * tileDim)
                 )
@@ -112,15 +104,24 @@ class TwoPlayerWar(
     private fun drawMoveHistory() {
         Fonts.VISITOR_30.color = Color.WHITE
 
-        Fonts.VISITOR_30.draw(GraphicsGdx.batch(), "History", Constants.WIDTH * Constants.SCALE - 10, Constants.WIDTH * Constants.SCALE - 20f)
+        Fonts.VISITOR_30.draw(
+            GraphicsGdx.batch(),
+            "History",
+            Constants.WIDTH * Constants.SCALE - 10,
+            Constants.WIDTH * Constants.SCALE - 20f
+        )
         for (i in 0 until moveHistory.size) {
             val move = moveHistory[i]
-            Fonts.VISITOR_30.draw(GraphicsGdx.batch(),
+            Fonts.VISITOR_30.draw(
+                GraphicsGdx.batch(),
                 "${getAttackText(move)}${getPlayerText(move)} ${getPieceTypeText(move)} (${move.fromX}, ${move.fromY}) ",
-                Constants.WIDTH * Constants.SCALE - 23, Constants.WIDTH * Constants.SCALE - (20f * (i + 2)))
-            Fonts.VISITOR_30.draw(GraphicsGdx.batch(),
+                Constants.WIDTH * Constants.SCALE - 23, Constants.WIDTH * Constants.SCALE - (20f * (i + 2))
+            )
+            Fonts.VISITOR_30.draw(
+                GraphicsGdx.batch(),
                 "to (${move.toX}, ${move.toY})",
-                Constants.WIDTH * Constants.SCALE + 185, Constants.WIDTH * Constants.SCALE - (20f * (i + 2)))
+                Constants.WIDTH * Constants.SCALE + 185, Constants.WIDTH * Constants.SCALE - (20f * (i + 2))
+            )
             if (i > 40) break
         }
     }

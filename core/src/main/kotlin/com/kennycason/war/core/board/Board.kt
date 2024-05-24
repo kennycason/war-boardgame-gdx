@@ -29,9 +29,9 @@ data class Board(
         state[x][y] = tile
     }
 
-    fun add(piece: Piece): Board {
+    fun add(piece: Piece): Piece {
         state[piece.x][piece.y].piece = piece
-        return this
+        return piece
     }
 
     fun getCommander(player: Player): Commander? {

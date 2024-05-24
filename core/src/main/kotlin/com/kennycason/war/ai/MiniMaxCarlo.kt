@@ -1,11 +1,13 @@
 package com.kennycason.war.ai
 
-import com.badlogic.gdx.utils.Pool
 import com.kennycason.war.core.board.Board
 import com.kennycason.war.core.board.Player
 import com.kennycason.war.core.move.Move
+import com.kennycason.war.core.move.MoveEvaluator
 import com.kennycason.war.core.move.MoveMaker
-import com.kennycason.war.core.piece.*
+import com.kennycason.war.core.piece.Piece
+import com.kennycason.war.util.copyBoard
+
 
 /**
  * Perform MiniMax for n-layers, then apply monte-carlo from random/promising leaf nodes.
@@ -13,81 +15,76 @@ import com.kennycason.war.core.piece.*
 class MiniMaxCarlo(
     private val maxDepth: Int = 1,
     private val player: Player,
-    private val noise: Double = 0.5
-) : MoveMaker {
-
-//    private val boardPool = BoardPool(100, 50_000)
+    private val noise: Double = 0.0,
+    private val log: Boolean = false
+) : MoveMaker, MoveEvaluator {
 
     override fun make(board: Board): Move? {
-        val move = evaluate(board)
+        val boardCopy = copyBoard(board)
+        val move = evaluate(boardCopy)
         if (move != null) {
             board[move.fromX, move.fromY].piece!!.applyMove(board, move)
         }
         return move
     }
 
-    fun evaluate(board: Board): Move? {
-        println("Minimax start turn: ${board.currentPlayer.color}")
+    override fun evaluate(board: Board): Move? {
+        println("Minimax start turn: ${board.currentPlayer.name}")
 
-        val initialState = MiniMaxNode(board)
-        val maxState = evaluate(initialState, 1)
+        val moveScorer = MoveScorer(board, player, noise)
+        val initialState = MiniMaxNodeV2()
+        val maxState = evaluate(board, initialState, 1, moveScorer)
 
-        println("Minimax finish turn: ${board.currentPlayer.color}")
+        println("Minimax finish turn: ${board.currentPlayer.name}")
         return maxState.move
     }
 
-    private fun evaluate(node: MiniMaxNode, depth: Int): MiniMaxNode {
-        val children = mutableListOf<MiniMaxNode>()
+    // depth-first apply/unapply
+    private fun evaluate(
+        board: Board,
+        node: MiniMaxNodeV2,
+        depth: Int,
+        moveScorer: MoveScorer
+    ): MiniMaxNodeV2 {
+        // println("eval depth=$depth")
+        val children = mutableListOf<MiniMaxNodeV2>()
 
-        val board = node.board
         val piecesForColor = getPiecesForColor(board) // consider in-lining array iteration for performance
         for (piece in piecesForColor) {
             val moves = piece.generatePossibleMoves(board)
             for (move in moves) {
-                val newBoard = Board(width = board.width, height = board.height)
-                copyBoard(board, newBoard)
+                val moveScore = moveScorer.calculate(move, depth)
 
-                val newPiece = newBoard[move.fromX, move.fromY].piece!!
-                newPiece.applyMove(newBoard, move)
+                if (log) {
+                    //@formatter:off
+                    println("$depth ${board.currentPlayer} " +
+                            "${move.displayText()}, " +
+                            "score: ${moveScore.totalScore()}, move: ${moveScore.score}, noise: ${moveScore.noise}, advance: ${moveScore.commanderAdvance}"
+                    )
+                }
 
-                val childNode = MiniMaxNode(
-                    board = newBoard,
+                piece.applyMove(board, move)
+
+                val childNode = MiniMaxNodeV2(
+                    previous = node,
                     move = move,
-                    previousNode = node
+                    score = moveScore.totalScore()
                 )
+
                 children.add(childNode)
 
                 if (depth < maxDepth && !board.isFinished()) {
-                    childNode.score = getMoveScore(board, move)
-                    val miniMaxNode = evaluate(childNode, depth + 1)
-                    val noise = generateNoise(depth)
-                    childNode.score += miniMaxNode.score + noise
+                    val miniMaxNode = evaluate(board, childNode, depth + 1, moveScorer)
+                    childNode.score += miniMaxNode.score
                 }
 
-//                println(
-//                    "$depth ${board.currentPlayer}: " +
-//                            "score: ${childNode.score}, " +
-//                            "${move.pieceType.name.substring(0, 3)} [${move.fromX}, ${move.fromY}] to [${move.toX}, ${move.toY}]"
-//                )
-
+                piece.undoMove(board, move)
             }
         }
         // apply simple min / max
+        if (children.isEmpty()) return MiniMaxNodeV2()
         return if (player == board.currentPlayer) children.maxBy { it.score }
         else children.minBy { it.score }
-    }
-
-    // Scale the noise by intensity and inversely by depth to reduce impact on immediate moves
-    private fun generateNoise(depth: Int): Double {
-        val noiseIntensity = noise / depth
-        val noise = (Math.random() - 0.5) * noiseIntensity // Generate noise between -intensity and +intensity
-        return noise
-    }
-
-
-    private fun getMoveScore(board: Board, move: Move): Double {
-        return if (player == board.currentPlayer) move.score
-        else -move.score
     }
 
     private fun getPiecesForColor(board: Board): List<Piece> {
@@ -105,49 +102,10 @@ class MiniMaxCarlo(
 
 }
 
-// the board state and the last move
-class MiniMaxNode(
-    val board: Board,
-    val move: Move? = null,
-    val previousNode: MiniMaxNode? = null,
+class MiniMaxNodeV2(
+    val previous: MiniMaxNodeV2? = null,
+    val move: Move? = null, // root node is null
     var score: Double = 0.0
 )
 
 
-private fun copyBoard(from: Board, to: Board = Board(from.width, from.height)) {
-    to.turnCount = from.turnCount
-    to.currentPlayer = from.currentPlayer
-    to.blackScore = from.blackScore
-    to.whiteScore = from.whiteScore
-    for (y in 0 until from.height) {
-        for (x in 0 until from.width) {
-            to[x, y].piece = copyPiece(to , from[x, y].piece)
-            to[x, y].elevation = from[x, y].elevation
-            to[x, y].highlight = from[x, y].highlight
-        }
-    }
-}
-
-// most pieces don't hold state and don't need to be copied
-private fun copyPiece(board: Board, piece: Piece?): Piece? {
-    return when (piece?.type) {
-        PieceType.INFANTRY -> Infantry(piece.player, piece.x, piece.y)
-        PieceType.TANK -> Tank(piece.player, piece.x, piece.y)
-        PieceType.ARTILLERY -> Artillery(
-            player = piece.player,
-            x = piece.x,
-            y = piece.y
-        ).also {
-            it.isReloading = (piece as Artillery).isReloading
-            it.lastAttackTurn = piece.lastAttackTurn
-            it.handleReloading(board)
-        }
-
-        PieceType.MISSILE -> Missile(piece.player, piece.x, piece.y)
-        PieceType.AIR_DEFENSE -> AirDefense(piece.player, piece.x, piece.y)
-        PieceType.BOMBER -> Bomber(piece.player, piece.x, piece.y)
-        PieceType.COMMANDER -> Commander(piece.player, piece.x, piece.y)
-        PieceType.EXCAVATOR -> Excavator(piece.player, piece.x, piece.y)
-        null -> null
-    }
-}
