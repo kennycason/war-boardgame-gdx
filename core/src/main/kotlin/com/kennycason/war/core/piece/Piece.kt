@@ -64,15 +64,15 @@ abstract class Piece {
 
 fun addScore(board: Board, move: Move) {
     when (board.currentPlayer) {
-        Player.BLACK -> board.blackScore += move.score
-        Player.WHITE -> board.whiteScore += move.score
+        Player.BLACK -> board.blackScore += move.score.toInt()
+        Player.WHITE -> board.whiteScore += move.score.toInt()
     }
 }
 
 fun subtractScore(board: Board, move: Move) {
     when (board.currentPlayer) {
-        Player.BLACK -> board.blackScore -= move.score
-        Player.WHITE -> board.whiteScore -= move.score
+        Player.BLACK -> board.blackScore -= move.score.toInt()
+        Player.WHITE -> board.whiteScore -= move.score.toInt()
     }
 }
 

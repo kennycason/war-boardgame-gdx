@@ -6,6 +6,7 @@ import com.kennycason.war.core.piece.Commander
 import com.kennycason.war.core.piece.Piece
 import com.kennycason.war.core.piece.PieceType
 import com.kennycason.war.util.array2d
+import com.kennycason.war.war2d.TileHighlight
 
 data class Board(
     val width: Int = Constants.BOARD_DIMENSIONS,
@@ -13,8 +14,8 @@ data class Board(
     private val state: Array<Array<Tile>> = array2d(width, height) { Tile() },
     var turnCount: Int = 0,
     var currentPlayer: Player = Player.BLACK,
-    var blackScore: Double = 0.0,
-    var whiteScore: Double = 0.0
+    var blackScore: Int = 0,
+    var whiteScore: Int = 0
 ) {
     fun isFinished() = isBlackWin() || isWhiteWin()
 
@@ -50,6 +51,18 @@ data class Board(
         for (x in 0 until width) {
             for (y in 0 until height) {
                 state[x][y].elevation = elevation
+            }
+        }
+    }
+
+    fun reset() {
+        turnCount = 0
+        whiteScore = 0
+        blackScore = 0
+        for (x in 0 until width) {
+            for (y in 0 until height) {
+                state[x][y].piece = null
+                state[x][y].highlight = TileHighlight.NONE
             }
         }
     }

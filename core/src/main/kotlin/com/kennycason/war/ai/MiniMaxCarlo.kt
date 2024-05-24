@@ -46,7 +46,6 @@ class MiniMaxCarlo(
         depth: Int,
         moveScorer: MoveScorer
     ): MiniMaxNodeV2 {
-        // println("eval depth=$depth")
         val children = mutableListOf<MiniMaxNodeV2>()
 
         val piecesForColor = getPiecesForColor(board) // consider in-lining array iteration for performance

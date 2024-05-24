@@ -1,15 +1,14 @@
 package com.kennycason.war.war2d
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils.clamp
 import com.badlogic.gdx.math.Vector2
 import com.kennycason.war.Constants
 import com.kennycason.war.ai.MiniMaxCarlo
 import com.kennycason.war.ai.MoveMakerAsync
-import com.kennycason.war.core.board.Board
-import com.kennycason.war.core.board.Player
-import com.kennycason.war.core.board.ValleyTerrainGenerator
+import com.kennycason.war.core.board.*
 import com.kennycason.war.core.move.*
 import com.kennycason.war.core.piece.PieceType
 import com.kennycason.war.core.piece.PrimaryFormationPiecePlacer
@@ -22,7 +21,7 @@ class TwoPlayerWar(
     private val position: Vector2 = Vector2(75f, 75f),
     private val tileDim: Int = 75
 ) {
-    private val board: Board = Board(Constants.BOARD_DIMENSIONS, Constants.BOARD_DIMENSIONS)
+    private var board = Board(Constants.BOARD_DIMENSIONS, Constants.BOARD_DIMENSIONS)
     private val explosions = mutableListOf<Explosion>()
     private val cursor = Cursor(-1, -1, -1, -1)
 
@@ -40,9 +39,14 @@ class TwoPlayerWar(
     private var soundManager: SoundManager? = null
 
     fun newGame() {
-        ValleyTerrainGenerator.apply(board)
-//        DefaultTerrainV2Generator.apply(board)
-//        TerrainNoiseGenerator.apply(board)
+        board.reset()
+        listOf<(board: Board) -> Unit>(
+            SinCosTerrainGenerator::apply,
+            ValleyTerrainGenerator::apply,
+            DefaultTerrainV2Generator::apply,
+            TerrainNoiseGenerator::apply
+        ).random()(board)
+
         PrimaryFormationPiecePlacer.place(board)
 //        TestAirDefenseFormationPiecePlacer.place(board)
 //        RandomPiecePlacer.place(board)
@@ -70,13 +74,17 @@ class TwoPlayerWar(
                 explosions.add(Explosion(move.toX.toFloat(), move.toY.toFloat()))
             }
         }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
+            newGame()
+        }
     }
 
     fun render() {
         Fonts.VISITOR_30.color = Color.WHITE
         Fonts.VISITOR_30.draw(GraphicsGdx.batch(), "${board.currentPlayer}'s Turn", 20f, 25f)
-        Fonts.VISITOR_30.draw(GraphicsGdx.batch(), "Black ${board.blackScore.toInt()}", Constants.WIDTH - 270f, 25f)
-        Fonts.VISITOR_30.draw(GraphicsGdx.batch(), "White ${board.whiteScore.toInt()}", Constants.WIDTH - 130f, 25f)
+        Fonts.VISITOR_30.draw(GraphicsGdx.batch(), "Black ${board.blackScore}", Constants.WIDTH - 270f, 25f)
+        Fonts.VISITOR_30.draw(GraphicsGdx.batch(), "White ${board.whiteScore}", Constants.WIDTH - 130f, 25f)
 
         for (x in 0 until board.width) {
             Fonts.VISITOR_30.draw(GraphicsGdx.batch(), "$x", position.x + (x * tileDim) + tileDim / 2, 60f)
