@@ -7,7 +7,8 @@ import com.kennycason.war.core.move.*
 class Missile(
     override val player: Player,
     override var x: Int,
-    override var y: Int
+    override var y: Int,
+    private val attackThreshold: Int = 1
 ) : Piece() {
 
     override val type = PieceType.MISSILE
@@ -19,7 +20,7 @@ class Missile(
         attackMoves.forEach {
             AirDefenseDetector.updateScoreBaseOnAirDefense(board, this, it)
             if (it.destroyed != null) {
-                it.score -= PieceType.MISSILE.score - 1
+                it.score -= PieceType.MISSILE.score - attackThreshold
             }
         }
 
