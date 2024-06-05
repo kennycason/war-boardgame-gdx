@@ -16,7 +16,12 @@ class Missile(
         val moves = mutableListOf<Move>()
 
         val attackMoves = attackMoveGenerator.generatePossibleMoves(this, board)
-        attackMoves.forEach { AirDefenseDetector.updateScoreBaseOnAirDefense(board, this, it) }
+        attackMoves.forEach {
+            AirDefenseDetector.updateScoreBaseOnAirDefense(board, this, it)
+            if (it.destroyed != null) {
+                it.score -= PieceType.MISSILE.score - 1
+            }
+        }
 
         moves.addAll(attackMoves)
         moves.addAll(horizontalVerticalMoveGenerator.generatePossibleMoves(this, board))
