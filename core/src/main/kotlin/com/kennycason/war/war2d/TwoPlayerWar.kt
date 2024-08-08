@@ -8,10 +8,19 @@ import com.badlogic.gdx.math.Vector2
 import com.kennycason.war.Constants
 import com.kennycason.war.ai.MiniMaxCarlo
 import com.kennycason.war.ai.MoveMakerAsync
-import com.kennycason.war.core.board.*
-import com.kennycason.war.core.move.*
+import com.kennycason.war.core.board.Board
+import com.kennycason.war.core.board.DefaultTerrainV2Generator
+import com.kennycason.war.core.board.Player
+import com.kennycason.war.core.board.SinCosTerrainGenerator
+import com.kennycason.war.core.board.TerrainNoiseGenerator
+import com.kennycason.war.core.board.ValleyTerrainGenerator
+import com.kennycason.war.core.move.Cursor
+import com.kennycason.war.core.move.HumanMoveMaker
+import com.kennycason.war.core.move.Move
+import com.kennycason.war.core.move.MoveMaker
+import com.kennycason.war.core.move.MoveType
 import com.kennycason.war.core.piece.PieceType
-import com.kennycason.war.core.piece.PrimaryFormationPiecePlacer
+import com.kennycason.war.core.piece.TraditionalFormationPiecePlacer
 import com.kennycason.war.font.Fonts
 import com.kennycason.war.sound.SoundManager
 import com.kennycason.war.war2d.explosion.Explosion
@@ -25,18 +34,35 @@ class TwoPlayerWar(
     private val explosions = mutableListOf<Explosion>()
     private val cursor = Cursor(-1, -1, -1, -1)
 
-    private val playerBlack: MoveMaker = HumanMoveMaker(Player.BLACK, cursor)
-
-    private val playerWhite: MoveMaker = MoveMakerAsync(
-        moveEvaluator = MiniMaxCarlo(
-            maxDepth = 3,
-            player = Player.WHITE,
-            noise = 0.2,
-            randomWalkProbability = 0.05,
-            maxRandomWalkDepth = 5,
-            log = false
+    private val isPlayerBlackHuman = false
+    private val playerBlack: MoveMaker = when (isPlayerBlackHuman) {
+        true -> HumanMoveMaker(Player.BLACK, cursor)
+        false -> MoveMakerAsync(
+            moveEvaluator = MiniMaxCarlo(
+                maxDepth = 3,
+                player = Player.BLACK,
+                noise = 0.2,
+                randomWalkProbability = 0.05,
+                maxRandomWalkDepth = 4,
+                log = false
+            )
         )
-    )
+    }
+
+    private val isPlayerWhiteHuman = false
+    private val playerWhite: MoveMaker = when (isPlayerWhiteHuman) {
+        true -> HumanMoveMaker(Player.WHITE, cursor)
+        false -> MoveMakerAsync(
+            moveEvaluator = MiniMaxCarlo(
+                maxDepth = 3,
+                player = Player.WHITE,
+                noise = 0.2,
+                randomWalkProbability = 0.05,
+                maxRandomWalkDepth = 4,
+                log = false
+            )
+        )
+    }
 
     private val tileRenderer = TileRenderer(tileDim)
 
@@ -54,7 +80,8 @@ class TwoPlayerWar(
             TerrainNoiseGenerator::apply
         ).random()(board)
 
-        PrimaryFormationPiecePlacer.place(board)
+        TraditionalFormationPiecePlacer.place(board)
+//        PrimaryFormationPiecePlacer.place(board)
 //        TestAirDefenseFormationPiecePlacer.place(board)
 //        RandomPiecePlacer.place(board)
 //        TestPiecePlacer.place(board)

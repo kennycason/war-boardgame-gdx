@@ -60,26 +60,37 @@ abstract class Piece {
         return type == other.type && x == other.x && y == other.y
     }
 
-}
-
-fun addScore(board: Board, move: Move) {
-    when (board.currentPlayer) {
-        Player.BLACK -> board.blackScore += move.score.toInt()
-        Player.WHITE -> board.whiteScore += move.score.toInt()
+    override fun hashCode(): Int {
+        var result = player.hashCode()
+        result = 31 * result + x
+        result = 31 * result + y
+        result = 31 * result + type.hashCode()
+        return result
     }
-}
 
-fun subtractScore(board: Board, move: Move) {
-    when (board.currentPlayer) {
-        Player.BLACK -> board.blackScore -= move.score.toInt()
-        Player.WHITE -> board.whiteScore -= move.score.toInt()
-    }
-}
+    
+    companion object {
+        fun addScore(board: Board, move: Move) {
+            when (board.currentPlayer) {
+                Player.BLACK -> board.blackScore += move.score.toInt()
+                Player.WHITE -> board.whiteScore += move.score.toInt()
+            }
+        }
 
-fun changeTurn(board: Board) {
-    board.turnCount++
-    board.currentPlayer = when (board.currentPlayer) {
-        Player.BLACK -> Player.WHITE
-        Player.WHITE -> Player.BLACK
+        fun subtractScore(board: Board, move: Move) {
+            when (board.currentPlayer) {
+                Player.BLACK -> board.blackScore -= move.score.toInt()
+                Player.WHITE -> board.whiteScore -= move.score.toInt()
+            }
+        }
+
+        fun changeTurn(board: Board) {
+            board.turnCount++
+            board.currentPlayer = when (board.currentPlayer) {
+                Player.BLACK -> Player.WHITE
+                Player.WHITE -> Player.BLACK
+            }
+        }
     }
+
 }

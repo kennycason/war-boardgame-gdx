@@ -4,7 +4,7 @@ import com.kennycason.war.core.board.Board
 import com.kennycason.war.core.board.Player
 import com.kennycason.war.core.move.Move
 import com.kennycason.war.core.piece.Commander
-import kotlin.math.abs
+import com.kennycason.war.core.piece.PieceType
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -15,10 +15,12 @@ data class MoveScore(
     // modifier to aware pieces for advancing towards enemy commander
     val commanderAdvance: Double,
 
+    val moveWeakerPiece: Double,
+
     // random noise to add move diversity
     val noise: Double
 ) {
-    fun totalScore() = score + commanderAdvance + noise
+    fun totalScore() = score + commanderAdvance + moveWeakerPiece + noise
 }
 
 class MoveScorer(
@@ -35,9 +37,29 @@ class MoveScorer(
         return MoveScore(
             score = move.score * playerModifier,
             commanderAdvance = getCommanderAdvanceScore(move) * playerModifier,
+            moveWeakerPiece = getWeakerPieceScore(move),
             noise = generateNoise(depth)
         )
     }
+
+    private fun getWeakerPieceScore(move: Move): Double {
+        return when (move.pieceType) {
+            PieceType.INFANTRY -> 0.23
+            PieceType.TANK -> 0.2
+            PieceType.ARTILLERY -> 0.2
+            PieceType.MISSILE -> 0.10
+            PieceType.AIR_DEFENSE -> 0.05
+            PieceType.BOMBER -> 0.00
+            PieceType.COMMANDER -> 0.0
+            PieceType.EXCAVATOR -> 0.0
+        }
+    }
+//    private fun getWeakerPieceScore(move: Move): Double {
+//        if (move.pieceType == PieceType.COMMANDER) return 0.0
+//
+//        val maxPieceScore = PieceType.BOMBER.score
+//        return ((maxPieceScore - move.pieceType.score) / maxPieceScore) * 0.2
+//    }
 
     private fun getPlayerModifier(): Double {
         return if (player == board.currentPlayer) 1.0
@@ -56,7 +78,7 @@ class MoveScorer(
             (move.toX - enemyCommander.x).toDouble().pow(2.0) + (move.toY - enemyCommander.y).toDouble().pow(2.0)
         )
 
-        return abs(distanceBefore - distanceAfter) / 10.0
+        return (distanceBefore - distanceAfter) / 10.0
     }
 
     private fun getEnemyCommander(): Commander? {

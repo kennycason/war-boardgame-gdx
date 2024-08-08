@@ -16,7 +16,7 @@ data class Move(
     var score: Double = 0.0,
     var destroyed: Piece? = null,
     var airDefense: AirDefense? = null, // if this move results in an air defense being used.
-    var elevationDelta: Int = 0
+    var elevationDelta: Int = 0,
 ) {
     fun displayText(): String {
         return "${pieceType.name.substring(0, 3)} [$fromX, $fromY] to [$toX, $toY]" +

@@ -46,7 +46,7 @@ class MoveMakerAsync(
                 }
 
                 AsyncMoveState.THINKING -> {
-                    println("AI THINKING")
+                    //println("AI THINKING")
                     if (moveFuture!!.isDone) {
                         state = AsyncMoveState.WAITING
                         val move = moveFuture!!.get()
@@ -55,7 +55,6 @@ class MoveMakerAsync(
                             println("AI MOVE: ${move.displayText()}")
                         }
                         moveFuture = null
-                        println("AI FINISHED THINKING")
                         move
                     } else null
                 }

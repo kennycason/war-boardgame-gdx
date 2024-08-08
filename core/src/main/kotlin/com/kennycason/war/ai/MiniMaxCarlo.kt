@@ -22,6 +22,7 @@ class MiniMaxCarlo(
     private val maxRandomWalkDepth: Int = maxDepth + 1
 ) : MoveMaker, MoveEvaluator {
 
+    private var nodesVisited = 0
     init {
         if (maxRandomWalkDepth < maxDepth) throw IllegalStateException("maxRandomWalkDepth must be >= maxDepth")
     }
@@ -37,6 +38,7 @@ class MiniMaxCarlo(
 
     override fun evaluate(board: Board): Move? {
         val startTime = System.currentTimeMillis()
+        nodesVisited = 0
         println("Minimax start turn: ${board.currentPlayer.name}")
 
         val moveScorer = MoveScorer(board, player, noise)
@@ -44,7 +46,7 @@ class MiniMaxCarlo(
         val maxState = evaluate(board, initialState, 1, moveScorer)
 
         val timeElapsed = (System.currentTimeMillis() - startTime)
-        println("Minimax finish turn: ${board.currentPlayer.name}, time ${timeElapsed}ms")
+        println("Minimax finish turn: ${board.currentPlayer.name}, time ${timeElapsed}ms, nodes visited: $nodesVisited")
         return maxState.move
     }
 
@@ -55,6 +57,7 @@ class MiniMaxCarlo(
         depth: Int,
         moveScorer: MoveScorer
     ): MiniMaxNode {
+        nodesVisited++
         val children = mutableListOf<MiniMaxNode>()
 
         val piecesForColor = getPiecesForColor(board) // consider in-lining array iteration for performance
@@ -83,10 +86,12 @@ class MiniMaxCarlo(
 
                 children.add(childNode)
 
-                // TODO only walk promising paths?
+                // walk if we are at depth and probability meets threshold,
+                // or, if the last move was an attack, so we can ensure we don't just get attacked back!
                 val shouldMonteCarloWalk = depth >= maxDepth && Dice.double() < randomWalkProbability && depth < maxRandomWalkDepth
+                val shouldWalkBecauseAttack = move.destroyed != null && Dice.double() < randomWalkProbability && depth < maxDepth + 1
                 //println("carlo: $shouldMonteCarloWalk ${depth >= maxDepth} ${Dice.double() < randomWalkProbability} ${depth < maxRandomWalkDepth}")
-                val continueEvaluation = depth < maxDepth || shouldMonteCarloWalk
+                val continueEvaluation = depth < maxDepth || shouldMonteCarloWalk || shouldWalkBecauseAttack
                 if (continueEvaluation && !board.isFinished()) {
                     val miniMaxNode = evaluate(board, childNode, depth + 1, moveScorer)
                     childNode.score += miniMaxNode.score
