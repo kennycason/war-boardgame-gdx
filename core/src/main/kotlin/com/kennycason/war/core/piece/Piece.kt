@@ -40,10 +40,10 @@ abstract class Piece {
         x = move.fromX
         y = move.fromY
 
-        move.airDefense
-            ?.let {
-                board[it.x, it.y].piece = it
-            }
+        val moveAirDefense = move.airDefense
+        if (moveAirDefense != null) {
+            board[moveAirDefense.x, moveAirDefense.y].piece = moveAirDefense
+        }
 
         if (move.elevationDelta != 0) {
             board[move.toX, move.toY].elevation -= move.elevationDelta

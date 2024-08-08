@@ -2,7 +2,11 @@ package com.kennycason.war.core.piece
 
 import com.kennycason.war.core.board.Board
 import com.kennycason.war.core.board.Player
-import com.kennycason.war.core.move.*
+import com.kennycason.war.core.move.AirDefenseDetector
+import com.kennycason.war.core.move.DiagonalMoveGenerator
+import com.kennycason.war.core.move.HorizontalVerticalMoveGenerator
+import com.kennycason.war.core.move.Move
+import com.kennycason.war.core.move.MoveType
 
 class Missile(
     override val player: Player,
@@ -48,6 +52,7 @@ class Missile(
                 if (airDefense != null) {
                     board[airDefense.x, airDefense.y].piece = null
                     board[airDefense.x, airDefense.y].piece = null
+                    board[move.toX, move.toY].piece = move.destroyed
                 }
             }
         }

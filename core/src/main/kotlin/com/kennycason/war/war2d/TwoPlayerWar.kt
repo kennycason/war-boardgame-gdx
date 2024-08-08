@@ -11,16 +11,13 @@ import com.kennycason.war.ai.MoveMakerAsync
 import com.kennycason.war.core.board.Board
 import com.kennycason.war.core.board.DefaultTerrainV2Generator
 import com.kennycason.war.core.board.Player
-import com.kennycason.war.core.board.SinCosTerrainGenerator
-import com.kennycason.war.core.board.TerrainNoiseGenerator
-import com.kennycason.war.core.board.ValleyTerrainGenerator
 import com.kennycason.war.core.move.Cursor
 import com.kennycason.war.core.move.HumanMoveMaker
 import com.kennycason.war.core.move.Move
 import com.kennycason.war.core.move.MoveMaker
 import com.kennycason.war.core.move.MoveType
 import com.kennycason.war.core.piece.PieceType
-import com.kennycason.war.core.piece.TraditionalFormationPiecePlacer
+import com.kennycason.war.core.piece.PrimaryFormationPiecePlacer
 import com.kennycason.war.font.Fonts
 import com.kennycason.war.sound.SoundManager
 import com.kennycason.war.war2d.explosion.Explosion
@@ -74,14 +71,14 @@ class TwoPlayerWar(
     fun newGame() {
         board.reset()
         listOf<(board: Board) -> Unit>(
-            SinCosTerrainGenerator::apply,
-            ValleyTerrainGenerator::apply,
+//            SinCosTerrainGenerator::apply,
+//            ValleyTerrainGenerator::apply,
             DefaultTerrainV2Generator::apply,
-            TerrainNoiseGenerator::apply
+//            TerrainNoiseGenerator::apply
         ).random()(board)
 
-        TraditionalFormationPiecePlacer.place(board)
-//        PrimaryFormationPiecePlacer.place(board)
+//        TraditionalFormationPiecePlacer.place(board)
+        PrimaryFormationPiecePlacer.place(board)
 //        TestAirDefenseFormationPiecePlacer.place(board)
 //        RandomPiecePlacer.place(board)
 //        TestPiecePlacer.place(board)
