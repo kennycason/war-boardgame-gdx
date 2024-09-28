@@ -13,19 +13,6 @@ class HumanMoveMaker(
     private var lastClicked = 0L
     private var selectedPiece: Piece? = null
 
-//    private fun init() {
-//        // aggregate player piece for efficiency to avoid re-scans
-//        // todo handle removing off pieces
-//        for (y in 0 until board.height) {
-//            for (x in 0 until board.width) {
-//                val piece = board[x, y].piece
-//                if (piece != null && piece.color == color) {
-//                    pieces.add(piece)
-//                }
-//            }
-//        }
-//    }
-
     override fun make(board: Board): Move? {
         if (cursor.x == -1 && cursor.y == -1) return null
 
@@ -80,4 +67,5 @@ class HumanMoveMaker(
             }
         }
     }
+
 }

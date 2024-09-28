@@ -3,11 +3,124 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "war-terrain-isometric.tmx",
+    "activeFile": "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/stomach_1.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/esophagus_1.tmx": {
+            "expandedObjectLayers": [
+                5
+            ],
+            "scale": 3,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 571.6666666666666,
+                "y": 1514.8333333333333
+            }
+        },
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/intestines_34.tmx": {
+            "scale": 1.864375,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 240.02681863895407,
+                "y": 136.50687227623197
+            }
+        },
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/intestines_38.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 2288,
+                "y": 654
+            }
+        },
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/large_intestines_4.tmx": {
+            "scale": 2,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 850,
+                "y": 1022.25
+            }
+        },
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/lungs_17.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 400,
+                "y": 320.5
+            }
+        },
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/lungs_18.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 800,
+                "y": 200.5
+            }
+        },
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/lungs_19.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 240,
+                "y": 480.5
+            }
+        },
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/lungs_20.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 240,
+                "y": 480.5
+            }
+        },
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/lungs_21.tmx": {
+            "expandedObjectLayers": [
+                6
+            ],
+            "scale": 1.1340625,
+            "selectedLayer": 6,
+            "viewCenter": {
+                "x": 240.72747313309458,
+                "y": 480.1322678423808
+            }
+        },
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/lungs_22.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 400,
+                "y": 320.5
+            }
+        },
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/lungs_23.tmx": {
+            "scale": 1.6114374999999999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 400.2637396734283,
+                "y": 320.5212737074818
+            }
+        },
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/lungs_24.tmx": {
+            "scale": 0.7560416666666666,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 240.72747313309446,
+                "y": 720.1984017635713
+            }
+        },
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/lungs_25.tmx": {
+            "expandedObjectLayers": [
+                6
+            ],
+            "scale": 1.3428645833333333,
+            "selectedLayer": 6,
+            "viewCenter": {
+                "x": 258.4028235659156,
+                "y": 406.96583019819263
+            }
+        },
         "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/pause_bathroom.tmx": {
             "scale": 1.6822916666666665,
             "selectedLayer": 0,
@@ -24,15 +137,83 @@
                 "y": 196.63636363636363
             }
         },
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/stomach_1.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 189.33333333333337,
+                "y": 1757.6666666666665
+            }
+        },
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/stomach_3.tmx": {
+            "scale": 1.2415972222222222,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 360.02013535432627,
+                "y": 136.5177023323452
+            }
+        },
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/stomach_4.tmx": {
+            "scale": 0.5587187499999999,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 800.0447452318363,
+                "y": 321.270764584149
+            }
+        },
         "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/tiles.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1.5
+        },
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/tiles_parallax.tsx": {
             "scaleInDock": 1
+        },
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/toilet_16.tmx": {
+            "scale": 1,
+            "selectedLayer": 5,
+            "viewCenter": {
+                "x": 629,
+                "y": 1658.5
+            }
+        },
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/toilet_17.tmx": {
+            "scale": 2.1157291666666667,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 240.1063463148048,
+                "y": 136.3596080941362
+            }
+        },
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/toilet_18.tmx": {
+            "scale": 0.34734374999999995,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 241.83535762483143,
+                "y": 963.0229419703105
+            }
+        },
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/toilet_19.tmx": {
+            "scale": 2.1157291666666667,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 240.1063463148048,
+                "y": 136.3596080941362
+            }
+        },
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/toilet_20.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 240,
+                "y": 136.5
+            }
         },
         "war-terrain-isometric.tmx": {
             "scale": 3,
-            "selectedLayer": 3,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 164,
-                "y": 58.16666666666667
+                "x": 160,
+                "y": 56.5
             }
         },
         "war-terrain-isometric.tsx": {
@@ -51,15 +232,23 @@
     "map.width": 10,
     "mapScene.enableWorlds": true,
     "openFiles": [
-        "war-terrain-isometric.tsx",
-        "war-terrain-isometric.tmx"
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/intestines_38.tmx",
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/stomach_1.tmx"
     ],
     "project": "terrain-isometric.tiled-project",
     "recentFiles": [
-        "war-terrain-isometric.tsx",
-        "war-terrain-isometric.tmx",
-        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/pause_toilet.tmx",
-        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/pause_bathroom.tmx"
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/intestines_38.tmx",
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/stomach_1.tmx",
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/stomach_4.tmx",
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/stomach_3.tmx",
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/intestines_34.tmx",
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/esophagus_1.tmx",
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/lungs_25.tmx",
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/large_intestines_4.tmx",
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/lungs_17.tmx",
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/lungs_18.tmx",
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/lungs_19.tmx",
+        "/Users/kennycason/code/ninjaturdle/ninjaturdle/core/src/main/resources/map/lungs_20.tmx"
     ],
     "tileset.lastUsedFormat": "tsx"
 }

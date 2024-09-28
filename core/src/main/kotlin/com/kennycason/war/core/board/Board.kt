@@ -95,6 +95,7 @@ data class Board(
             PieceType.EXCAVATOR -> "E"
         }
     }
+
 }
 
 enum class Player(val color: Color) {

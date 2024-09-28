@@ -31,7 +31,7 @@ class TwoPlayerWar(
     private val explosions = mutableListOf<Explosion>()
     private val cursor = Cursor(-1, -1, -1, -1)
 
-    private val isPlayerBlackHuman = false
+    private val isPlayerBlackHuman = true
     private val playerBlack: MoveMaker = when (isPlayerBlackHuman) {
         true -> HumanMoveMaker(Player.BLACK, cursor)
         false -> MoveMakerAsync(
@@ -196,6 +196,18 @@ class TwoPlayerWar(
         val tileY = clamp((cursor.rawY - position.y.toInt()) / tileDim, 0, board.height - 1)
         cursor.x = tileX
         cursor.y = tileY
+        updateCursorBasedOnElevation(cursor)
+    }
+
+    private fun updateCursorBasedOnElevation(cursor: Cursor) {
+        if (cursor.y == 0) return
+        val tileBelow = board[cursor.x, cursor.y - 1]
+        if (tileBelow.elevation == 0) return
+
+        val yOffset = cursor.rawY % Constants.TILE_DIM
+        if (yOffset > tileBelow.elevation * 10) return
+
+        cursor.y -= 1
     }
 
     private fun handleExplosion() {
