@@ -4,6 +4,11 @@ Video game version of the board game. Dev WIP.
 
 [About](https://kennycason.com/posts/2023-06-27-war-strategy-board-game.html)
 
+## Requirements
+- Java 8 is recommended for running this project
+- If using a newer Java version (e.g., Java 17+), the project is configured to run in Java 8 compatibility mode
+- On macOS, the application must be started with the `-XstartOnFirstThread` JVM argument (this is configured in the build.gradle file)
+
 
 <img src="https://github.com/kennycason/war-boardgame-gdx/blob/main/screenshots/dev_15.png?raw=true" width="66%" />
 
@@ -30,5 +35,3 @@ Video game version of the board game. Dev WIP.
 | Gun-gi           | 軍棋            | Already taken                                   |
 | Gun-ryaku        | 軍略            |                                                 |
 | Ichi-go, Ichi-e  |一期一会          | too long                                        |
-
-

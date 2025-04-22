@@ -21,7 +21,7 @@ class MoveScorerTest {
 
         val moves = blackTank.generatePossibleMoves(board)
 
-        val moveScorer = MoveScorer(board)
+        val moveScorer = MoveScorer(board, board.currentPlayer)
         moves.forEach {
             val score = moveScorer.calculate(it, 1)
             it.score = score.totalScore()

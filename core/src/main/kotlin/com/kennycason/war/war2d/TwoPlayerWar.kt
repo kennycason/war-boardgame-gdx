@@ -16,6 +16,7 @@ import com.kennycason.war.core.move.HumanMoveMaker
 import com.kennycason.war.core.move.Move
 import com.kennycason.war.core.move.MoveMaker
 import com.kennycason.war.core.move.MoveType
+import com.kennycason.war.core.piece.Artillery
 import com.kennycason.war.core.piece.PieceType
 import com.kennycason.war.core.piece.PrimaryFormationPiecePlacer
 import com.kennycason.war.font.Fonts
@@ -89,6 +90,9 @@ class TwoPlayerWar(
     }
 
     fun update() {
+        // Update all artillery pieces to check if they should be reloaded
+        updateArtilleryReloadingState()
+
         clearHighlighted()
         updateCursor()
         updateTileHighlightStateForSelectedPieceOrMouseHover(board)
@@ -228,6 +232,18 @@ class TwoPlayerWar(
 
     private fun drawCursor() {
         GraphicsGdx.drawCircle(cursor.rawX.toFloat(), cursor.rawY.toFloat(), 24f, Color.WHITE)
+    }
+
+    private fun updateArtilleryReloadingState() {
+        // Iterate through all tiles on the board
+        for (y in 0 until board.height) {
+            for (x in 0 until board.width) {
+                val piece = board[x, y].piece
+                if (piece != null && piece.type == PieceType.ARTILLERY) {
+                    (piece as Artillery).handleReloading(board)
+                }
+            }
+        }
     }
 
     private fun updateTileHighlightStateForSelectedPieceOrMouseHover(board: Board) {

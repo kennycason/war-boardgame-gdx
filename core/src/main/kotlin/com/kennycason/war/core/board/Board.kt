@@ -14,8 +14,8 @@ data class Board(
     private val state: Array<Array<Tile>> = array2d(width, height) { Tile() },
     var turnCount: Int = 0,
     var currentPlayer: Player = Player.BLACK,
-    var blackScore: Int = 0,
-    var whiteScore: Int = 0
+    var blackScore: Double = 0.0,
+    var whiteScore: Double = 0.0
 ) {
     fun isFinished() = isBlackWin() || isWhiteWin()
 
@@ -57,8 +57,8 @@ data class Board(
 
     fun reset() {
         turnCount = 0
-        whiteScore = 0
-        blackScore = 0
+        whiteScore = 0.0
+        blackScore = 0.0
         for (x in 0 until width) {
             for (y in 0 until height) {
                 state[x][y].piece = null

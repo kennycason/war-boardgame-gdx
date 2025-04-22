@@ -29,6 +29,12 @@ allprojects {
         junitJupiterVersion = '5.9.0'
     }
 
+    // Set Java compatibility for all projects
+    tasks.withType(JavaCompile) {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
     repositories {
         mavenLocal()
         mavenCentral()
@@ -42,6 +48,7 @@ allprojects {
 
 project(":desktop") {
     apply plugin: "kotlin"
+    apply plugin: "application"
 
     dependencies {
         implementation project(":core")
@@ -54,6 +61,27 @@ project(":desktop") {
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
         kotlinOptions {
             jvmTarget = "1.8" // Set the desired JVM target version here
+        }
+    }
+
+    // Configure the run task to use Java 8 compatibility mode
+    application {
+        mainClass = 'com.kennycason.war.DesktopLauncher'
+    }
+
+    run {
+        dependsOn classes
+        classpath = sourceSets.main.runtimeClasspath
+        standardInput = System.in
+        workingDir = new File("${project.projectDir}/../assets")
+        ignoreExitValue = true
+
+        // JVM arguments for compatibility
+        jvmArgs = []
+
+        // Required to run on macOS
+        if (org.gradle.internal.os.OperatingSystem.current() == org.gradle.internal.os.OperatingSystem.MAC_OS) {
+            jvmArgs += "-XstartOnFirstThread"
         }
     }
 }

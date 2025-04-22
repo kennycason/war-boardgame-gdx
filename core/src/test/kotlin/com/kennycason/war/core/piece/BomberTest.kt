@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
 class BomberTest {
-
     @Test
     fun `apply and undo all possible moves - bomber`() {
         val board = Board(Constants.BOARD_DIMENSIONS, Constants.BOARD_DIMENSIONS)
