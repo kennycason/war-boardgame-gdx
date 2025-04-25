@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils.clamp
 import com.badlogic.gdx.math.Vector2
+import kotlin.math.abs
 import com.kennycason.war.Constants
 import com.kennycason.war.ai.MiniMaxCarlo
 import com.kennycason.war.ai.MoveMakerAsync
@@ -17,6 +18,7 @@ import com.kennycason.war.core.move.Move
 import com.kennycason.war.core.move.MoveMaker
 import com.kennycason.war.core.move.MoveType
 import com.kennycason.war.core.piece.Artillery
+import com.kennycason.war.core.piece.Piece
 import com.kennycason.war.core.piece.PieceType
 import com.kennycason.war.core.piece.PrimaryFormationPiecePlacer
 import com.kennycason.war.font.Fonts
@@ -253,13 +255,17 @@ class TwoPlayerWar(
             for (x in 0 until board.width) {
                 if (board[x, y].highlight == TileHighlight.SELECTED) {
                     isTileSelected = true
-                    val possibleMoves = board[x, y].piece!!.generatePossibleMoves(board)
+                    val piece = board[x, y].piece!!
+                    val possibleMoves = piece.generatePossibleMoves(board)
                     possibleMoves.forEach {
                         board[it.toX, it.toY].highlight = when (it.moveType) {
                             MoveType.MOVE -> TileHighlight.MOVE
                             MoveType.ATTACK -> TileHighlight.ATTACK
                         }
                     }
+
+                    // Highlight potential attack tiles
+                    highlightPotentialAttackTiles(board, piece)
                 }
             }
         }
@@ -278,6 +284,68 @@ class TwoPlayerWar(
                 MoveType.MOVE -> TileHighlight.MOVE
                 MoveType.ATTACK -> TileHighlight.ATTACK
             }
+        }
+
+        // Highlight potential attack tiles
+        highlightPotentialAttackTiles(board, piece)
+    }
+
+    private fun highlightPotentialAttackTiles(board: Board, piece: Piece) {
+        when (piece.type) {
+            PieceType.ARTILLERY -> {
+                if (piece is Artillery && !piece.isReloading) {
+                    // Artillery can attack at distance 2-3 in horizontal and vertical directions
+                    for (i in 2..3) {
+                        // Left
+                        if (piece.x - i >= 0) {
+                            highlightTileIfEmpty(board, piece.x - i, piece.y)
+                        }
+                        // Right
+                        if (piece.x + i < board.width) {
+                            highlightTileIfEmpty(board, piece.x + i, piece.y)
+                        }
+                        // Down
+                        if (piece.y - i >= 0) {
+                            highlightTileIfEmpty(board, piece.x, piece.y - i)
+                        }
+                        // Up
+                        if (piece.y + i < board.height) {
+                            highlightTileIfEmpty(board, piece.x, piece.y + i)
+                        }
+                    }
+                }
+            }
+            PieceType.MISSILE -> {
+                // Missile can attack diagonally at distance 2-5
+                for (i in 2..5) {
+                    // Top-left diagonal
+                    if (piece.x - i >= 0 && piece.y + i < board.height) {
+                        highlightTileIfEmpty(board, piece.x - i, piece.y + i)
+                    }
+                    // Top-right diagonal
+                    if (piece.x + i < board.width && piece.y + i < board.height) {
+                        highlightTileIfEmpty(board, piece.x + i, piece.y + i)
+                    }
+                    // Bottom-left diagonal
+                    if (piece.x - i >= 0 && piece.y - i >= 0) {
+                        highlightTileIfEmpty(board, piece.x - i, piece.y - i)
+                    }
+                    // Bottom-right diagonal
+                    if (piece.x + i < board.width && piece.y - i >= 0) {
+                        highlightTileIfEmpty(board, piece.x + i, piece.y - i)
+                    }
+                }
+            }
+            else -> {
+                // Other piece types don't have long-range attacks
+            }
+        }
+    }
+
+    private fun highlightTileIfEmpty(board: Board, x: Int, y: Int) {
+        // Only highlight as POTENTIAL_ATTACK if the tile is not already highlighted as MOVE or ATTACK
+        if (board[x, y].highlight == TileHighlight.NONE) {
+            board[x, y].highlight = TileHighlight.POTENTIAL_ATTACK
         }
     }
 }
