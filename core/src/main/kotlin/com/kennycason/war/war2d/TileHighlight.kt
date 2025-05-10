@@ -4,5 +4,6 @@ enum class TileHighlight {
     NONE,
     MOVE,
     ATTACK,
+    POTENTIAL_ATTACK,
     SELECTED
 }

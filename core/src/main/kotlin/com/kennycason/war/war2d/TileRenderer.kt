@@ -27,7 +27,7 @@ class TileRenderer(
         val tileElevationHeight = tile.elevation * 10f
         val tileY = y + tileElevationHeight
 
-        if (tile.highlight == TileHighlight.MOVE|| tile.highlight == TileHighlight.ATTACK) {
+        if (tile.highlight == TileHighlight.MOVE || tile.highlight == TileHighlight.ATTACK || tile.highlight == TileHighlight.POTENTIAL_ATTACK) {
             GraphicsGdx.drawRect(
                 x, tileY,
                 tileDim.toFloat(), tileDim.toFloat(),
@@ -91,6 +91,7 @@ class TileRenderer(
         return when (tile.highlight) {
             TileHighlight.MOVE -> HIGHLIGHTED_MOVE
             TileHighlight.ATTACK -> HIGHLIGHTED_ATTACK
+            TileHighlight.POTENTIAL_ATTACK -> HIGHLIGHTED_POTENTIAL_ATTACK
             TileHighlight.SELECTED -> Color.BROWN
             TileHighlight.NONE -> getElevationColor(tile.elevation)
         }
@@ -123,5 +124,6 @@ class TileRenderer(
 
         val HIGHLIGHTED_MOVE = Color(0.4f, 0.7f, 0.4f, 0.5f)
         val HIGHLIGHTED_ATTACK = Color(0.7f, 0.4f, 0.4f, 0.5f)
+        val HIGHLIGHTED_POTENTIAL_ATTACK = Color(0.9f, 0.6f, 0.3f, 0.5f)
     }
 }

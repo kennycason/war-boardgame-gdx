@@ -18,6 +18,8 @@ classes/
 build/
 .gradle/*
 .ninja_turdle/
+.kotlin/
+.kotlin/sessions/
 
 dist/*
 tools/packr/jdk/*

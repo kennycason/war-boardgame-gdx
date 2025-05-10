@@ -53,28 +53,28 @@ class ArtilleryRenderer : PieceRenderer<Artillery> {
         )
 
         // show reload symbol
-        GraphicsGdx.drawCircle(
-            x + 4f, y + Constants.TILE_DIM - 8,
-            4f,
-            color,
-            ShapeRenderer.ShapeType.Filled
-        )
-        GraphicsGdx.drawRect(
-            x, y + Constants.TILE_DIM - 20,
-            8f, 12f,
-            color,
-            ShapeRenderer.ShapeType.Filled
-        )
         if (piece.isReloading) {
-            GraphicsGdx.drawLine(
-                x, y + Constants.TILE_DIM,
-                x + 8f, y + Constants.TILE_DIM - 20f,
-                Color.RED
+            // Draw circular arrow (reload symbol)
+            val reloadIconX = x + Constants.TILE_DIM - 15f
+            val reloadIconY = y + Constants.TILE_DIM - 15f
+            val radius = 10f
+
+            // Draw the arc (circular part of the arrow)
+            GraphicsGdx.drawArc(
+                reloadIconX, reloadIconY, radius,
+                0f, 270f,
+                Color.RED,
+                ShapeRenderer.ShapeType.Line,
+                4f
             )
-            GraphicsGdx.drawLine(
-                x + 8f, y + Constants.TILE_DIM,
-                x, y + Constants.TILE_DIM - 20f,
-                Color.RED
+
+            // Draw the arrow head
+            GraphicsGdx.drawTriangle(
+                reloadIconX + radius * 0.7f, reloadIconY - radius * 0.7f,
+                reloadIconX + radius * 0.7f - 5f, reloadIconY - radius * 0.7f - 5f,
+                reloadIconX + radius * 0.7f + 5f, reloadIconY - radius * 0.7f - 5f,
+                Color.RED,
+                ShapeRenderer.ShapeType.Filled
             )
         }
     }
