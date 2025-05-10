@@ -173,12 +173,22 @@ Here's a sample scoring for each piece. However, note that this has not been tes
 - [01: +Infantry, +Highlight allowed moves](https://v.usetapes.com/foMUH9apZ3)
 
 ## Dev Log - Screenshots
-
-<img src="/screenshots/dev_15.png?raw=true" width="30%" /><img src="/screenshots/dev_14.png?raw=true" width="30%" /><img src="/screenshots/dev_13.png?raw=true" width="30%" />
-<img src="/screenshots/dev_12.png?raw=true" width="30%" /><img src="/screenshots/dev_11.png?raw=true" width="30%" /><img src="/screenshots/dev_10.png?raw=true" width="30%" />
-<img src="/screenshots/dev_09.png?raw=true" width="30%" /><img src="/screenshots/dev_08.png?raw=true" width="30%" /><img src="/screenshots/dev_07.png?raw=true" width="30%" />
-<img src="/screenshots/dev_06.png?raw=true" width="30%" /><img src="/screenshots/dev_05.png?raw=true" width="30%" /><img src="/screenshots/dev_04.png?raw=true" width="30%" />
-<img src="/screenshots/dev_03.png?raw=true" width="30%" /><img src="/screenshots/dev_02.png?raw=true" width="30%" /><img src="/screenshots/dev_01.png?raw=true" width="30%" />
+<img src="/screenshots/dev_16.png?raw=true" width="39%" />
+<img src="/screenshots/dev_15.png?raw=true" width="30%" />
+<img src="/screenshots/dev_14.png?raw=true" width="30%" />
+<img src="/screenshots/dev_13.png?raw=true" width="30%" />
+<img src="/screenshots/dev_12.png?raw=true" width="30%" />
+<img src="/screenshots/dev_11.png?raw=true" width="30%" />
+<img src="/screenshots/dev_10.png?raw=true" width="30%" />
+<img src="/screenshots/dev_09.png?raw=true" width="30%" />
+<img src="/screenshots/dev_08.png?raw=true" width="30%" />
+<img src="/screenshots/dev_07.png?raw=true" width="30%" />
+<img src="/screenshots/dev_06.png?raw=true" width="30%" />
+<img src="/screenshots/dev_05.png?raw=true" width="30%" />
+<img src="/screenshots/dev_04.png?raw=true" width="30%" />
+<img src="/screenshots/dev_03.png?raw=true" width="30%" />
+<img src="/screenshots/dev_02.png?raw=true" width="30%" />
+<img src="/screenshots/dev_01.png?raw=true" width="30%" />
 
 ## Possible Names
 
