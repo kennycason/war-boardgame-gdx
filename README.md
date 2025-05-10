@@ -130,17 +130,17 @@ Once I committed to building a board game, I established a few criteria for the 
 
 Here's a sample scoring for each piece. However, note that this has not been tested and is meant to serve as a starting point.
 
-| &nbsp;Piece&nbsp; | &nbsp;Score&nbsp; |
+| Piece | Score |
 |-------------|--------|
-| &nbsp;Commander   | &nbsp;∞ |
-| &nbsp;Bomber      | &nbsp;7 |
-| &nbsp;Missile     | &nbsp;6 |
-| &nbsp;Artillery   | &nbsp;5 |
-| &nbsp;Air Defense&nbsp; | &nbsp;4 |
-| &nbsp;Tank        | &nbsp;3 |
-| &nbsp;Transport   | &nbsp;2 |
-| &nbsp;Excavator   | &nbsp;2 |
-| &nbsp;Infantry    | &nbsp;1 |
+| Commander   | ∞ |
+| Bomber      | 7 |
+| Missile     | 6 |
+| Artillery   | 5 |
+| Air Defense | 4 |
+| Tank        | 3 |
+| Transport   | 2 |
+| Excavator   | 2 |
+| Infantry    | 1 |
 
 
 - A player receives no points for an opponent's `Missile` blowing up after use. `Missiles` must be attacked directly to receive points.
@@ -153,13 +153,51 @@ Here's a sample scoring for each piece. However, note that this has not been tes
 - Introduce water tiles that can only be traversed by air.
 - Introduce mud tiles that slow movement by 1. 
 
-## Requirements
+
+## Dev
+
+### Requirements
 
 - Java 8 is recommended for running this project
 - If using a newer Java version (e.g., Java 17+), the project is configured to run in Java 8 compatibility mode
 - On macOS, the application must be started with the `-XstartOnFirstThread` JVM argument (this is configured in the build.gradle file)
 
-## Dev Log - Videos
+
+### Build Game
+
+```shell
+./gradlew desktop:dist
+```
+
+This command creates a JAR file at `desktop/build/libs/desktop-1.0.jar`.
+
+### Running the Game
+
+To run the game, use the following command:
+
+### On macOS:
+```shell
+java -XstartOnFirstThread -jar desktop/build/libs/desktop-1.0.jar
+```
+
+The `-XstartOnFirstThread` argument is required for libGDX applications on macOS.
+
+### On Windows/Linux:
+```shell
+java -jar desktop/build/libs/desktop-1.0.jar
+```
+
+## Alternative: Using Gradle Run
+
+You can also run the game directly with Gradle:
+
+```shell
+./gradlew desktop:run
+```
+
+This uses the run configuration defined in our build.gradle file, which already includes the `-XstartOnFirstThread` argument for macOS.
+
+### Dev Log - Videos
 
 - [10: +MiniMax AI](https://v.usetapes.com/1kvmvqKVns)
 - [09: +Display turns & score](https://v.usetapes.com/qawlJtXTrL)
@@ -172,7 +210,7 @@ Here's a sample scoring for each piece. However, note that this has not been tes
 - [02: +Tank](https://v.usetapes.com/bOtt6cTH7s)
 - [01: +Infantry, +Highlight allowed moves](https://v.usetapes.com/foMUH9apZ3)
 
-## Dev Log - Screenshots
+### Dev Log - Screenshots
 <img src="/screenshots/dev_16.png?raw=true" width="39%" />
 <img src="/screenshots/dev_15.png?raw=true" width="30%" />
 <img src="/screenshots/dev_14.png?raw=true" width="30%" />
