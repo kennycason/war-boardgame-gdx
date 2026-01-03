@@ -89,6 +89,7 @@ data class Board(
             PieceType.ARTILLERY -> "A"
             PieceType.MISSILE -> "M"
             PieceType.AIR_DEFENSE -> "D"
+            PieceType.SNIPER -> "S"
             PieceType.BOMBER -> "B"
             PieceType.COMMANDER -> "C"
             // optional

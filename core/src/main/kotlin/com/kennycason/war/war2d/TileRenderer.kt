@@ -19,6 +19,7 @@ class TileRenderer(
     private val bomberRenderer = BomberRenderer()
     private val airDefenseRenderer = AirDefenseRenderer()
     private val missileRenderer = MissileRenderer()
+    private val sniperRenderer = SniperRenderer()
     private val commanderRenderer = CommanderRenderer()
     private val excavatorRenderer = ExcavatorRenderer()
 
@@ -71,6 +72,7 @@ class TileRenderer(
                 PieceType.BOMBER -> bomberRenderer.render(piece as Bomber, x, tileY)
                 PieceType.AIR_DEFENSE -> airDefenseRenderer.render(piece as AirDefense, x, tileY)
                 PieceType.MISSILE -> missileRenderer.render(piece as Missile, x, tileY)
+                PieceType.SNIPER -> sniperRenderer.render(piece as Sniper, x, tileY)
                 PieceType.COMMANDER -> commanderRenderer.render(piece as Commander, x, tileY)
                 PieceType.EXCAVATOR -> excavatorRenderer.render(piece as Excavator, x, tileY)
             }

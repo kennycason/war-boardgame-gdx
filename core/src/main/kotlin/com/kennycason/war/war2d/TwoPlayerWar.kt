@@ -180,6 +180,7 @@ class TwoPlayerWar(
         PieceType.ARTILLERY -> "ART"
         PieceType.MISSILE -> "MIS"
         PieceType.AIR_DEFENSE -> "DEF"
+        PieceType.SNIPER -> "SNP"
         PieceType.BOMBER -> "BOM"
         PieceType.COMMANDER -> "CMD"
         PieceType.EXCAVATOR -> "EXC"
