@@ -12,7 +12,6 @@ object PrimaryFormationPiecePlacer {
             Commander(Player.BLACK, 0, 0),
             Missile(Player.BLACK, 0, 1),
             Sniper(Player.BLACK, 0, 2),
-//            Infantry(Player.BLACK, 0, 2),
 
             Bomber(Player.BLACK, 1, 0),
             AirDefense(Player.BLACK, 1, 1),
@@ -31,7 +30,6 @@ object PrimaryFormationPiecePlacer {
             Infantry(Player.BLACK, 4, 1),
             Infantry(Player.BLACK, 4, 2),
 
-//            Infantry(Player.BLACK, 5, 0),
             Sniper(Player.BLACK, 5, 0),
             Infantry(Player.BLACK, 5, 1),
             Infantry(Player.BLACK, 5, 2),
@@ -39,7 +37,6 @@ object PrimaryFormationPiecePlacer {
             Commander(Player.WHITE, maxX - 0, maxY - 0),
             Missile(Player.WHITE, maxX - 0, maxY - 1),
             Sniper(Player.WHITE, maxX - 0, maxY - 2),
-            // Infantry(Player.WHITE, maxX - 0, maxY - 2),
 
             Bomber(Player.WHITE, maxX - 1, maxY - 0),
             AirDefense(Player.WHITE, maxX - 1, maxY - 1),

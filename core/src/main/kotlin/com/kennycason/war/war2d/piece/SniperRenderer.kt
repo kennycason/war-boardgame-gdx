@@ -1,14 +1,14 @@
 package com.kennycason.war.war2d.piece
 
-import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.kennycason.war.Constants
 import com.kennycason.war.core.piece.Sniper
 import com.kennycason.war.war2d.graphics.GraphicsGdx
 
 /**
- * Renders a Sniper piece as a scope crosshair:
- * A circle with 4 lines extending in N, E, S, W directions.
+ * Renders a Sniper piece as a rifle crosshair/scope reticle:
+ * A thin circle with horizontal and vertical cross lines extending
+ * beyond the circle, plus a small center dot.
  */
 class SniperRenderer : PieceRenderer<Sniper> {
     override fun render(piece: Sniper, x: Float, y: Float) {
@@ -17,69 +17,41 @@ class SniperRenderer : PieceRenderer<Sniper> {
         val centerX = x + center
         val centerY = y + center
 
-        val outerRadius = 24f
-        val innerRadius = 20f
-        val lineLength = 15f
-        val lineThickness = 3f
+        val radius = 18f
+        val crossExtend = 14f
+        val lineWidth = 3f
 
-        // Outer circle (scope ring)
+        // Circle (thin outline)
         GraphicsGdx.drawCircle(
             centerX, centerY,
-            outerRadius,
+            radius,
             color,
             ShapeRenderer.ShapeType.Line,
-            lineWidth = 10f
+            lineWidth = lineWidth
         )
 
-        // Inner circle (cutout effect - slightly darker/lighter)
-//        val innerColor = if (color == Color.WHITE)
-//            Color(color.r - 0.1f, color.g - 0.1f, color.b - 0.1f, color.a)
-//        else
-//            Color(color.r + 0.2f, color.g + 0.2f, color.b + 0.2f, color.a)
-//
-//        GraphicsGdx.drawCircle(
-//            centerX, centerY,
-//            innerRadius,
-//            innerColor,
-//            ShapeRenderer.ShapeType.Filled
-//        )
+        // Horizontal cross line (extends beyond circle on both sides)
+        GraphicsGdx.drawLine(
+            centerX - radius - crossExtend, centerY,
+            centerX + radius + crossExtend, centerY,
+            color,
+            ShapeRenderer.ShapeType.Line,
+            lineWidth = lineWidth
+        )
 
-        // Small center dot
+        // Vertical cross line (extends beyond circle on both sides)
+        GraphicsGdx.drawLine(
+            centerX, centerY - radius - crossExtend,
+            centerX, centerY + radius + crossExtend,
+            color,
+            ShapeRenderer.ShapeType.Line,
+            lineWidth = lineWidth
+        )
+
+        // Center dot
         GraphicsGdx.drawCircle(
             centerX, centerY,
-            4f,
-            color,
-            ShapeRenderer.ShapeType.Filled
-        )
-
-        // North line (up)
-        GraphicsGdx.drawRect(
-            centerX - lineThickness / 2, centerY + innerRadius - 2,
-            lineThickness, lineLength,
-            color,
-            ShapeRenderer.ShapeType.Filled
-        )
-
-        // South line (down)
-        GraphicsGdx.drawRect(
-            centerX - lineThickness / 2, centerY - innerRadius - lineLength + 2,
-            lineThickness, lineLength,
-            color,
-            ShapeRenderer.ShapeType.Filled
-        )
-
-        // East line (right)
-        GraphicsGdx.drawRect(
-            centerX + innerRadius - 2, centerY - lineThickness / 2,
-            lineLength, lineThickness,
-            color,
-            ShapeRenderer.ShapeType.Filled
-        )
-
-        // West line (left)
-        GraphicsGdx.drawRect(
-            centerX - innerRadius - lineLength + 2, centerY - lineThickness / 2,
-            lineLength, lineThickness,
+            3f,
             color,
             ShapeRenderer.ShapeType.Filled
         )

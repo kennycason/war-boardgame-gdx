@@ -15,6 +15,10 @@ class Artillery(
     var isReloading = false
     var lastAttackTurn = 0
 
+    // saved state for undoMove
+    private var previousIsReloading = false
+    private var previousLastAttackTurn = 0
+
     override val type = PieceType.ARTILLERY
 
     override fun generatePossibleMoves(board: Board): List<Move> {
@@ -38,6 +42,8 @@ class Artillery(
                 y = move.toY
             }
             MoveType.ATTACK -> {
+                previousIsReloading = isReloading
+                previousLastAttackTurn = lastAttackTurn
                 board[move.toX, move.toY].piece = null
                 isReloading = true
                 lastAttackTurn = board.turnCount
@@ -50,7 +56,8 @@ class Artillery(
     override fun undoMove(board: Board, move: Move) {
         super.undoMove(board, move)
         if (move.moveType == MoveType.ATTACK) {
-            isReloading = false
+            isReloading = previousIsReloading
+            lastAttackTurn = previousLastAttackTurn
         }
     }
 

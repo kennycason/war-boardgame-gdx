@@ -43,7 +43,7 @@ class DiagonalMoveGenerator(
         val y = piece.y
         var i = startI
         while (true) {
-            if (x - i < 0 || y + i >= board.width) break
+            if (x - i < 0 || y + i >= board.height) break
             if (i > maxDistance) break
             if (!ignoreHeight && abs(board[x - i, y + i].elevation - board[x - i + 1, y + i - 1].elevation) > 1) break
 

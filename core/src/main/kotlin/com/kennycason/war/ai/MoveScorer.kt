@@ -49,7 +49,7 @@ class MoveScorer(
             PieceType.ARTILLERY -> 0.2
             PieceType.MISSILE -> 0.10
             PieceType.AIR_DEFENSE -> 0.05
-            PieceType.SNIPER -> 0.05
+            PieceType.SNIPER -> 0.2
             PieceType.BOMBER -> 0.00
             PieceType.COMMANDER -> 0.0
             PieceType.EXCAVATOR -> 0.0
